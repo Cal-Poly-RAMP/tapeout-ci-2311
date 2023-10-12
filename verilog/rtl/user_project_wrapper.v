@@ -61,15 +61,15 @@ module user_project_wrapper #(
     input  [127:0] la_oenb,
 
     // IOs
-    input  [`MPRJ_IO_PADS-1:0] io_in,
-    output [`MPRJ_IO_PADS-1:0] io_out,
-    output [`MPRJ_IO_PADS-1:0] io_oeb,
+    input  [37:0] io_in,
+    output [37:0] io_out,
+    output [37:0] io_oeb,
 
     // Analog (direct connection to GPIO pad---use with caution)
     // Note that analog I/O is not available on the 7 lowest-numbered
     // GPIO pads, and so the analog_io indexing is offset from the
     // GPIO indexing by 7 (also upper 2 GPIOs do not have analog_io).
-    inout [`MPRJ_IO_PADS-10:0] analog_io,
+    inout [28:0] analog_io,
 
     // Independent clock (on independent integer divider)
     input   user_clock2,
@@ -81,7 +81,7 @@ module user_project_wrapper #(
 /*--------------------------------------*/
 /* User project is instantiated  here   */
 /*--------------------------------------*/
-
+/*
 user_proj_example mprj (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -116,6 +116,70 @@ user_proj_example mprj (
 
     // IRQ
     .irq(user_irq)
+);*/
+
+wire [37:0] soc_io_oeb_no;
+assign io_oeb = ~soc_io_oeb_no;
+
+soc soc_i (
+    .clk_i(user_clock2),
+
+    // Caravel Wishbone Interface
+    .caravel_wb_rst_i(wb_rst_i),
+    .caravel_wbs_stb_i(wbs_stb_i),
+    .caravel_wbs_cyc_i(wbs_cyc_i),
+    .caravel_wbs_we_i(wbs_we_i),
+    .caravel_wbs_sel_i(wbs_sel_i),
+    .caravel_wbs_dat_i(wbs_dat_i),
+    .caravel_wbs_adr_i(wbs_adr_i),
+    .caravel_wbs_ack_o(wbs_ack_o),
+    .caravel_wbs_dat_o(wbs_dat_o),
+
+    // Logic Analyzer Signals
+    .la_data_i(la_data_in),
+    .la_data_o(la_data_out),
+    .la_oe_no(la_oenb),    // Logic analyzer output enable selection pins
+
+    // GPIO Pins
+    .gpio_i(io_in),      // GPIO input pins, if configured as input
+    .gpio_o(io_out),      // GPIO output pins, if configured as output
+    .gpio_oeb_no(soc_io_oeb_no), // Drive low to enable output pin
+
+    // Other Caravel Signals
+    .caravel_interrupt_o(user_irq)
+/*
+    // RVFI
+    `ifdef RVFI
+    ,
+    // RVFI - RISCV-Formal Interface
+    output logic              rvfi_valid,
+    output logic [63:0]       rvfi_order,
+    output logic [31:0]       rvfi_insn,
+    output logic              rvfi_trap,
+    output logic              rvfi_halt,
+    output logic              rvfi_intr,
+    output logic [1:0]        rvfi_mode,
+    output logic [1:0]        rvfi_ixl,
+
+    // Register File
+    output logic [4:0]        rvfi_rs1_addr,
+    output logic [4:0]        rvfi_rs2_addr,
+    output logic [31:0]       rvfi_rs1_rdata,
+    output logic [31:0]       rvfi_rs2_rdata,
+    output logic [4:0]        rvfi_rd_addr,
+    output logic [31:0]       rvfi_rd_wdata,
+
+    // Program Counter
+    output logic [31:0]       rvfi_pc_rdata,
+    output logic [31:0]       rvfi_pc_wdata,
+
+    // Memory Access
+    output logic [31:0]       rvfi_mem_addr,
+    output logic [3:0]        rvfi_mem_rmask,
+    output logic [3:0]        rvfi_mem_wmask,
+    output logic [31:0]       rvfi_mem_rdata,
+    output logic [31:0]       rvfi_mem_wdata
+`endif */
 );
 
 endmodule	// user_project_wrapper
