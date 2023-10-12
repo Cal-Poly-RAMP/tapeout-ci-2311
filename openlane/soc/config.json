@@ -1,0 +1,121 @@
+{
+    "DESIGN_NAME": "soc",
+    "DESIGN_IS_CORE": 0,
+    "VERILOG_FILES": [
+		"dir::../../verilog/rtl/alu.v",
+		"dir::../../verilog/rtl/BaudRateGenerator.v",
+		"dir::../../verilog/rtl/bootloader.v",
+		"dir::../../verilog/rtl/branch_gen.v",
+		"dir::../../verilog/rtl/clam-defs.svh",
+		"dir::../../verilog/rtl/clk_div_gen.v",
+		"dir::../../verilog/rtl/clk_divider.v",
+		"dir::../../verilog/rtl/core.v",
+		"dir::../../verilog/rtl/csr.v",
+		"dir::../../verilog/rtl/decoder.v",
+		"dir::../../verilog/rtl/decode_stage.v",
+		"dir::../../verilog/rtl/defs.svh",
+		"dir::../../verilog/rtl/DeMux1_4.v",
+		"dir::../../verilog/rtl/exec_stage.v",
+		"dir::../../verilog/rtl/fetch_stage.v",
+		"dir::../../verilog/rtl/fwd_unit.v",
+		"dir::../../verilog/rtl/GPIO.v",
+		"dir::../../verilog/rtl/hazard_unit.v",
+		"dir::../../verilog/rtl/I2C_Master.v",
+		"dir::../../verilog/rtl/immed_gen.v",
+		"dir::../../verilog/rtl/memory_interface_unit.v",
+		"dir::../../verilog/rtl/mem_prep.v",
+		"dir::../../verilog/rtl/mem_slice_stage.v",
+		"dir::../../verilog/rtl/Mux4_1.v",
+		"dir::../../verilog/rtl/obi_demux_1_to_2.v",
+		"dir::../../verilog/rtl/obi_demux_1_to_4.v",
+		"dir::../../verilog/rtl/obi_gpio.v",
+		"dir::../../verilog/rtl/obi_mux_2_to_1.v",
+		"dir::../../verilog/rtl/obi_qspi_controller.v",
+		"dir::../../verilog/rtl/obi_req_driver.v",
+		"dir::../../verilog/rtl/obi_xbar.v",
+		"dir::../../verilog/rtl/PeriphControlRegFile.v",
+		"dir::../../verilog/rtl/peripheral_interrupt_queue.v",
+		"dir::../../verilog/rtl/Peripheral_Unit_Defs.svh",
+		"dir::../../verilog/rtl/peripheral_unit.v",
+		"dir::../../verilog/rtl/Pin_Mux.v",
+		"dir::../../verilog/rtl/pipe_regs.svh",
+		"dir::../../verilog/rtl/prog_cntr.v",
+		"dir::../../verilog/rtl/pulse_gen.v",
+		"dir::../../verilog/rtl/PWM_modulator.v",
+		"dir::../../verilog/rtl/Quad_Enc_Man.v",
+		"dir::../../verilog/rtl/reg_file.v",
+		"dir::../../verilog/rtl/reg_forwarder.v",
+		"dir::../../verilog/rtl/rvfi.svh",
+		"dir::../../verilog/rtl/S_Curve_Gen.v",
+		"dir::../../verilog/rtl/sky130_sram_2kbyte_1rw1r_32x512_8.lvs.sp",
+		"dir::../../verilog/rtl/soc.v",
+		"dir::../../verilog/rtl/SPI_Master.v",
+		"dir::../../verilog/rtl/SPI_Master_With_Multiple_CS.v",
+		"dir::../../verilog/rtl/spimemio.v",
+		"dir::../../verilog/rtl/sram_wrap.v",
+		"dir::../../verilog/rtl/Stepper_Driver.v",
+		"dir::../../verilog/rtl/Timer.v",
+		"dir::../../verilog/rtl/UART_Receiver.v",
+		"dir::../../verilog/rtl/UART_States.svh",
+		"dir::../../verilog/rtl/UART_Transmitter.v",
+		"dir::../../verilog/rtl/UART.v",
+		"dir::../../verilog/rtl/user_project_wrapper.v",
+		"dir::../../verilog/rtl/wb_stage.v",
+		"dir::../../verilog/rtl/wb_to_obi.v"
+    ],
+    "CLOCK_PERIOD": 25,
+    "CLOCK_PORT": "wb_clk_i",
+    "CLOCK_NET": "counter.clk",
+    "FP_SIZING": "absolute",
+    "DIE_AREA": "0 0 2800 1760",
+    "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
+    "MAX_TRANSITION_CONSTRAINT": 1.0,
+    "MAX_FANOUT_CONSTRAINT": 16,
+    "PL_TARGET_DENSITY": 0.55,
+    "PL_RESIZER_SETUP_SLACK_MARGIN": 0.4,
+    "GLB_RESIZER_SETUP_SLACK_MARGIN": 0.2,
+    "GLB_RESIZER_HOLD_SLACK_MARGIN": 0.2,
+    "PL_RESIZER_HOLD_SLACK_MARGIN": 0.4,
+    "MAGIC_DEF_LABELS": 0,
+    "SYNTH_BUFFERING": 0,
+    "RUN_HEURISTIC_DIODE_INSERTION": 1,
+    "HEURISTIC_ANTENNA_THRESHOLD": 110,    
+    "GRT_REPAIR_ANTENNAS": 1,
+    "VDD_NETS": [
+        "vccd1"
+    ],
+    "GND_NETS": [
+        "vssd1"
+    ],
+    "IO_SYNC": 0,
+    "BASE_SDC_FILE": "dir::base_user_proj_example.sdc",
+    "RUN_CVC": 1,
+    "pdk::sky130*": {
+        "FP_CORE_UTIL": 45,
+        "RT_MAX_LAYER": "met4",
+        "scl::sky130_fd_sc_hd": {
+            "CLOCK_PERIOD": 25
+        },
+        "scl::sky130_fd_sc_hdll": {
+            "CLOCK_PERIOD": 10
+        },
+        "scl::sky130_fd_sc_hs": {
+            "CLOCK_PERIOD": 8
+        },
+        "scl::sky130_fd_sc_ls": {
+            "CLOCK_PERIOD": 10,
+            "SYNTH_MAX_FANOUT": 5
+        },
+        "scl::sky130_fd_sc_ms": {
+            "CLOCK_PERIOD": 10
+        }
+    },
+    "pdk::gf180mcuC": {
+        "STD_CELL_LIBRARY": "gf180mcu_fd_sc_mcu7t5v0",
+        "CLOCK_PERIOD": 24.0,
+        "FP_CORE_UTIL": 40,
+        "RT_MAX_LAYER": "Metal4",
+        "SYNTH_MAX_FANOUT": 4,
+        "PL_TARGET_DENSITY": 0.45
+    }
+}
