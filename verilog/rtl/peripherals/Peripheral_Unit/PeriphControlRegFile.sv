@@ -36,7 +36,7 @@
 //[UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 2]: txDone     (UART N done with transfer)
 //[UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 1]: rxDone     (UART N done with reception)
 
-`include "Peripheral_Unit_defs.svh"
+`include "Peripheral_Unit_Defs.svh"
 
 module PeriphControlRegFile #(
     parameter ACTUAL_WIDTH=10,   		   //1024 words
