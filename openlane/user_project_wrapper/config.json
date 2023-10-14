@@ -4,7 +4,7 @@
         "dir::../../verilog/rtl/defines.v",
         "dir::../../verilog/rtl/user_project_wrapper.v"
     ],
-    "ROUTING_CORES": 1,
+    "ROUTING_CORES": 20,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "mprj.clk",

@@ -82,7 +82,7 @@ module soc (
 `endif
 );
 
-    logic rst_n, rst_hard_n, rst_soft_n;
+    logic rst_n, rst_hard_n;
     assign rst_n = rst_hard_n; // Careful with this, this is a lot of power!
     logic wishbone_enable;
 
@@ -143,7 +143,7 @@ module soc (
     
     // Interrupt Signals
     logic timer_intr, m_ext_intr, p_int_read, csr_busy;
-    logic [31:0] mcause; 
+    logic [30:0] mcause; 
 
     core i_core(
         .clk_i,
@@ -152,7 +152,7 @@ module soc (
         // Interrupt Interface
         .timer_intr_i   (timer_intr), 
         .m_ext_intr_i   (m_ext_intr),
-        .mcause_i       (mcause[30:0]),
+        .mcause_i       (mcause),
         .p_int_read_o   (p_int_read),
         .csr_busy_o     (csr_busy),
         
@@ -568,7 +568,7 @@ module soc (
         la_data_o = {128{1'b1}};
 
         boot_sel_soft   = la_data_i[0] ? BOOT_FAILSAFE : BOOT_NORMAL;
-        rst_soft_n      = la_data_i[1];
+        //rst_soft_n      = la_data_i[1];
         wishbone_enable = la_data_i[2];
 
         snoop_sel = la_data_i[107];

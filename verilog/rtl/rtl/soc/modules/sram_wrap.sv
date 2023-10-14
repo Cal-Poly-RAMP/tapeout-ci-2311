@@ -154,6 +154,6 @@ module sram_wrap #(
             );
         end
     endgenerate
-  
+
 endmodule
 
