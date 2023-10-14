@@ -155,5 +155,27 @@ module sram_wrap #(
         end
     endgenerate
 
+`ifdef VERILATOR
+    logic [31:0] _unused;
+    
+    always_comb begin : terminations
+        // NOT USED
+        _unused[31:16] = sram_i_addr_i[31:16];
+        _unused[1:0]   = sram_i_addr_i[1:0];
+        _unused[31:16] = sram_d_addr_i[31:16];
+        _unused[1:0]   = sram_d_addr_i[1:0];
+        _unused[0]     = sram_i_we_i;
+        _unused[0]     = sram_i_be_i;
+        _unused        = sram_i_wdata_i;
+
+        // NOT YET IMPLEMENTED
+        _unused[0]     = boot_sel;
+        _unused[0]     = illegal_access;
+        _unused        = SRAM_BASE_ADDR;
+        _unused        = SRAM_END_ADDR;
+    end
+
+`endif
+
 endmodule
 

@@ -106,12 +106,14 @@ end
 //Calibration FSM
 always @(posedge clk_i) begin
     if (reset_n) begin
+	    calib_stop_motor <= 1'b0;
+	    calib_finished <= 1'b0;
         case(calib_state)
             IDLE: begin
                 if (calib_mode_reg) begin
                     calib_state <= FIND_INDEX;
-                    if (calib_finished)
-                        calib_finished <= 1'b0;
+                    // if (calib_finished)
+                    //     calib_finished <= 1'b0;
                 end
             end
             
@@ -132,7 +134,6 @@ always @(posedge clk_i) begin
             
             SET_POS: begin
                 calib_finished <= 1'b1;
-                calib_stop_motor <= 1'b0;
                 calib_state <= IDLE;
             end
 	    
@@ -157,8 +158,6 @@ end
 always @(posedge clk_i) begin
 	if (~reset_n)
 	begin
-	   calib_stop_motor <= 1'b0;
-	   calib_finished <= 1'b0;
 	   count <= 32'h00000000;
 	end
 	else begin

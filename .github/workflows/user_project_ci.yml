@@ -1,7 +1,8 @@
 name: CI
 
 on:
-  # Runs on Pull Requests
+  # Runs on Pull Requests and Pushes
+  push:
   pull_request:
   workflow_dispatch:
   # Runs nightly at 3AM PST
