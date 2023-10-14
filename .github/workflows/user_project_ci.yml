@@ -54,12 +54,12 @@ jobs:
         run: |
           make simenv
 
-      - name: Harden using Openlane
+      - name: Harden Using Openlane
         run: |
           make soc
           make user_project_wrapper
 
-      - name: run precheck
+      - name: Run MPW Precheck
         run: |
           export INPUT_DIRECTORY=$(pwd)
           export PRECHECK_ROOT=$INPUT_DIRECTORY/mpw_precheck
@@ -76,7 +76,7 @@ jobs:
           if [[ $cnt -eq 1 ]]; then exit 0; fi
           exit 2
       
-      - name: upload failure logs
+      - name: Upload Failure Logs
         if: failure()
         uses: actions/upload-artifact@v2
         with:
@@ -84,7 +84,7 @@ jobs:
           path: |
             /home/runner/work/caravel_user_project/caravel_user_project/mpw_precheck_result/logs/*
 
-      - name: Run DV RTL tests
+      - name: Run DV RTL Tests
         run: |
           make verify-io_ports-rtl 
           make verify-la_test1-rtl 
