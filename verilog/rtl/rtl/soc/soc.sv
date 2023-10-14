@@ -12,7 +12,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "clam-defs.svhh"
+`include "clam-defs.svh"
 
 
 // TODO: Add RVFI or riscv_formal macros import

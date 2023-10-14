@@ -8,21 +8,21 @@
 `define SD_INST_NUM      4
 `define QEM_INST_NUM     4
 `define NUM_PINS        24
-`define NUM_SPI_REGS     6
+`define NUM_SPI_REGS     5
 `define NUM_I2C_REGS     6
 `define NUM_PWM_REGS     4
 `define NUM_TIM_REGS     6
 `define NUM_UART_REGS    6
 `define NUM_SD_REGS     10
 `define NUM_QEM_REGS     6
-`define SPI_NUM_INTER    2
+`define SPI_NUM_INTER    1
 `define I2C_NUM_INTER    1
 `define TIM_NUM_INTER    1
 `define UART_NUM_INTER   2
 `define SD_NUM_INTER     1
 `define QEM_NUM_INTER    2
 `define GPIO_NUM_INTER   1
-`define NUM_INTER       54
+`define NUM_INTER       52
 
 // GPIO Config bit fields
 `define MOD1_POS         9
