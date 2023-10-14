@@ -34,7 +34,7 @@ jobs:
       - name: Export OPENLANE ROOT
         run: echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
 
-      - name: Install dependencies
+      - name: Install Caravel
         run: |
           make install
 

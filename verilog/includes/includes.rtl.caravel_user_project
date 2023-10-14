@@ -22,6 +22,6 @@
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi_qspi_controller/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/include $(USER_PROJECT_VERILOG)/rtl/rtl/soc/modules/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/include $(USER_PROJECT_VERILOG)/rtl/rtl/soc/soc.sv
--sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals/include $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/*
--sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals/include $(USER_PROJECT_VERILOG)/rtl/peripherals/*.sv
+-sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/*
+-sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals $(USER_PROJECT_VERILOG)/rtl/peripherals/*.sv
  
