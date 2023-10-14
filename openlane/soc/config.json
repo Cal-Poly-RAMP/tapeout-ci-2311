@@ -28,8 +28,6 @@
 		"dir::../../verilog/rtl/core/rtl/core/stages/fetch_stage.sv",
 		"dir::../../verilog/rtl/core/rtl/core/stages/mem_slice_stage.sv",
 		"dir::../../verilog/rtl/core/rtl/core/stages/wb_stage.sv",
-		"dir::../../verilog/rtl/core/rtl/wrapper_modules/test_memory.sv",
-		"dir::../../verilog/rtl/core/rtl/wrapper_modules/wrapper.sv",
 		"dir::../../verilog/rtl/include/clam-defs.svh",
 		"dir::../../verilog/rtl/peripherals/Peripheral_Unit/Peripheral_Unit_Defs.svh",
 		"dir::../../verilog/rtl/peripherals/peripheral_interrupt_queue.sv",
