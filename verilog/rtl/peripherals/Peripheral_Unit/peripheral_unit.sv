@@ -181,15 +181,15 @@ module peripheral_unit (
             ) PWM_b (
               .clk(clk),
               .nrst(reset_n),
-              .en(PWM_ENpwm_gv2[0]),
-              .wr_en(PWM_EN_WRpwm_gv2),
-              .wr_pwm_period_div(PWM_PERIOD_DIV_WRpwm_gv2),
-              .wr_mod_setpoint(PWM_MOD_SETPOINT_WRpwm_gv2),
-              .pwm_period_div(PWM_PERIOD_DIVpwm_gv2[7:0]),
-              .mod_setpoint(PWM_MOD_SETPOINTpwm_gv2[MOD_WIDTH - 1:0]),
-              .pwm_out(PWM_OUTpwm_gv2),
-              .start_strobe(PWM_SRpwm_gv2[0]),
-              .busy(PWM_SRpwm_gv2[1]));
+              .en(PWM_EN[pwm_gv2][0]),
+              .wr_en(PWM_EN_WR[pwm_gv2]),
+              .wr_pwm_period_div(PWM_PERIOD_DIV_WR[pwm_gv2]),
+              .wr_mod_setpoint(PWM_MOD_SETPOINT_WR[pwm_gv2]),
+              .pwm_period_div(PWM_PERIOD_DIV[pwm_gv2][7:0]),
+              .mod_setpoint(PWM_MOD_SETPOINT[pwm_gv2][MOD_WIDTH - 1:0]),
+              .pwm_out(PWM_OUT[pwm_gv2]),
+              .start_strobe(PWM_SR[pwm_gv2][0]),
+              .busy(PWM_SR[pwm_gv2][1]));
          end
     endgenerate
    
