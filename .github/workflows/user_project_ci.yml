@@ -10,38 +10,12 @@ on:
     - cron: '0 11 * * *'
 
 jobs:
-  pdk:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Export PDK ROOT
-        run: echo "PDK_ROOT=/home/runner/work/pdk" >> $GITHUB_ENV
-      
-      - name: Export OPENLANE ROOT
-        run: echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: |
-          sudo mkdir -p ${{ env.PDK_ROOT }}
-          sudo chown -R $USER:$USER ${{ env.PDK_ROOT }}
-          make install
-          make openlane
-          make pdk-with-volare
-
   user_project_flow:
     timeout-minutes: 720
     runs-on: self-hosted
     strategy:
       matrix:
         pdk: ["sky130A"]
-    needs: [pdk]
     steps:
       - uses: actions/checkout@v2
 
@@ -63,8 +37,9 @@ jobs:
       - name: Install dependencies
         run: |
           make install
-          make install_mcw
           make openlane
+          make pdk-with-volare
+          make install_mcw
           make simenv
 
       - name: Harden using Openlane
