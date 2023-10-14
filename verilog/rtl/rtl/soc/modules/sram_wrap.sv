@@ -169,8 +169,6 @@ module sram_wrap #(
         _unused        = sram_i_wdata_i;
 
         // NOT YET IMPLEMENTED
-        _unused[0]     = boot_sel;
-        _unused[0]     = illegal_access;
         _unused        = SRAM_BASE_ADDR;
         _unused        = SRAM_END_ADDR;
     end
