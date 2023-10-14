@@ -37,9 +37,21 @@ jobs:
       - name: Install dependencies
         run: |
           make install
+
+      - name: Setup Openlane
+        run: |
           make openlane
+
+      - name: Build PDK
+        run: |
           make pdk-with-volare
+
+      - name: Build Management Core Wrapper
+        run: |
           make install_mcw
+
+      - name: Install Simulation Environment
+        run: |
           make simenv
 
       - name: Harden using Openlane
