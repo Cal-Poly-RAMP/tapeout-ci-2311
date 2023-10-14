@@ -83,6 +83,8 @@ jobs:
           name: error
           path: |
             /home/runner/work/caravel_user_project/caravel_user_project/mpw_precheck_result/logs/*
+            /home/runner/work/tapeout-ci-2311/tapeout-ci-2311/openlane/**/*
+          retention-days: 5
 
       - name: Run DV RTL Tests
         run: |
