@@ -47,9 +47,9 @@ jobs:
         run: |
           make pdk-with-volare
 
-      # - name: Build Management Core Wrapper
-      #   run: |
-      #     make install_mcw
+      - name: Build Management Core Wrapper
+        run: |
+          make install_mcw
 
       - name: Install Simulation Environment
         run: |
