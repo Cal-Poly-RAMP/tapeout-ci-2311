@@ -65,38 +65,39 @@ module peripheral_unit (
    logic [`SPI_NUM_CS - 1:0] SPI_CS [`SPI_INST_NUM];
    logic SPI_MOSI[`SPI_INST_NUM];
    
-   genvar i;
+   genvar spi_gv1;
    generate
-        for (i = 0; i < `SPI_INST_NUM; i++) begin
-            assign SPI_SR[i][31:2] = 30'b0;
-            assign SPI_RX_DATA[i][31:16] = 16'b0;
+        for (spi_gv1 = 0; spi_gv1 < `SPI_INST_NUM; spi_gv1++) begin
+            assign SPI_SR[spi_gv1][31:2] = 30'b0;
+            assign SPI_RX_DATA[spi_gv1][31:16] = 16'b0;
         end
    endgenerate
    
+   genvar spi_gv2;
    generate
-       for (i = 0; i < `SPI_INST_NUM; i++) begin
+       for (spi_gv2 = 0; spi_gv2 < `SPI_INST_NUM; spi_gv2++) begin
            SPI_Master_With_Multiple_CS SPI_b (
                 .i_Rst_L(reset_n),
                 .i_Clk(clk),
-                .i_wr_cr(SPI_CR_WR[i]),
-                .i_wr_data(SPI_TX_DATA_WR[i]),
-                .i_SPI_CS_en(SPI_CR[i][3:0]),
-                .i_spi_mode(SPI_CR[i][9:8]),
-                .i_ticks_per_half_bit(SPI_CR[i][31:16]),
-                .i_TX_Count(SPI_CR[i][15:12]),
-                .i_data_length(SPI_CR[i][7:4]),
-                .i_TX_Data(SPI_TX_DATA[i][15:0]),
-                .i_TX_MSB_first(SPI_CR[i][10]),
-	            .i_TX_DV(SPI_TX_START[i][0]),
-	            .o_TX_Ready(SPI_SR[i][0]),
-	            .o_RX_Count(SPI_SR[i][5:2]),
-	            .i_RX_MSB_first(SPI_CR[i][11]),
-	            .o_RX_DV(SPI_SR[i][1]),
-	            .o_RX_Data(SPI_RX_DATA[i][15:0]),
-	            .o_SPI_Clk(SPI_CLK[i]),
-	            .i_SPI_MISO(SPI_MISO[i]),
-	            .o_SPI_MOSI(SPI_MOSI[i]),
-	            .o_SPI_CS_n(SPI_CS[i]));
+                .i_wr_cr(SPI_CR_WR[spi_gv2]),
+                .i_wr_data(SPI_TX_DATA_WR[spi_gv2]),
+                .i_SPI_CS_en(SPI_CR[spi_gv2][3:0]),
+                .i_spi_mode(SPI_CR[spi_gv2][9:8]),
+                .i_ticks_per_half_bit(SPI_CR[spi_gv2][31:16]),
+                .i_TX_Count(SPI_CR[spi_gv2][15:12]),
+                .i_data_length(SPI_CR[spi_gv2][7:4]),
+                .i_TX_Data(SPI_TX_DATA[spi_gv2][15:0]),
+                .i_TX_MSB_first(SPI_CR[spi_gv2][10]),
+	            .i_TX_DV(SPI_TX_START[spi_gv2][0]),
+	            .o_TX_Ready(SPI_SR[spi_gv2][0]),
+	            .o_RX_Count(SPI_SR[spi_gv2][5:2]),
+	            .i_RX_MSB_first(SPI_CR[spi_gv2][11]),
+	            .o_RX_DV(SPI_SR[spi_gv2][1]),
+	            .o_RX_Data(SPI_RX_DATA[spi_gv2][15:0]),
+	            .o_SPI_Clk(SPI_CLK[spi_gv2]),
+	            .i_SPI_MISO(SPI_MISO[spi_gv2]),
+	            .o_SPI_MOSI(SPI_MOSI[spi_gv2]),
+	            .o_SPI_CS_n(SPI_CS[spi_gv2]));
 	   end
    endgenerate
    
@@ -120,34 +121,36 @@ module peripheral_unit (
     localparam I2C_REG_WIDTH = 8;
     localparam I2C_ADDR_WIDTH = 7;
     
+    genvar i2c_gv1;
     generate
-        for (i = 0; i < `I2C_INST_NUM; i++) begin
-            assign I2C_MISO_DATA[i][31:8] = 24'b0;
-            assign I2C_SR[i][31:1] = 31'b0;
+        for (i2c_gv1 = 0; i2c_gv1 < `I2C_INST_NUM; i2c_gv1++) begin
+            assign I2C_MISO_DATA[i2c_gv1][31:8] = 24'b0;
+            assign I2C_SR[i2c_gv1][31:1] = 31'b0;
         end
     endgenerate
 
+    genvar i2c_gv2;
     generate
-        for (i = 0; i < `I2C_INST_NUM; i++) begin
+        for (i2c_gv2 = 0; i2c_gv2 < `I2C_INST_NUM; i2c_gv2++) begin
             I2C_Master #(.DATA_WIDTH(I2C_DATA_WIDTH),.REG_WIDTH(I2C_REG_WIDTH),.ADDR_WIDTH(I2C_ADDR_WIDTH))
                 I2C_b (
                     .i_clk(clk),
                     .i_rst_n(reset_n),
-                    .i_wr_cr(I2C_CR_WR[i]),
-                    .i_wr_mosi_data(I2C_MOSI_DATA_WR[i]),
-                    .i_wr_reg_addr(I2C_REG_ADDR_WR[i]),
-                    .i_wr_dev_addr(I2C_DEV_ADDR_WR[i]),
-                    .i_enable(I2C_CR[i][1]),
-                    .i_rw(I2C_CR[i][0]),
-                    .i_mosi_data(I2C_MOSI_DATA[i][I2C_DATA_WIDTH - 1:0]),
-                    .i_reg_addr(I2C_REG_ADDR[i][I2C_REG_WIDTH - 1:0]),
-                    .i_device_addr(I2C_DEV_ADDR[i][I2C_ADDR_WIDTH - 1:0]),
-                    .i_clk_div(I2C_CR[i][31:16]),
-                    .o_miso_data(I2C_MISO_DATA[i][I2C_DATA_WIDTH - 1:0]),
-                    .o_busy(I2C_SR[i][0]),
-                    .i_sda(I2C_SDA_I[i]),
-                    .o_sda(I2C_SDA_O[i]),
-                    .o_scl(I2C_SCL[i]));
+                    .i_wr_cr(I2C_CR_WR[i2c_gv2]),
+                    .i_wr_mosi_data(I2C_MOSI_DATA_WR[i2c_gv2]),
+                    .i_wr_reg_addr(I2C_REG_ADDR_WR[i2c_gv2]),
+                    .i_wr_dev_addr(I2C_DEV_ADDR_WR[i2c_gv2]),
+                    .i_enable(I2C_CR[i2c_gv2][1]),
+                    .i_rw(I2C_CR[i2c_gv2][0]),
+                    .i_mosi_data(I2C_MOSI_DATA[i2c_gv2][I2C_DATA_WIDTH - 1:0]),
+                    .i_reg_addr(I2C_REG_ADDR[i2c_gv2][I2C_REG_WIDTH - 1:0]),
+                    .i_device_addr(I2C_DEV_ADDR[i2c_gv2][I2C_ADDR_WIDTH - 1:0]),
+                    .i_clk_div(I2C_CR[i2c_gv2][31:16]),
+                    .o_miso_data(I2C_MISO_DATA[i2c_gv2][I2C_DATA_WIDTH - 1:0]),
+                    .o_busy(I2C_SR[i2c_gv2][0]),
+                    .i_sda(I2C_SDA_I[i2c_gv2]),
+                    .o_sda(I2C_SDA_O[i2c_gv2]),
+                    .o_scl(I2C_SCL[i2c_gv2]));
         end
     endgenerate
    
@@ -163,28 +166,30 @@ module peripheral_unit (
 
    logic PWM_OUT[`PWM_INST_NUM];
    
+   genvar pwm_gv1;
    generate
-        for (i = 0; i < `PWM_INST_NUM; i++) begin
-            assign PWM_SR[i][31:1] = 31'b0;
+        for (pwm_gv1 = 0; pwm_gv1 < `PWM_INST_NUM; pwm_gv1++) begin
+            assign PWM_SR[pwm_gv1][31:1] = 31'b0;
         end
    endgenerate
    
+   genvar pwm_gv2;
    generate
-        for (i = 0; i < `PWM_INST_NUM; i++) begin
+        for (pwm_gv2 = 0; pwm_gv2 < `PWM_INST_NUM; pwm_gv2++) begin
            PWM_modulator #(
               .MOD_WIDTH(MOD_WIDTH)
             ) PWM_b (
               .clk(clk),
               .nrst(reset_n),
-              .en(PWM_EN[i][0]),
-              .wr_en(PWM_EN_WR[i]),
-              .wr_pwm_period_div(PWM_PERIOD_DIV_WR[i]),
-              .wr_mod_setpoint(PWM_MOD_SETPOINT_WR[i]),
-              .pwm_period_div(PWM_PERIOD_DIV[i][7:0]),
-              .mod_setpoint(PWM_MOD_SETPOINT[i][MOD_WIDTH - 1:0]),
-              .pwm_out(PWM_OUT[i]),
-              .start_strobe(PWM_SR[i][0]),
-              .busy(PWM_SR[i][1]));
+              .en(PWM_ENpwm_gv2[0]),
+              .wr_en(PWM_EN_WRpwm_gv2),
+              .wr_pwm_period_div(PWM_PERIOD_DIV_WRpwm_gv2),
+              .wr_mod_setpoint(PWM_MOD_SETPOINT_WRpwm_gv2),
+              .pwm_period_div(PWM_PERIOD_DIVpwm_gv2[7:0]),
+              .mod_setpoint(PWM_MOD_SETPOINTpwm_gv2[MOD_WIDTH - 1:0]),
+              .pwm_out(PWM_OUTpwm_gv2),
+              .start_strobe(PWM_SRpwm_gv2[0]),
+              .busy(PWM_SRpwm_gv2[1]));
          end
     endgenerate
    
@@ -199,20 +204,21 @@ module peripheral_unit (
     logic [`TIM_INST_NUM - 1: 0] TIM_THRESH_H_WR;
     logic [`TIM_INST_NUM - 1: 0] TIM_THRESH_L_WR;
    
+   genvar tim_gv1;
    generate
-       for (i = 0; i < `TIM_INST_NUM; i++) begin
+       for (tim_gv1 = 0; tim_gv1 < `TIM_INST_NUM; tim_gv1++) begin
            Timer TIMER_b (
                .CLK(clk),
                .RST_N(reset_n),
-               .en(TIM_CTRL[i][0]),
-               .wr_en(TIM_CTRL_WR[i]),
-               .wr_mtimecmp_in_h(TIM_THRESH_H_WR[i]),
-               .wr_mtimecmp_in_l(TIM_THRESH_L_WR[i]),
-               .mtimecmp_in_h(TIM_THRESH_H[i]),
-               .mtimecmp_in_l(TIM_THRESH_L[i]),
-               .mtime_h(TIM_OUT_H[i]),
-               .mtime_l(TIM_OUT_L[i]),
-               .timer_int(TIM_INT[i]));
+               .en(TIM_CTRL[tim_gv1][0]),
+               .wr_en(TIM_CTRL_WR[tim_gv1]),
+               .wr_mtimecmp_in_h(TIM_THRESH_H_WR[tim_gv1]),
+               .wr_mtimecmp_in_l(TIM_THRESH_L_WR[tim_gv1]),
+               .mtimecmp_in_h(TIM_THRESH_H[tim_gv1]),
+               .mtimecmp_in_l(TIM_THRESH_L[tim_gv1]),
+               .mtime_h(TIM_OUT_H[tim_gv1]),
+               .mtime_l(TIM_OUT_L[tim_gv1]),
+               .timer_int(TIM_INT[tim_gv1]));
        end
    endgenerate
    
@@ -231,35 +237,37 @@ module peripheral_unit (
    logic UART_RX[`UART_INST_NUM];
    logic UART_TX[`UART_INST_NUM];
    
+   genvar uart_gv1;
    generate
-        for (i = 0; i < `UART_INST_NUM; i++) begin
-            assign UART_SR[i][31:5] = 27'b0;
-            assign UART_RX_DATA[i][31:8] = 24'b0;
+        for (uart_gv1 = 0; uart_gv1 < `UART_INST_NUM; uart_gv1++) begin
+            assign UART_SR[uart_gv1][31:5] = 27'b0;
+            assign UART_RX_DATA[uart_gv1][31:8] = 24'b0;
         end
    endgenerate
    
+   genvar uart_gv2;
    generate
-       for (i = 0; i < `UART_INST_NUM; i++) begin
+       for (uart_gv2 = 0; uart_gv2 < `UART_INST_NUM; uart_gv2++) begin
            UART UART_b (
                .clk(clk),
-               .wr_cr(UART_CR_WR[i]),
-               .wr_max_rate_rx(UART_RX_RATE_DIV_WR[i]),
-               .wr_max_rate_tx(UART_TX_RATE_DIV_WR[i]),
-               .wr_data(UART_TX_DATA_WR[i]),
-               .max_rate_rx(UART_RX_RATE_DIV[i]),
-               .max_rate_tx(UART_TX_RATE_DIV[i]),
-               .rx(UART_RX[i]),
-               .rxEn(UART_CR[i][2]),
-               .out(UART_RX_DATA[i][7:0]),
-               .rxDone(UART_SR[i][3]),
-               .rxBusy(UART_SR[i][2]),
-               .rxErr(UART_SR[i][4]),
-               .tx(UART_TX[i]),
-               .txEn(UART_CR[i][0]),
-               .txStart(UART_CR[i][1]),
-               .in(UART_TX_DATA[i][7:0]),
-               .txDone(UART_SR[i][1]),
-               .txBusy(UART_SR[i][0]));
+               .wr_cr(UART_CR_WR[uart_gv2]),
+               .wr_max_rate_rx(UART_RX_RATE_DIV_WR[uart_gv2]),
+               .wr_max_rate_tx(UART_TX_RATE_DIV_WR[uart_gv2]),
+               .wr_data(UART_TX_DATA_WR[uart_gv2]),
+               .max_rate_rx(UART_RX_RATE_DIV[uart_gv2]),
+               .max_rate_tx(UART_TX_RATE_DIV[uart_gv2]),
+               .rx(UART_RX[uart_gv2]),
+               .rxEn(UART_CR[uart_gv2][2]),
+               .out(UART_RX_DATA[uart_gv2][7:0]),
+               .rxDone(UART_SR[uart_gv2][3]),
+               .rxBusy(UART_SR[uart_gv2][2]),
+               .rxErr(UART_SR[uart_gv2][4]),
+               .tx(UART_TX[uart_gv2]),
+               .txEn(UART_CR[uart_gv2][0]),
+               .txStart(UART_CR[uart_gv2][1]),
+               .in(UART_TX_DATA[uart_gv2][7:0]),
+               .txDone(UART_SR[uart_gv2][1]),
+               .txBusy(UART_SR[uart_gv2][0]));
        end
    endgenerate
    
@@ -292,52 +300,54 @@ module peripheral_unit (
    logic [`SD_INST_NUM - 1: 0] drv_dir;
    logic [`SD_INST_NUM - 1: 0] drv_step;
    
+   genvar sd_gv1;
    generate
-        for (i = 0; i < `SD_INST_NUM; i++) begin
-            assign SD_SR[i][31:2] = 30'b0;
+        for (sd_gv1 = 0; sd_gv1 < `SD_INST_NUM; sd_gv1++) begin
+            assign SD_SR[sd_gv1][31:2] = 30'b0;
         end
    endgenerate
    
+   genvar sd_gv2;
    generate
-       for (i = 0; i < `SD_INST_NUM; i++) begin
+       for (sd_gv2 = 0; sd_gv2 < `SD_INST_NUM; sd_gv2++) begin
            S_Curve_Gen SCG_b (
                 .clk_i(clk),
                 .reset_n(reset_n),
-                .wr_cr(SD_CR_WR[i]),
-                .wr_start(SD_START_WR[i]),
-                .wr_stop(SD_STOP_WR[i]),
-                .wr_total_steps(SD_TOT_STEPS_WR[i]),
-                .wr_jerk(SD_JERK_WR[i]),
-                .wr_c_jerk_dur(SD_JERK_DUR_WR[i]),
-                .wr_c_accel_dur(SD_ACCEL_DUR_WR[i]),
-                .wr_raddr(SD_RADDR_WR[i]),
-                .clk_div_i(SD_CR[i][31:16]),
-                .start_i(SD_START[i][0]),
-                .done(SD_SR[i][0]),
-                .busy(SD_SR[i][1]),
-                .estop_i(SD_STOP[i][0]),
-                .swstop_i(SD_STOP[i][1]),
+                .wr_cr(SD_CR_WR[sd_gv2]),
+                .wr_start(SD_START_WR[sd_gv2]),
+                .wr_stop(SD_STOP_WR[sd_gv2]),
+                .wr_total_steps(SD_TOT_STEPS_WR[sd_gv2]),
+                .wr_jerk(SD_JERK_WR[sd_gv2]),
+                .wr_c_jerk_dur(SD_JERK_DUR_WR[sd_gv2]),
+                .wr_c_accel_dur(SD_ACCEL_DUR_WR[sd_gv2]),
+                .wr_raddr(SD_RADDR_WR[sd_gv2]),
+                .clk_div_i(SD_CR[sd_gv2][31:16]),
+                .start_i(SD_START[sd_gv2][0]),
+                .done(SD_SR[sd_gv2][0]),
+                .busy(SD_SR[sd_gv2][1]),
+                .estop_i(SD_STOP[sd_gv2][0]),
+                .swstop_i(SD_STOP[sd_gv2][1]),
                 .zero(0),
-                .dir_i(SD_CR[i][0]),
-                .bypass_i(SD_CR[i][1]),
-                .total_steps_i(SD_TOT_STEPS[i]),
-                .c_jerk_dur_i(SD_JERK_DUR[i]),
-                .c_accel_dur_i(SD_ACCEL_DUR[i]),
-                .jerk_i(SD_JERK[i]),
-                .raddr_i(SD_RADDR[i][3:0]),
-                .rdata(SD_RDATA[i]),
-                .drv_bypass(drv_bypass[i]),
-                .drv_dir(drv_dir[i]),
-                .drv_step(drv_step[i]));
+                .dir_i(SD_CR[sd_gv2][0]),
+                .bypass_i(SD_CR[sd_gv2][1]),
+                .total_steps_i(SD_TOT_STEPS[sd_gv2]),
+                .c_jerk_dur_i(SD_JERK_DUR[sd_gv2]),
+                .c_accel_dur_i(SD_ACCEL_DUR[sd_gv2]),
+                .jerk_i(SD_JERK[sd_gv2]),
+                .raddr_i(SD_RADDR[sd_gv2][3:0]),
+                .rdata(SD_RDATA[sd_gv2]),
+                .drv_bypass(drv_bypass[sd_gv2]),
+                .drv_dir(drv_dir[sd_gv2]),
+                .drv_step(drv_step[sd_gv2]));
                 
             Stepper_Driver SD_P (
-                .step(drv_step[i]), 
-                .dir(drv_dir[i]),
-                .bypass(drv_bypass[i]),
-                .A_P(SD_A_P[i]),
-                .A_M(SD_A_M[i]),
-                .B_P(SD_B_P[i]),
-                .B_M(SD_B_M[i]));
+                .step(drv_step[sd_gv2]), 
+                .dir(drv_dir[sd_gv2]),
+                .bypass(drv_bypass[sd_gv2]),
+                .A_P(SD_A_P[sd_gv2]),
+                .A_M(SD_A_M[sd_gv2]),
+                .B_P(SD_B_P[sd_gv2]),
+                .B_M(SD_B_M[sd_gv2]));
         end
     endgenerate
     
@@ -356,32 +366,34 @@ module peripheral_unit (
     logic ENC_A[`QEM_INST_NUM];
     logic ENC_B[`QEM_INST_NUM];
    
+    genvar qem_gv1;
     generate
-        for (i = 0; i < `QEM_INST_NUM; i++) begin
-            assign QEM_SR[i][31:3] = 29'b0;
+        for (qem_gv1 = 0; qem_gv1 < `QEM_INST_NUM; qem_gv1++) begin
+            assign QEM_SR[qem_gv1][31:3] = 29'b0;
         end
     endgenerate
    
+    genvar qem_gv2;
     generate
-       for (i = 0; i < `QEM_INST_NUM; i++) begin
+       for (qem_gv2 = 0; qem_gv2 < `QEM_INST_NUM; qem_gv2++) begin
             Quad_Enc_Man QEM_b(
                 .clk_i(clk),
                 .reset_n(reset_n),
-                .index_strobe(ENC_IDX[i]),
-                .quadA(ENC_A[i]),
-                .quadB(ENC_B[i]),
-                .thresh_wr(QEM_THRESH_WR[i]),
-                .count_wr(QEM_I_CNT_WR[i]),
-                .cr_wr(QEM_CR_WR[i]),
-                .count_i(QEM_I_CNT[i]),
-                .count_thresh(QEM_THRESH[i]),
-                .calib_mode(QEM_CR[i][0]),
-                .calib_motor_stopped(QEM_CR[i][1]),
-                .calib_stop_motor(QEM_SR[i][0]),
-                .calib_finished(QEM_SR[i][1]),
-                .thresh_reached(QEM_SR[i][2]),
-                .latched_count(QEM_O_CNT_LATCH[i]),
-                .count(QEM_O_CNT[i]));
+                .index_strobe(ENC_IDX[qem_gv2]),
+                .quadA(ENC_A[qem_gv2]),
+                .quadB(ENC_B[qem_gv2]),
+                .thresh_wr(QEM_THRESH_WR[qem_gv2]),
+                .count_wr(QEM_I_CNT_WR[qem_gv2]),
+                .cr_wr(QEM_CR_WR[qem_gv2]),
+                .count_i(QEM_I_CNT[qem_gv2]),
+                .count_thresh(QEM_THRESH[qem_gv2]),
+                .calib_mode(QEM_CR[qem_gv2][0]),
+                .calib_motor_stopped(QEM_CR[qem_gv2][1]),
+                .calib_stop_motor(QEM_SR[qem_gv2][0]),
+                .calib_finished(QEM_SR[qem_gv2][1]),
+                .thresh_reached(QEM_SR[qem_gv2][2]),
+                .latched_count(QEM_O_CNT_LATCH[qem_gv2]),
+                .count(QEM_O_CNT[qem_gv2]));
         end
     endgenerate
 
