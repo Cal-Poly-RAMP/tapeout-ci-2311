@@ -34,9 +34,9 @@ jobs:
       - name: Export OPENLANE ROOT
         run: echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
 
-      - name: Install Caravel
-        run: |
-          make install
+      # - name: Install Caravel
+      #   run: |
+      #     make install
 
       - name: Setup Openlane
         run: |
@@ -46,13 +46,13 @@ jobs:
         run: |
           make pdk-with-volare
 
-      - name: Build Management Core Wrapper
-        run: |
-          make install_mcw
+      # - name: Build Management Core Wrapper
+      #   run: |
+      #     make install_mcw
 
-      - name: Install Simulation Environment
-        run: |
-          make simenv
+      # - name: Install Simulation Environment
+      #   run: |
+      #     make simenv
 
       - name: Harden Using Openlane
         run: |
