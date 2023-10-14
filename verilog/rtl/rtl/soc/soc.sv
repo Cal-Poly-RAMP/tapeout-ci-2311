@@ -143,7 +143,7 @@ module soc (
     
     // Interrupt Signals
     logic timer_intr, m_ext_intr, p_int_read, csr_busy;
-    logic [30:0] mcause; 
+    logic [31:0] mcause; 
 
     core i_core(
         .clk_i,
@@ -152,7 +152,7 @@ module soc (
         // Interrupt Interface
         .timer_intr_i   (timer_intr), 
         .m_ext_intr_i   (m_ext_intr),
-        .mcause_i       (mcause),
+        .mcause_i       (mcause[30:0]),
         .p_int_read_o   (p_int_read),
         .csr_busy_o     (csr_busy),
         
@@ -528,7 +528,7 @@ module soc (
     ////////////////////////
 
     always_comb begin : gpio_assignment
-        // Default assignmenta
+        // Default assignments
         gpio_oeb_no = {38{1'b1}};
         gpio_o = '0;
 
@@ -600,6 +600,7 @@ module soc (
         _unused[37:0] = gpio_i;
         _unused = la_data_i;
         _unused = la_oe_no;
+        _unused[0] = mcause[31];
 
         // NOT YET IMPLEMENTED
         _unused[0] = boot_sel;

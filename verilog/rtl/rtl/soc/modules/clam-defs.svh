@@ -13,7 +13,7 @@ typedef enum logic {
 // PERIPHERAL DEFINES  //
 /////////////////////////
 
-`define SOC_NUM_INTER       54
+`define SOC_NUM_INTER       52
 // `include "Peripheral_Unit_Defs"
 
 `endif // CLAM_DEFS_SVH
