@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
-`include "pipe_regs.svh"
-`include "defs.svh"
+`include "pipe_regs.sv"
+`include "defs.sv"
 
 module wb_stage (
     // From Memory Stage

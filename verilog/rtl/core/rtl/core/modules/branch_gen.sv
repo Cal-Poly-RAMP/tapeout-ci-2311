@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`include "defs.svh"
+`include "defs.sv"
 
 module branch_gen ( 
     input branch_op_e op_i,

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "UART_States.svh"
+`include "UART_States.sv"
 
 /*
  * 8-bit UART Receiver.

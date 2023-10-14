@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-`include "defs.svh"
-`include "pipe_regs.svh"
-`include "rvfi.svh"
+`include "defs.sv"
+`include "pipe_regs.sv"
+`include "rvfi.sv"
 ///////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer:  F. Wilken

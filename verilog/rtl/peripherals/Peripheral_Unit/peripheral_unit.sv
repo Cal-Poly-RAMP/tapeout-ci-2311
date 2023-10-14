@@ -18,7 +18,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "Peripheral_Unit_Defs.svh"
+`include "Peripheral_Unit_Defs.sv"
 
 module peripheral_unit (
     //Core interface
