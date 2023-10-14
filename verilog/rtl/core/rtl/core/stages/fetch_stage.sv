@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
-`include "defs.sv"
-`include "pipe_regs.sv"
-`include "rvfi.sv"
+`include "defs.svh"
+`include "pipe_regs.svh"
+`include "rvfi.svh"
 
 module fetch_stage (
 

@@ -19,9 +19,9 @@
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi/wb_to_obi.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi_gpio/obi_gpio.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi_qspi_controller/obi_qspi_controller.sv
--sv $(USER_PROJECT_VERILOG)/rtl/core/include/defs.sv
--sv $(USER_PROJECT_VERILOG)/rtl/core/include/pipe_regs.sv
--sv $(USER_PROJECT_VERILOG)/rtl/core/include/rvfi.sv
+-sv $(USER_PROJECT_VERILOG)/rtl/core/include/defs.svh
+-sv $(USER_PROJECT_VERILOG)/rtl/core/include/pipe_regs.svh
+-sv $(USER_PROJECT_VERILOG)/rtl/core/include/rvfi.svh
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/core.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules/alu.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules/branch_gen.sv
@@ -42,8 +42,8 @@
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages/wb_stage.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/wrapper_modules/test_memory.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/core/rtl/wrapper_modules/wrapper.sv
--sv $(USER_PROJECT_VERILOG)/rtl/include/clam-defs.sv
--sv $(USER_PROJECT_VERILOG)/rtl/peripherals/include/Peripheral_Unit_Defs.sv
+-sv $(USER_PROJECT_VERILOG)/rtl/include/clam-defs.svhh
+-sv $(USER_PROJECT_VERILOG)/rtl/peripherals/include/Peripheral_Unit_defs.svh
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/peripheral_interrupt_queue.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/BaudRateGenerator.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/clk_div_gen.sv
@@ -53,7 +53,7 @@
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/I2C_Master.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/Mux4_1.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/PeriphControlRegFile.sv
--sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/Peripheral_Unit_Defs.sv
+-sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/Peripheral_Unit_defs.svh
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/peripheral_unit.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/Pin_Mux.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/pulse_gen.sv

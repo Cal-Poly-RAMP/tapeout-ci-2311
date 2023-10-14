@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`include "Peripheral_Unit_Defs.sv"
+`include "Peripheral_Unit_defs.svh"
 
 module Pin_Mux (
     input CLK,

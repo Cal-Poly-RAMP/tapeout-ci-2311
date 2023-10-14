@@ -38,7 +38,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "pipe_regs.sv"
+`include "pipe_regs.svh"
 
 module hazard_unit (
             input               clk_i,

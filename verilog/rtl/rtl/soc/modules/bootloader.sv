@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`include "clam-defs.sv"
+`include "clam-defs.svhh"
 
 
 module bootloader #(parameter BOOTLOADER_BASE_ADDR = 32'h00000000) 

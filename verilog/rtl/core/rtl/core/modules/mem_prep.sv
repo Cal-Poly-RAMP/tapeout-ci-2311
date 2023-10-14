@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-`include "defs.sv"
+`include "defs.svh"
 
 module mem_prep (
     input mem_width_e   mem_width_i,

@@ -18,7 +18,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "pipe_regs.sv"
+`include "pipe_regs.svh"
 
 module reg_forwarder (
     input  data_fwd_t  ex_stage_i, mem_stage_i,

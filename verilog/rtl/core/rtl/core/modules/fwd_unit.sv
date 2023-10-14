@@ -17,7 +17,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-`include "pipe_regs.sv"
+`include "pipe_regs.svh"
 
 module fwd_unit (
     input  data_fwd_t ex_stage_i, mem_stage_i,

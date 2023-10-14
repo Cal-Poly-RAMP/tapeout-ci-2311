@@ -1,7 +1,7 @@
 `ifndef PIPE_REGS_SVH
 `define PIPE_REGS_SVH
 
-`include "defs.sv"
+`include "defs.svh"
 
 typedef struct packed {
     logic [31:0] pc;
