@@ -4,11 +4,6 @@ on:
   # Runs on Pull Requests and Pushes
   push:
   pull_request:
-  workflow_dispatch:
-  # Runs nightly at 3AM PST
-  schedule:
-    # For Standard Time (UTC-8)
-    - cron: '0 11 * * *'
 
 jobs:
   user_project_flow:

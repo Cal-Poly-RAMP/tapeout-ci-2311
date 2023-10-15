@@ -1,7 +1,7 @@
 # Saved State
 set ::env(ANTENNA_CHECK_CURRENT_DEF) "/home/passant/efabless/caravel_user_project/openlane/user_proj_example/runs/23_07_19_18_14/tmp/signoff/38-user_proj_example.p.def"
 set ::env(ANTENNA_VIOLATOR_LIST) "/home/passant/efabless/caravel_user_project/openlane/user_proj_example/runs/23_07_19_18_14/reports/signoff/43-antenna_violators.rpt"
-set ::env(BASE_SDC_FILE) "/home/passant/efabless/caravel_user_project/openlane/user_proj_example/base_user_proj_example.sdc"
+set ::env(BASE_SDC_FILE) "/home/passant/efabless/caravel_user_project/openlane/user_proj_example/base_soc.sdc"
 set ::env(BASIC_PREP_COMPLETE) "1"
 set ::env(BOTTOM_MARGIN_MULT) "4"
 set ::env(CARRY_SELECT_ADDER_MAP) "/pdk/sky130A/libs.tech/openlane/sky130_fd_sc_hd/csa_map.v"
