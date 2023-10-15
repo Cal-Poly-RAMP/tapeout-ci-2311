@@ -691,11 +691,10 @@ module PeriphControlRegFile #(
     assign qem_thresh_reached = qem_thresh_reached_buf1 & ~qem_thresh_reached_buf2;
     
     //Interrupt mappings
-    integer i;
     always_ff @(posedge CLK) begin
         if (RST_N) begin
             MEM_ERR_INT <= mem_access_err_buf1 & ~mem_access_err_buf2;
-            for (i = 0; i < `NUM_INTER; i++) begin
+            for (integer i = 0; i < `NUM_INTER; i++) begin
                 if (i < I2C_INTER_OFFSET) begin
                     INTERRUPTS[i] <= spi_tx_ready[i / `SPI_NUM_INTER];
                     i = i + 1;
@@ -1097,7 +1096,7 @@ module PeriphControlRegFile #(
                         default: begin
                         end
                     endcase
-                    for (i = 0; i < `NUM_PINS; i++) begin
+                    for (integer i = 0; i < `NUM_PINS; i++) begin
                         case ((ADDR & ~STARTING_ADDR) >> ADDR_SCALE)
                         (GPIO_ADDR_OFFSET + i / 2): begin
                             GPIO_IRQEN[i]         <= (i[0] == 0) ? DIN[`IRQEN_POS] : DIN[`IRQEN_POS + 16];
