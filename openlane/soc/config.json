@@ -67,6 +67,7 @@
 	"EXTRA_GDS_FILES": ["dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.gds"],
 	"ROUTING_CORES": 20,
 	"KLAYOUT_XOR_THREADS": 20,
+	"FP_IO_UNMATCHED_ERROR":0,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
     "FP_SIZING": "absolute",
