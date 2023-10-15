@@ -31,8 +31,8 @@ jobs:
           echo "PDK_ROOT=/home/runner/work/pdk" >> $GITHUB_ENV
           echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
           echo "PDKPATH=/home/runner/work/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "ROUTING_CORES=8" >> $GITHUB_ENV
-          echo "KLAYOUT_XOR_THREADS=8" >> $GITHUB_ENV
+          echo "ROUTING_CORES=4" >> $GITHUB_ENV
+          echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
 
       - name: Install Caravel
@@ -47,9 +47,9 @@ jobs:
         run: |
           make pdk-with-volare
 
-      - name: Build Management Core Wrapper
-        run: |
-          make install_mcw
+      # - name: Build Management Core Wrapper
+      #   run: |
+      #     make install_mcw
 
       - name: Install Simulation Environment
         run: |
