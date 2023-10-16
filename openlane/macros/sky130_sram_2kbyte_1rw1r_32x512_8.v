@@ -102,7 +102,9 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
   `ifdef VERILATOR
     logic [31:0] _unused;
 
-    _unused[1:0] = DELAY;
+    always_comb begin : terminations
+      _unused[1:0] = DELAY;
+    end
   `endif
 
 endmodule
