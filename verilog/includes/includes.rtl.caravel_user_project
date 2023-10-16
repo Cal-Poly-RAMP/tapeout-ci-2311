@@ -14,13 +14,13 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Caravel user project includes
-# -sv $(USER_PROJECT_VERILOG)/rtl/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v
+-v $../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/core.sv
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi/*
 -sv $(USER_PROJECT_VERILOG)/rtl/carp-lib/obi_qspi_controller/*
--sv -I $(USER_PROJECT_VERILOG)/rtl/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8 -I $(USER_PROJECT_VERILOG)/rtl/include $(USER_PROJECT_VERILOG)/rtl/rtl/soc/modules/*
+-sv -I $(USER_PROJECT_VERILOG)../openlane/macros -I $(USER_PROJECT_VERILOG)/rtl/include $(USER_PROJECT_VERILOG)/rtl/rtl/soc/modules/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/include $(USER_PROJECT_VERILOG)/rtl/rtl/soc/soc.sv
 -sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals $(USER_PROJECT_VERILOG)/rtl/peripherals/Peripheral_Unit/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/peripherals $(USER_PROJECT_VERILOG)/rtl/peripherals/*.sv
