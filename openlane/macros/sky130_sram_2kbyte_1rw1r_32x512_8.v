@@ -57,10 +57,10 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
     addr0_reg <= addr0;
     din0_reg <= din0;
     // dout0 = 32'bx;
-    if ( !csb0_reg && web0_reg && VERBOSE ) 
-      $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
-    if ( !csb0_reg && !web0_reg && VERBOSE )
-      $display($time," Writing %m addr0=%b din0=%b wmask0=%b",addr0_reg,din0_reg,wmask0_reg);
+    // if ( !csb0_reg && web0_reg && VERBOSE ) 
+    //   $display($time," Reading %m addr0=%b dout0=%b",addr0_reg,mem[addr0_reg]);
+    // if ( !csb0_reg && !web0_reg && VERBOSE )
+    //   $display($time," Writing %m addr0=%b din0=%b wmask0=%b",addr0_reg,din0_reg,wmask0_reg);
   end
 
   reg  csb1_reg;
@@ -72,11 +72,11 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   begin
     csb1_reg <= csb1;
     addr1_reg <= addr1;
-    if (!csb0 && !web0 && !csb1 && (addr0 == addr1))
-         $display($time," WARNING: Writing and reading addr0=%b and addr1=%b simultaneously!",addr0,addr1);
-    // dout1 = 32'bx;
-    if ( !csb1_reg && VERBOSE ) 
-      $display($time," Reading %m addr1=%b dout1=%b",addr1_reg,mem[addr1_reg]);
+    // if (!csb0 && !web0 && !csb1 && (addr0 == addr1))
+    //      $display($time," WARNING: Writing and reading addr0=%b and addr1=%b simultaneously!",addr0,addr1);
+    // // dout1 = 32'bx;
+    // if ( !csb1_reg && VERBOSE ) 
+    //   $display($time," Reading %m addr1=%b dout1=%b",addr1_reg,mem[addr1_reg]);
   end
 
 reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
@@ -117,7 +117,7 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
     begin
       //if (DELAY == 0)  dout1 <= mem[addr1_reg];
       // else dout1 <= #(DELAY) mem[addr1_reg];
-	dout0 <= mem[addr0_reg];
+	dout1 <= mem[addr0_reg];
 
     end
   end
