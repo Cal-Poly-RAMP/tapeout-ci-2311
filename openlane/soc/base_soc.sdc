@@ -2,7 +2,7 @@
 # Date: 2023/06/20
 
 ### Note:
-# - input clock transition and latency are set for wb_clk_i port.
+# - input clock transition and latency are set for CLOCK_PORT port, defined in config.json.
 #   If your design is using the user_clock2, update the clock constraints to reflect that and use usr_* variables.
 # - IO ports are assumed to be asynchronous. If they're synchronous to the clock, update the variable IO_SYNC to 1.
 #   As well, update in_ext_delay and out_ext_delay with the required I/O external delays.
