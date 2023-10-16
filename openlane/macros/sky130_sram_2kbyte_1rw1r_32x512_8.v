@@ -18,7 +18,9 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   parameter DATA_WIDTH = 32 ;
   parameter ADDR_WIDTH = 9 ;
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
-
+  // FIXME: This delay is arbitrary.
+  parameter DELAY = 3 ;
+  
 `ifdef USE_POWER_PINS
     inout vccd1;
     inout vssd1;
