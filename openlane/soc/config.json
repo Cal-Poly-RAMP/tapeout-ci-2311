@@ -73,7 +73,11 @@
 		"genblk1[0].sram1 vccd1 vssd1 vccd1 vssd1",
 		"genblk1[1].sram1 vccd1 vssd1 vccd1 vssd1",
 		"genblk1[2].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[3].sram1 vccd1 vssd1 vccd1 vssd1"
+		"genblk1[3].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[4].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[5].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[6].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[7].sram1 vccd1 vssd1 vccd1 vssd1"
     ],
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",

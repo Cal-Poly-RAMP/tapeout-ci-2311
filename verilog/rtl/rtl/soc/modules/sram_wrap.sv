@@ -4,7 +4,7 @@
 module sram_wrap #(
     parameter SRAM_BASE_ADDR    = 32'h8000_0000,
     parameter SRAM_END_ADDR     = 32'h8000_C000,
-    parameter SRAM_NUM_BLOCKS   = 4,
+    parameter SRAM_NUM_BLOCKS   = 8,
     parameter SRAM_LOG_BLOCKS   = $clog2(SRAM_NUM_BLOCKS),
     parameter SRAM_LOG_BLOCK_SIZE = 9 )
 (
