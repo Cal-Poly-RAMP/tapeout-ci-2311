@@ -61,6 +61,7 @@
 		"dir::../../verilog/rtl/rtl/soc/soc.sv",
 		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v"
     ],
+	"VERILOG_INCLUDE_DIRS": ["dir::../../verilog/rtl/sky130_sram_macros/sram_1rw1r_32_256_8_sky130"],
 	"VERILOG_FILES_BLACKBOX": ["dir::../../verilog/rtl/sky130_sram_macros/sram_1rw1r_32_256_8_sky130/sram_1rw1r_32_256_8_sky130.v"],
     "EXTRA_LEFS": ["dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.lef"],
 	"EXTRA_LIBS": ["dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib"],
