@@ -160,13 +160,14 @@ module sram_wrap #(
     
     always_comb begin : terminations
         // NOT USED
-        _unused[31:16] = sram_i_addr_i[31:16];
+        _unused[31:0]  = sram_i_addr_i[31:16];
         _unused[1:0]   = sram_i_addr_i[1:0];
-        _unused[31:16] = sram_d_addr_i[31:16];
+        _unused[31:0]  = sram_d_addr_i[31:16];
         _unused[1:0]   = sram_d_addr_i[1:0];
         _unused[0]     = sram_i_we_i;
-        _unused[0]     = sram_i_be_i;
-        _unused        = sram_i_wdata_i;
+        _unused[3:0]   = sram_i_be_i;
+        _unused[31:0]  = sram_i_wdata_i;
+        _unused        = rst_ni;
 
         // NOT YET IMPLEMENTED
         _unused        = SRAM_BASE_ADDR;

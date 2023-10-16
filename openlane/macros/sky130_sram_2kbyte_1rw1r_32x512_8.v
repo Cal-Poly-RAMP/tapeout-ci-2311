@@ -20,7 +20,7 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
   // FIXME: This delay is arbitrary.
   parameter DELAY = 3 ;
-  
+
 `ifdef USE_POWER_PINS
     inout vccd1;
     inout vssd1;
@@ -98,5 +98,11 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
     if (!csb1_reg)
       dout1 <= mem[addr1_reg];
   end
+
+  `ifdef VERILATOR
+    logic [31:0] _unused;
+
+    _unused[1:0] = DELAY;
+  `endif
 
 endmodule
