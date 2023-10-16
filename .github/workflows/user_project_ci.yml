@@ -72,15 +72,10 @@ jobs:
           if [[ $cnt -eq 1 ]]; then exit 0; fi
           exit 2
       
-      - name: Upload Failure Logs
+      - name: Save Failure Logs
         if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: error
-          path: |
-            /home/runner/work/caravel_user_project/caravel_user_project/mpw_precheck_result/logs/*
-            /home/prherrma/actions_runner/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/**/*
-          retention-days: 5
+        run: |
+          cp -r /home/prherrma/actions-runner/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/soc/runs/23* ~/old-runs/
 
       - name: Run DV RTL Tests
         run: |

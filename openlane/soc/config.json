@@ -59,7 +59,8 @@
 		"dir::../../verilog/rtl/rtl/soc/modules/obi_xbar.sv",
 		"dir::../../verilog/rtl/rtl/soc/modules/sram_wrap.sv",
 		"dir::../../verilog/rtl/rtl/soc/soc.sv",
-		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v"
+		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v",
+		"dir::../../verilog/rtl/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"
     ],
 	"VERILOG_FILES_BLACKBOX": ["dir::../../verilog/rtl/sky130_sram_macros/sky130_sram_2kbyte_1rw1r_32x512_8/sky130_sram_2kbyte_1rw1r_32x512_8.v"],
     "EXTRA_LEFS": ["dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.lef"],
