@@ -69,6 +69,12 @@
 	"ROUTING_CORES": 20,
 	"KLAYOUT_XOR_THREADS": 20,
 	"FP_IO_UNMATCHED_ERROR":0,
+    "FP_PDN_MACRO_HOOKS": [
+		"genblk1[0].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[1].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[2].sram1 vccd1 vssd1 vccd1 vssd1",
+		"genblk1[3].sram1 vccd1 vssd1 vccd1 vssd1"
+    ],
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
     "FP_SIZING": "absolute",
