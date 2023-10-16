@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 //
 // Module Name: soc
-// Description: This is the top level module for the CLAM System On Chip, (SoC)
+// Description: This is the top level module for the System on Chip, (SoC)
 //              created by the Computer Architecture Research Project (CARP) at
 //              California Polytechnic State University, San Luis Obispo.
 //
