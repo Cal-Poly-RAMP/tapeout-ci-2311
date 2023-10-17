@@ -24,8 +24,6 @@ jobs:
       - name: Export Environment Variables
         run: |
           export WORK_DIR=${GITHUB_WORKSPACE}/../..
-          echo "${WORK_DIR}"
-          echo "$(pwd)"
           echo "PDK_ROOT=${WORK_DIR}/pdk" >> $GITHUB_ENV
           echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
           echo "PDKPATH=${WORK_DIR}/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
@@ -79,8 +77,6 @@ jobs:
         if: failure()
         run: |
           cp -r /${WORK_DIR}/tapeout-ci-2311/tapeout-ci-2311/openlane/soc/runs/23* ~/old-runs/
-          latest_directory=$(ls -td -- ~/old-runs/* | head -n 1)
-          ln -sf "$latest_directory" ~/old-logs/latest
 
       - name: Run DV RTL Tests
         run: |
