@@ -59,8 +59,7 @@
 		"dir::../../verilog/rtl/rtl/soc/modules/obi_xbar.sv",
 		"dir::../../verilog/rtl/rtl/soc/modules/sram_wrap.sv",
 		"dir::../../verilog/rtl/rtl/soc/soc.sv",
-		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v",
-		"dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"
+		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v"
     ],
 	"VERILOG_INCLUDE_DIRS": ["dir::../../openlane/macros"],
 	"VERILOG_FILES_BLACKBOX": ["dir::../../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"],
@@ -71,14 +70,14 @@
 	"KLAYOUT_XOR_THREADS": 20,
 	"FP_IO_UNMATCHED_ERROR":0,
     "FP_PDN_MACRO_HOOKS": [
-		"genblk1[0].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[1].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[2].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[3].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[4].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[5].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[6].sram1 vccd1 vssd1 vccd1 vssd1",
-		"genblk1[7].sram1 vccd1 vssd1 vccd1 vssd1"
+		"sram_blocks[0].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[1].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[2].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[3].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[4].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[5].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[6].sram1 vccd1 vssd1 vccd1 vssd1",
+		"sram_blocks[7].sram1 vccd1 vssd1 vccd1 vssd1"
     ],
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
