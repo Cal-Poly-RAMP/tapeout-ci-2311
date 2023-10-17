@@ -74,8 +74,8 @@ module sram_wrap #(
         for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
-            if ( sram_d_req_i && i == sram_d_cs_addr) cs_data[i] = 1;
-            if ( sram_i_req_i && i == sram_i_cs_addr) cs_inst[i] = 1;
+            if ( sram_d_req_i && i == {29'b0, sram_d_cs_addr}) cs_data[i] = 1;
+            if ( sram_i_req_i && i == {29'b0, sram_i_cs_addr}) cs_inst[i] = 1;
 
             if (cs_data_prev[i] == 1'b1) sram_d_rdata_o = sram_d_read_vec[i];
             if (cs_inst_prev[i] == 1'b1) sram_i_rdata_o = sram_i_read_vec[i];
@@ -114,14 +114,14 @@ module sram_wrap #(
     
     always_comb begin : terminations
         // NOT USED
-        _unused[31:0]  = sram_i_addr_i[31:16];
+        _unused[31:0]  = sram_i_addr_i[31:0];
         _unused[1:0]   = sram_i_addr_i[1:0];
-        _unused[31:0]  = sram_d_addr_i[31:16];
+        _unused[31:0]  = sram_d_addr_i[31:0];
         _unused[1:0]   = sram_d_addr_i[1:0];
         _unused[0]     = sram_i_we_i;
         _unused[3:0]   = sram_i_be_i;
         _unused[31:0]  = sram_i_wdata_i;
-        _unused        = rst_ni;
+        _unused[0]     = rst_ni;
 
         // NOT YET IMPLEMENTED
         _unused        = SRAM_BASE_ADDR;
