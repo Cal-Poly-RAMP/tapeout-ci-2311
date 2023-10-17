@@ -47,11 +47,11 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   // All inputs are registers
   always @(posedge clk0)
   begin
-    csb0_reg = csb0;
-    web0_reg = web0;
-    wmask0_reg = wmask0;
-    addr0_reg = addr0;
-    din0_reg = din0;
+    csb0_reg <= csb0;
+    web0_reg <= web0;
+    wmask0_reg <= wmask0;
+    addr0_reg <= addr0;
+    din0_reg <= din0;
   end
 
   reg  csb1_reg;
@@ -61,8 +61,8 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   // All inputs are registers
   always @(posedge clk1)
   begin
-    csb1_reg = csb1;
-    addr1_reg = addr1;
+    csb1_reg <= csb1;
+    addr1_reg <= addr1;
   end
 
 reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
@@ -73,13 +73,13 @@ reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
   begin : MEM_WRITE0
     if ( !csb0_reg && !web0_reg ) begin
         if (wmask0_reg[0])
-                mem[addr0_reg][7:0] = din0_reg[7:0];
+                mem[addr0_reg][7:0] <= din0_reg[7:0];
         if (wmask0_reg[1])
-                mem[addr0_reg][15:8] = din0_reg[15:8];
+                mem[addr0_reg][15:8] <= din0_reg[15:8];
         if (wmask0_reg[2])
-                mem[addr0_reg][23:16] = din0_reg[23:16];
+                mem[addr0_reg][23:16] <= din0_reg[23:16];
         if (wmask0_reg[3])
-                mem[addr0_reg][31:24] = din0_reg[31:24];
+                mem[addr0_reg][31:24] <= din0_reg[31:24];
     end
   end
 
