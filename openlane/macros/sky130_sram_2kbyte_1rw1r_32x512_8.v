@@ -21,21 +21,21 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   // FIXME: This delay is arbitrary.
   parameter DELAY = 3 ;
 
-// `ifdef USE_POWER_PINS
-//     inout vccd1;
-//     inout vssd1;
-// `endif
-//   input  clk0; // clock
-//   input   csb0; // active low chip select
-//   input  web0; // active low write control
-//   input [NUM_WMASKS-1:0]   wmask0; // write mask
-//   input [ADDR_WIDTH-1:0]  addr0;
-//   input [DATA_WIDTH-1:0]  din0;
-//   output [DATA_WIDTH-1:0] dout0;
-//   input  clk1; // clock
-//   input   csb1; // active low chip select
-//   input [ADDR_WIDTH-1:0]  addr1;
-//   output [DATA_WIDTH-1:0] dout1;
+`ifdef USE_POWER_PINS
+    inout vccd1;
+    inout vssd1;
+`endif
+  input  clk0; // clock
+  input   csb0; // active low chip select
+  input  web0; // active low write control
+  input [NUM_WMASKS-1:0]   wmask0; // write mask
+  input [ADDR_WIDTH-1:0]  addr0;
+  input [DATA_WIDTH-1:0]  din0;
+  output [DATA_WIDTH-1:0] dout0;
+  input  clk1; // clock
+  input   csb1; // active low chip select
+  input [ADDR_WIDTH-1:0]  addr1;
+  output [DATA_WIDTH-1:0] dout1;
 
 //   reg  csb0_reg;
 //   reg  web0_reg;
