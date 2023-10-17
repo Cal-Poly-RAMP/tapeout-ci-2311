@@ -37,8 +37,8 @@ module sram_wrap #(
 
     //internal signals for OBI
     // logic [31:0] sram_d_read, sram_i_read;
-    logic  [31:0] sram_d_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
-    logic  [31:0] sram_i_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
+    wire  [31:0] sram_d_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
+    wire  [31:0] sram_i_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
     // logic  [31:0] sram_d_addr, sram_i_addr;
     // logic         sram_d_gnt, sram_i_gnt;
     // logic         sram_d_rvalid, sram_i_rvalid;
