@@ -14,7 +14,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Caravel user project includes
--lib $../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
+-sv $../openlane/macros/sky130_sram_2kbyte_1rw1r_32x512_8.v
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages/*
 -sv -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/modules -I $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/stages -I $(USER_PROJECT_VERILOG)/rtl/core/include $(USER_PROJECT_VERILOG)/rtl/core/rtl/core/core.sv
