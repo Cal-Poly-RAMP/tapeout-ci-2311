@@ -76,7 +76,7 @@ jobs:
       - name: Save Failure Logs
         if: failure()
         run: |
-          cp -r /${WORK_DIR}/tapeout-ci-2311/tapeout-ci-2311/openlane/soc/runs/23* /root/old-runs/
+          cp -r ${GITHUB_WORKSPACE}/openlane/soc/runs/23* /root/old-runs/
 
       - name: Run DV RTL Tests
         run: |
