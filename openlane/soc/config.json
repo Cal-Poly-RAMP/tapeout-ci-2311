@@ -1,7 +1,6 @@
 {
     "DESIGN_NAME": "soc",
     "DESIGN_IS_CORE": 0,
-    "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "VERILOG_FILES": [
 		"dir::../../verilog/rtl/carp-lib/obi/obi_demux_1_to_4.sv",
 		"dir::../../verilog/rtl/carp-lib/obi/obi_mux_2_to_1.sv",
