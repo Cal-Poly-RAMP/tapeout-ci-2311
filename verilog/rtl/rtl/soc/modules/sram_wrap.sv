@@ -90,8 +90,7 @@ module sram_wrap #(
 
     genvar j;
     generate 
-        for (j = 0; j < SRAM_NUM_BLOCKS; j++ ) : sram_blocks
-        begin
+        for (j = 0; j < SRAM_NUM_BLOCKS; j++ ) begin : sram_blocks
             sky130_sram_2kbyte_1rw1r_32x512_8
             #(.DELAY(0))
             sram1 (

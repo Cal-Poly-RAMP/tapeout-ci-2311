@@ -77,7 +77,7 @@ jobs:
         run: |
           cp -r /home/prherrma/actions-runner/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/soc/runs/23* ~/old-runs/
           latest_directory=$(ls -td -- ~/old-runs/* | head -n 1)
-          ln -s "$latest_directory" ~/old-logs/latest
+          ln -sf "$latest_directory" ~/old-logs/latest
 
       - name: Run DV RTL Tests
         run: |
