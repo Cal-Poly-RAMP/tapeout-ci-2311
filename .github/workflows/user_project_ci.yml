@@ -23,6 +23,7 @@ jobs:
 
       - name: Export Environment Variables
         run: |
+          echo "${GITHUB_WORKSPACE}"
           echo "PDK_ROOT=/home/runner/work/pdk" >> $GITHUB_ENV
           echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
           echo "PDKPATH=/home/runner/work/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
