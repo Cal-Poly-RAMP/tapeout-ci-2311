@@ -116,7 +116,7 @@ module sram_wrap #(
         // Output Muxing
         sram_d_rdata_o = 0;
         sram_i_rdata_o = 0;
-        for (logic[SRAM_LOG_BLOCKS - 1 :0]  i = 0; i < SRAM_NUM_BLOCKS; i++ )
+        for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
             if ( sram_d_req_i && i == sram_d_cs_addr) cs_data[i] = 1;
