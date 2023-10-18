@@ -74,8 +74,8 @@ module sram_wrap #(
         for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
-            if ( sram_d_req_i && i == {29'b0, sram_d_cs_addr}) cs_data[i] = 1;
-            if ( sram_i_req_i && i == {29'b0, sram_i_cs_addr}) cs_inst[i] = 1;
+            if ( sram_d_req_i && i == {30'b0, sram_d_cs_addr}) cs_data[i] = 1;
+            if ( sram_i_req_i && i == {30'b0, sram_i_cs_addr}) cs_inst[i] = 1;
 
             if (cs_data_prev[i] == 1'b1) sram_d_rdata_o = sram_d_read_vec[i];
             if (cs_inst_prev[i] == 1'b1) sram_i_rdata_o = sram_i_read_vec[i];
