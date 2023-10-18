@@ -75,7 +75,7 @@
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
     "FP_SIZING": "absolute",
-    "DIE_AREA": "0 0 15000 15000",
+    "DIE_AREA": "0 0 2800 3400",
     "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
     "MAX_TRANSITION_CONSTRAINT": 1.0,
     "MAX_FANOUT_CONSTRAINT": 16,
@@ -92,8 +92,8 @@
     "GRT_REPAIR_ANTENNAS": 1,
 	"GRT_MAX_DIODE_INS_ITERS": 100000,
 	"GRT_ANT_ITERS": 100000,
-	"FP_TAP_HORIZONTAL_HALO": 20,
-	"FP_TAP_VERTICAL_HALO": 20,
+	"FP_TAP_HORIZONTAL_HALO": 50,
+	"FP_TAP_VERTICAL_HALO": 50,
     "VDD_NETS": [
         "vccd1"
     ],
