@@ -22,6 +22,12 @@
 
 
 module soc (
+
+`ifdef USE_POWER_PINS
+    inout vccd1,	// 1.8V supply
+    inout vssd1,	// 1 digital ground
+`endif
+
     input logic               clk_i,
 
     // Caravel Wishbone Interface
