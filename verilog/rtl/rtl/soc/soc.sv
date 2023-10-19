@@ -38,7 +38,6 @@ module soc (
     // Logic Analyzer Signals
     input  logic [127:0]      la_data_i,
     output logic [127:0]      la_data_o,
-    input  logic [127:0]      la_oe_no,    // Logic analyzer output enable selection pins
 
     // GPIO Pins
     input  logic [37:0]       gpio_i,      // GPIO input pins, if configured as input
@@ -396,7 +395,6 @@ module soc (
     sram_wrap sram 
     (
         .clk_i,
-        .rst_ni         (rst_n),
 
         // sram_d OBI interface from muxed output
         .sram_d_req_i   (sram_d_muxed_req),
@@ -599,7 +597,6 @@ module soc (
     always_comb begin : terminations
         _unused[37:0] = gpio_i;
         _unused = la_data_i;
-        _unused = la_oe_no;
         _unused[0] = mcause[31];
 
         // NOT YET IMPLEMENTED

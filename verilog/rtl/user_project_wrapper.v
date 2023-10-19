@@ -102,7 +102,6 @@ soc soc_i (
     // Logic Analyzer Signals
     .la_data_i(la_data_in),
     .la_data_o(la_data_out),
-    .la_oe_no(la_oenb),    // Logic analyzer output enable selection pins
 
     // GPIO Pins
     .gpio_i(io_in),      // GPIO input pins, if configured as input

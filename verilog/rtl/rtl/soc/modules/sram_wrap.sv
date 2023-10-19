@@ -2,14 +2,14 @@
 //SRAM Wrapper for 48 kB SRAM
 
 module sram_wrap #(
-    parameter SRAM_BASE_ADDR    = 32'h8000_0000,
-    parameter SRAM_END_ADDR     = 32'h8000_C000,
-    parameter SRAM_NUM_BLOCKS   = 14,
-    parameter SRAM_LOG_BLOCKS   = $clog2(SRAM_NUM_BLOCKS),
-    parameter SRAM_LOG_BLOCK_SIZE = 9 )
+    parameter SRAM_BASE_ADDR      = 32'h8000_0000,
+    parameter SRAM_NUM_BLOCKS     = 14,
+    parameter SRAM_BLOCK_SIZE     = 512
+    parameter SRAM_LOG_BLOCK_SIZE = $clog2(SRAM_BLOCK_SIZE),
+    parameter SRAM_END_ADDR       = (SRAM_BASE_ADDR + (SRAM_NUM_BLOCKS * SRAM_BLOCK_SIZE)),
+    parameter SRAM_LOG_BLOCKS     = $clog2(SRAM_NUM_BLOCKS) )
 (
     input  logic   clk_i,
-    input  logic   rst_ni,
 
     // sram_d OBI interface from muxed output
     input  logic        sram_d_req_i,
@@ -36,13 +36,8 @@ module sram_wrap #(
 );
 
     //internal signals for OBI
-    // logic [31:0] sram_d_read, sram_i_read;
     wire  [31:0] sram_d_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
     wire  [31:0] sram_i_read_vec [SRAM_NUM_BLOCKS - 1 : 0 ];
-    // logic  [31:0] sram_d_addr, sram_i_addr;
-    // logic         sram_d_gnt, sram_i_gnt;
-    // logic         sram_d_rvalid, sram_i_rvalid;
-
 
 
     //Synchronous OBI interface
@@ -50,13 +45,18 @@ module sram_wrap #(
     begin
         sram_i_gnt_o = sram_i_req_i;
         sram_d_gnt_o = sram_d_req_i;
-        illegal_memory_o = 0;
+        illegal_memory_o = (sram_i_req_i && 
+                            (sram_i_addr_i < SRAM_BASE_ADDR || 
+                             sram_i_addr_i > SRAM_END_ADDR  ||
+                             sram_i_we_i) )
+                        || (sram_d_req_i && 
+                            (sram_d_addr_i < SRAM_BASE_ADDR || 
+                             sram_d_addr_i > SRAM_END_ADDR) );
     end
     always_ff @(posedge clk_i) 
     begin
         sram_i_rvalid_o <= sram_i_req_i;
         sram_d_rvalid_o <= sram_d_req_i;
-
     end
 
     // SRAM Address Select Lines
@@ -121,11 +121,6 @@ module sram_wrap #(
         _unused[0]     = sram_i_we_i;
         _unused[3:0]   = sram_i_be_i;
         _unused[31:0]  = sram_i_wdata_i;
-        _unused[0]     = rst_ni;
-
-        // NOT YET IMPLEMENTED
-        _unused        = SRAM_BASE_ADDR;
-        _unused        = SRAM_END_ADDR;
     end
 
 `endif
