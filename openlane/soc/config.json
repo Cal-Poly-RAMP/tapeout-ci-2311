@@ -70,9 +70,7 @@
 	"KLAYOUT_XOR_THREADS": 2,
 	"FP_IO_UNMATCHED_ERROR":0,
     "FP_PDN_MACRO_HOOKS": [
-		"sram.sram_blocks[0].sram1 vccd1 vssd1 vccd1 vssd1",
-		"sram.sram_blocks[1].sram1 vccd1 vssd1 vccd1 vssd1",
-		"sram.sram_blocks[2].sram1 vccd1 vssd1 vccd1 vssd1"
+		"sram.sram_blocks.* vccd1 vssd1 vccd1 vssd1"
     ],
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
