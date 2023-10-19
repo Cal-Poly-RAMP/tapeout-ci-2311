@@ -22,12 +22,10 @@
 
 
 module soc (
-
 `ifdef USE_POWER_PINS
     inout vccd1,	// 1.8V supply
     inout vssd1,	// 1 digital ground
 `endif
-
     input logic               clk_i,
 
     // Caravel Wishbone Interface
@@ -400,6 +398,10 @@ module soc (
     // SRAM Module 
     sram_wrap sram 
     (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1),
+        .vssd1(vssd1),
+    `endif
         .clk_i,
 
         // sram_d OBI interface from muxed output

@@ -9,6 +9,10 @@ module sram_wrap #(
     parameter SRAM_END_ADDR       = (SRAM_BASE_ADDR + (SRAM_NUM_BLOCKS * SRAM_BLOCK_SIZE)),
     parameter SRAM_LOG_BLOCKS     = $clog2(SRAM_NUM_BLOCKS) )
 (
+`ifdef USE_POWER_PINS
+    inout vccd1,	// 1.8V supply
+    inout vssd1,	// 1 digital ground
+`endif
     input  logic   clk_i,
 
     // sram_d OBI interface from muxed output
@@ -94,17 +98,21 @@ module sram_wrap #(
             sky130_sram_2kbyte_1rw1r_32x512_8
             #(.DELAY(0))
             sram1 (
-            .clk0      (clk_i),
-            .csb0      (~cs_data[j]),   // Active Low
-            .web0      (~sram_d_we_i),  // Active Low
-            .wmask0    (sram_d_be_i),
-            .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
-            .din0      (sram_d_wdata_i), 
-            .dout0     (sram_d_read_vec[j]), 
-            .clk1      (clk_i),
-            .csb1      (~cs_inst[j]),    // Active Low
-            .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
-            .dout1     (sram_i_read_vec[j]) 
+            `ifdef USE_POWER_PINS
+                .vccd1(vccd1),	// User area 1 1.8V power
+                .vssd1(vssd1),	// User area 1 digital ground
+            `endif
+                .clk0      (clk_i),
+                .csb0      (~cs_data[j]),   // Active Low
+                .web0      (~sram_d_we_i),  // Active Low
+                .wmask0    (sram_d_be_i),
+                .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+                .din0      (sram_d_wdata_i), 
+                .dout0     (sram_d_read_vec[j]), 
+                .clk1      (clk_i),
+                .csb1      (~cs_inst[j]),    // Active Low
+                .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+                .dout1     (sram_i_read_vec[j]) 
             );
         end
     endgenerate
