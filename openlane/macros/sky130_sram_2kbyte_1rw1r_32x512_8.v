@@ -21,8 +21,8 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   parameter RAM_DEPTH = 1 << ADDR_WIDTH;
   // FIXME: This delay is arbitrary.
   parameter DELAY = 3 ;
-  parameter VERBOSE = 1 ; //Set to 0 to only display warnings
-  parameter T_HOLD = 1 ; //Delay to hold dout value after posedge. Value is arbitrary
+  parameter VERBOSE = 1 ; // LVS checking
+  parameter T_HOLD = 1 ; // LVS checking
 
 `ifdef USE_POWER_PINS
     inout vccd1;
