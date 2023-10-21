@@ -31,9 +31,9 @@ jobs:
           echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
 
-      - name: Install Caravel
-        run: |
-          make install
+      # - name: Install Caravel
+      #   run: |
+      #     make install
 
       - name: Setup Openlane
         run: |
@@ -57,6 +57,7 @@ jobs:
 
       - name: Copy Previously Hardened SOC
         run: |
+          mkdir -p ${GITHUB_WORKSPACE}/openlane/soc/runs/soc
           cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/soc/
 
       - name: Harden User Project Wrapper Using Openlane
