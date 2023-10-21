@@ -92,30 +92,222 @@ module sram_wrap #(
         cs_inst_prev <= cs_inst;
     end
 
-    genvar j;
-    generate 
-        for (j = 0; j < SRAM_NUM_BLOCKS; j++ ) begin : sram_blocks
-            sky130_sram_2kbyte_1rw1r_32x512_8
-            #(.DELAY(0))
-            sram1 (
-            `ifdef USE_POWER_PINS
-                .vccd1(vccd1),	// User area 1 1.8V power
-                .vssd1(vssd1),	// User area 1 digital ground
-            `endif
-                .clk0      (clk_i),
-                .csb0      (~cs_data[j]),   // Active Low
-                .web0      (~sram_d_we_i),  // Active Low
-                .wmask0    (sram_d_be_i),
-                .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
-                .din0      (sram_d_wdata_i), 
-                .dout0     (sram_d_read_vec[j]), 
-                .clk1      (clk_i),
-                .csb1      (~cs_inst[j]),    // Active Low
-                .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
-                .dout1     (sram_i_read_vec[j]) 
-            );
-        end
-    endgenerate
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram0 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[0]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[0]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[0]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[0]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram1 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[1]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[1]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[1]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[1]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram2 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[2]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[2]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[2]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[2]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram3 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[3]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[3]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[3]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[3]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram4 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[4]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[4]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[4]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[4]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram5 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[5]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[5]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[5]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[5]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram6 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[6]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[6]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[6]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[6]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram7 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[7]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[7]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[7]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[7]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram8 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[8]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[8]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[8]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[8]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram9 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[9]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[9]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[9]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[9]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram10 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[10]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[10]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[10]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[10]) 
+    );
+
+    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram11 (
+    `ifdef USE_POWER_PINS
+        .vccd1(vccd1), // 1.8V
+        .vssd1(vssd1), // Digital ground
+    `endif
+        .clk0      (clk_i),
+        .csb0      (~cs_data[11]),   // Active Low
+        .web0      (~sram_d_we_i),  // Active Low
+        .wmask0    (sram_d_be_i),
+        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
+        .din0      (sram_d_wdata_i), 
+        .dout0     (sram_d_read_vec[11]), 
+        .clk1      (clk_i),
+        .csb1      (~cs_inst[11]),    // Active Low
+        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
+        .dout1     (sram_i_read_vec[11]) 
+    );
+
 
 `ifdef VERILATOR
     logic [31:0] _unused;
