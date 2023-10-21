@@ -14,14 +14,14 @@
     "VERILOG_FILES_BLACKBOX": [
         "dir::runs/soc/results/final/verilog/gl/soc.v"
     ],
-    "EXTRA_LEFS": "dir::runs/soc/results/final/lef/soc.lef",
-    "EXTRA_GDS_FILES": "dir::runs/soc/results/final/gds/soc.gds",
-    "EXTRA_LIBS": "dir::runs/soc/results/final/lib/soc.lib",
+    "EXTRA_LEFS": "dir::../soc/runs/soc/results/final/lef/soc.lef",
+    "EXTRA_GDS_FILES": "../soc/dir::runs/soc/results/final/gds/soc.gds",
+    "EXTRA_LIBS": "dir::../soc/runs/soc/results/final/lib/soc.lib",
     "EXTRA_SPEFS": [
         "soc", 
-        "dir::runs/soc/results/spef/final/multicorner/soc.max.spef", 
-        "dir::runs/soc/results/spef/final/multicorner/soc.min.spef", 
-        "dir::runs/soc/results/spef/final/multicorner/soc.nom.spef"
+        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.max.spef", 
+        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.min.spef", 
+        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.nom.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
