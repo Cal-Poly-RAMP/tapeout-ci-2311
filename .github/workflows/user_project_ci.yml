@@ -39,17 +39,17 @@ jobs:
         run: |
           make openlane
 
-      - name: Build PDK
-        run: |
-          make pdk-with-volare
+      # - name: Build PDK
+      #   run: |
+      #     make pdk-with-volare
 
       # - name: Build Management Core Wrapper
       #   run: |
       #     make install_mcw
 
-      - name: Install Simulation Environment
-        run: |
-          make simenv
+      # - name: Install Simulation Environment
+      #   run: |
+      #     make simenv
 
       # - name: Harden SOC Using Openlane
       #   run: |
