@@ -57,7 +57,7 @@ jobs:
 
       - name: Copy Previously Hardened SOC
         run: |
-          cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/
+          cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/soc/
 
       - name: Harden User Project Wrapper Using Openlane
         run: |
