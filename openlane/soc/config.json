@@ -69,7 +69,7 @@
 	"ROUTING_CORES": 2,
 	"KLAYOUT_XOR_THREADS": 2,
 	"FP_IO_UNMATCHED_ERROR": 0,
-    "FP_PDN_MACRO_HOOKS": "sram0 vccd1 vssd1 vccd1 vssd1, sram1 vccd1 vssd1 vccd1 vssd1, sram2 vccd1 vssd1 vccd1 vssd1, sram3 vccd1 vssd1 vccd1 vssd1, sram4 vccd1 vssd1 vccd1 vssd1, sram5 vccd1 vssd1 vccd1 vssd1, sram6 vccd1 vssd1 vccd1 vssd1, sram7 vccd1 vssd1 vccd1 vssd1, sram8 vccd1 vssd1 vccd1 vssd1, sram9 vccd1 vssd1 vccd1 vssd1, sram10 vccd1 vssd1 vccd1 vssd1, sram11 vccd1 vssd1 vccd1 vssd1",
+    "FP_PDN_MACRO_HOOKS": "sram.sram0 vccd1 vssd1 vccd1 vssd1, sram.sram1 vccd1 vssd1 vccd1 vssd1, sram.sram2 vccd1 vssd1 vccd1 vssd1, sram.sram3 vccd1 vssd1 vccd1 vssd1, sram.sram4 vccd1 vssd1 vccd1 vssd1, sram.sram5 vccd1 vssd1 vccd1 vssd1, sram.sram6 vccd1 vssd1 vccd1 vssd1, sram.sram7 vccd1 vssd1 vccd1 vssd1, sram.sram8 vccd1 vssd1 vccd1 vssd1, sram.sram9 vccd1 vssd1 vccd1 vssd1, sram.sram10 vccd1 vssd1 vccd1 vssd1, sram.sram11 vccd1 vssd1 vccd1 vssd1",
 	"QUIT_ON_LVS_ERROR": 1,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
