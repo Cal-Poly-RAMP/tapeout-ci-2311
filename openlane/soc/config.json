@@ -72,7 +72,7 @@
     "FP_PDN_MACRO_HOOKS": [
 		"sram.sram_blocks.* vccd1 vssd1 vccd1 vssd1"
     ],
-	"QUIT_ON_LVS_ERROR": 0,
+	"QUIT_ON_LVS_ERROR": 1,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk_i",
     "FP_SIZING": "absolute",
