@@ -83,7 +83,7 @@ module user_project_wrapper #(
 /*--------------------------------------*/
 
 wire [37:0] soc_io_oeb_no;
-assign io_oeb = ~soc_io_oeb_no;
+assign io_oeb = soc_io_oeb_no;
 
 soc soc_i (
     .clk_i(user_clock2),
