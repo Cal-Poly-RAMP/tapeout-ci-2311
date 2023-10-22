@@ -23,7 +23,7 @@
 		"$PDK_ROOT/$PDK/libs.ref/sky130_fd_sc_hd/spice/sky130_fd_sc_hd.spice"
 	],
 	"LVS_VERILOG_FILES": [
-		"$UPRJ_ROOT/openlane/soc/runs/soc/results/final/verilog/gl/soc.v",
+		"$UPRJ_ROOT/openlane/user_project_wrapper/runs/user_project_wrapper/results/final/verilog/gl/user_project_wrapper.v",
 		"$UPRJ_ROOT/verilog/gl/$TOP_SOURCE.v"
 	],
 	"LAYOUT_FILE": "$UPRJ_ROOT/gds/$TOP_LAYOUT.gds"
