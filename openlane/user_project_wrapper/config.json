@@ -15,7 +15,7 @@
         "dir::runs/soc/results/final/verilog/gl/soc.v"
     ],
     "EXTRA_LEFS": "dir::../soc/runs/soc/results/final/lef/soc.lef",
-    "EXTRA_GDS_FILES": "../soc/dir::runs/soc/results/final/gds/soc.gds",
+    "EXTRA_GDS_FILES": "dir::../soc/runs/soc/results/final/gds/soc.gds",
     "EXTRA_LIBS": "dir::../soc/runs/soc/results/final/lib/soc.lib",
     "EXTRA_SPEFS": [
         "soc", 
