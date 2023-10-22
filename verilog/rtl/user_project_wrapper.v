@@ -87,6 +87,10 @@ assign io_oeb = soc_io_oeb_no;
 
 soc soc_i (
     .clk_i(user_clock2),
+`ifdef USE_POWER_PINS
+    .vccd1(vccd1),
+    .vssd1(vssd1),
+`endif
 
     // Caravel Wishbone Interface
     .caravel_wb_rst_i(wb_rst_i),
