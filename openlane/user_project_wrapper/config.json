@@ -19,9 +19,9 @@
     "EXTRA_LIBS": "dir::../soc/runs/soc/results/final/lib/soc.lib",
     "EXTRA_SPEFS": [
         "soc", 
-        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.max.spef", 
-        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.min.spef", 
-        "dir::../soc/runs/soc/results/spef/final/multicorner/soc.nom.spef"
+        "dir::../soc/runs/soc/results/final/spef/multicorner/soc.max.spef", 
+        "dir::../soc/runs/soc/results/final/spef/multicorner/soc.min.spef", 
+        "dir::../soc/runs/soc/results/final/spef/multicorner/soc.nom.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
