@@ -31,25 +31,25 @@ jobs:
           echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
 
-      # - name: Install Caravel
-      #   run: |
-      #     make install
+      - name: Install Caravel
+        run: |
+          make install
 
       - name: Setup Openlane
         run: |
           make openlane
 
-      # - name: Build PDK
-      #   run: |
-      #     make pdk-with-volare
+      - name: Build PDK
+        run: |
+          make pdk-with-volare
 
-      # - name: Build Management Core Wrapper
-      #   run: |
-      #     make install_mcw
+      - name: Build Management Core Wrapper
+        run: |
+          make install_mcw
 
-      # - name: Install Simulation Environment
-      #   run: |
-      #     make simenv
+      - name: Install Simulation Environment
+        run: |
+          make simenv
 
       # - name: Harden SOC Using Openlane
       #   run: |
