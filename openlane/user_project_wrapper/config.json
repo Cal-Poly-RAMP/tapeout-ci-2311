@@ -12,7 +12,7 @@
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
-        "dir::runs/soc/results/final/verilog/gl/soc.v"
+        "dir::../soc/runs/soc/results/final/verilog/gl/soc.v"
     ],
     "EXTRA_LEFS": "dir::../soc/runs/soc/results/final/lef/soc.lef",
     "EXTRA_GDS_FILES": "dir::../soc/runs/soc/results/final/gds/soc.gds",
