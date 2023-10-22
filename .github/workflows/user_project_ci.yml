@@ -51,14 +51,14 @@ jobs:
         run: |
           make simenv
 
-      # - name: Harden SOC Using Openlane
-      #   run: |
-      #     make soc
-
-      - name: Copy Previously Hardened SOC
+      - name: Harden SOC Using Openlane
         run: |
-          mkdir -p ${GITHUB_WORKSPACE}/openlane/soc/runs/soc
-          cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/
+          make soc
+
+      # - name: Copy Previously Hardened SOC
+      #   run: |
+      #     mkdir -p ${GITHUB_WORKSPACE}/openlane/soc/runs/soc
+      #     cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/
 
       - name: Harden User Project Wrapper Using Openlane
         run: |
