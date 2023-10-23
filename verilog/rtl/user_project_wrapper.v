@@ -1,4 +1,3 @@
-`timescale 1ns/1ps
 // SPDX-FileCopyrightText: 2020 Efabless Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,10 +50,10 @@ module user_project_wrapper #(
     input wbs_cyc_i,
     input wbs_we_i,
     input [3:0] wbs_sel_i,
-    input [BITS-1:0] wbs_dat_i,
-    input [BITS-1:0] wbs_adr_i,
+    input [31:0] wbs_dat_i,
+    input [31:0] wbs_adr_i,
     output wbs_ack_o,
-    output [BITS-1:0] wbs_dat_o,
+    output [31:0] wbs_dat_o,
 
     // Logic Analyzer Signals
     input  [127:0] la_data_in,
@@ -124,6 +123,7 @@ soc soc_i (
     always_comb begin : terminations
         _unused[0] = wb_clk_i;
         _unused = la_oenb;
+        _unused[31:0] = BITS;
     end
 
 `endif
