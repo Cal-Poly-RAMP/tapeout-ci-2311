@@ -122,7 +122,7 @@ soc soc_i (
     logic [127:0] _unused;
     
     always_comb begin : terminations
-        _unused[37:0] = la_oenb;
+        _unused = la_oenb;
     end
 
 `endif
