@@ -122,6 +122,7 @@ soc soc_i (
     logic [127:0] _unused;
     
     always_comb begin : terminations
+        _unused[0] = wb_clk_i;
         _unused = la_oenb;
     end
 

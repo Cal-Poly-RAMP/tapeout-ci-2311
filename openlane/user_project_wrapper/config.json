@@ -72,7 +72,7 @@
 	"FP_IO_UNMATCHED_ERROR": 0,
     "FP_PDN_MACRO_HOOKS": "soc_i.sram.sram0 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram1 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram2 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram3 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram4 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram5 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram6 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram7 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram8 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram9 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram10 vccd1 vssd1 vccd1 vssd1, soc_i.sram.sram11 vccd1 vssd1 vccd1 vssd1",
 	"QUIT_ON_LVS_ERROR": 0,
-    "CLOCK_PERIOD": 25,
+    "CLOCK_PERIOD": 50,
     "CLOCK_PORT": "user_clock2",
     "FP_SIZING": "absolute",
     "DIE_AREA": "0 0 2920 3520",
