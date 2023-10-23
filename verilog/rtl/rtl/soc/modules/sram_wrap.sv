@@ -1,5 +1,5 @@
 `timescale 1ns/1ps
-//SRAM Wrapper for 48 kB SRAM
+//SRAM Wrapper for 24 kB SRAM
 
 module sram_wrap #(
     parameter SRAM_BASE_ADDR      = 32'h8000_0000,
