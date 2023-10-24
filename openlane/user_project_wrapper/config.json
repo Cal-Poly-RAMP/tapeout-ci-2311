@@ -100,7 +100,6 @@
 	"FP_TAP_VERTICAL_HALO": 60,
     "SYNTH_USE_PG_PINS_DEFINES": "USE_POWER_PINS",
     "UNIT": 2.4,
-    "FP_PDN_SKIPTRIM": 0,
     "FP_IO_VEXTEND": "expr::2 * $UNIT",
     "FP_IO_HEXTEND": "expr::2 * $UNIT",
     "FP_IO_VLENGTH": "expr::$UNIT",
