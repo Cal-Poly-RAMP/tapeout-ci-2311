@@ -124,11 +124,17 @@
     "FP_PDN_VOFFSET": 5,
     "FP_PDN_HOFFSET": 5,
     "VDD_NETS": [
-        "vccd1"
-    ],
-    "GND_NETS": [
-        "vssd1"
-    ],
+      "vccd1",
+      "vccd2",
+      "vdda1",
+      "vdda2"
+  ],
+  "GND_NETS": [
+      "vssd1",
+      "vssd2",
+      "vssa1",
+      "vssa2"
+  ],
     "IO_SYNC": 0,
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "RUN_CVC": 0,
