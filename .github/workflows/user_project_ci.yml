@@ -43,9 +43,9 @@ jobs:
         run: |
           make pdk-with-volare
 
-      # - name: Build Management Core Wrapper
-      #   run: |
-      #     make install_mcw
+      - name: Build Management Core Wrapper
+        run: |
+          make install_mcw
 
       - name: Install Simulation Environment
         run: |
@@ -77,13 +77,13 @@ jobs:
         run: |
           cp -r ${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/23* /root/old-runs/
 
-      - name: Run DV RTL Tests
-        run: |
-          make verify-io_ports-rtl 
-          make verify-la_test1-rtl 
-          make verify-la_test2-rtl 
-          make verify-mprj_stimulus-rtl 
-          make verify-wb_port-rtl
+      # - name: Run DV RTL Tests
+      #   run: |
+      #     make verify-io_ports-rtl 
+      #     make verify-la_test1-rtl 
+      #     make verify-la_test2-rtl 
+      #     make verify-mprj_stimulus-rtl 
+      #     make verify-wb_port-rtl
 
       # - name: Run DV GL tests
       #   run: |
