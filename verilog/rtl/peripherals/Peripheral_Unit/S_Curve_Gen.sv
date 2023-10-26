@@ -1,21 +1,10 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company:  
-// Engineer: Nikita Klimov
-// 
-// Design Name: 
+//
 // Module Name: S_Curve_Gen
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
 // 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 module S_Curve_Gen #(                   // 1.5 MHz operating frequency - supports running motors up to 20000 rpm

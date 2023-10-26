@@ -1,22 +1,10 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 01/10/2022 07:32:19 PM
-// Design Name: 
+//
 // Module Name: Mux4_1
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
 // 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 

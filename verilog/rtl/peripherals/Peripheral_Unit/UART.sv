@@ -1,10 +1,14 @@
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: UART
+// Description: Combine receiver, transmitter and baud rate generator.
+//              Able to operate 8 bits of serial data, one start bit, one stop bit.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
-/*
- * Simple 8-bit UART realization.
- * Combine receiver, transmitter and baud rate generator.
- * Able to operate 8 bits of serial data, one start bit, one stop bit.
- */
 module UART (
     input wire clk,
     input wr_cr,

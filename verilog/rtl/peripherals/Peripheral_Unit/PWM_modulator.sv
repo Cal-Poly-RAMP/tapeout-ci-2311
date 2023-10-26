@@ -1,34 +1,22 @@
 `timescale 1ns / 1ps
-
-//------------------------------------------------------------------------------
-// pwm_modulator.sv
-// Konstantin Pavlov, pavlovconst@gmail.com
-//------------------------------------------------------------------------------
-
-// INFO ------------------------------------------------------------------------
-// Pulse width modulation (PWM) generator module
+//////////////////////////////////////////////////////////////////////////////////
 //
-// - expecting 8-bit control signal input by default
-// - system clock is 100 MHz by default
-// - PWM clock is 1.5KHz by default
+// Module Name: pwm_modulator
+// Description: 
+//              Pulse width modulation (PWM) generator module
+//              
+//              - expecting 8-bit control signal input by default
+//              - system clock is 100 MHz by default
+//              - PWM clock is 1.5KHz by default
 //
-// - see also pdm_modulator.sv for pulse density modulation generator
+//              - see also pdm_modulator.sv for pulse density modulation generator
+//
+// Author: Konstantin Pavlov, pavlovconst@gmail.com
+//
+// SPDX-License-Identifier: CC-BY-SA-4.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
-
-/* --- INSTANTIATION TEMPLATE BEGIN ---
-pwm_modulator #(
-  .MOD_WIDTH( 8 )                    // from 0 to 255
-) pwm1 (
-  .clk( clk ),
-  .nrst( nrst ),
-  .en( en ),
-  .pwm_period_div( pwm_period_div ),
-  .control(  ),
-  .pwm_out(  ),
-  .start_strobe(  ),
-  .busy(  )
-);
---- INSTANTIATION TEMPLATE END ---*/
 
 module PWM_modulator #( parameter
   MOD_WIDTH = 8                       // modulation bitness

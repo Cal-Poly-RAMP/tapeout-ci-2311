@@ -1,5 +1,17 @@
 `timescale 1ns/1ps
 `include "clam-defs.svh"
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: bootloader
+// Description: OBI bootloader ROM. There are 2 basic programs: copy_rom and
+//              jump_rom. The copy_rom performs some internal initialization (busy
+//              work) while the QSPI controller initializes, then copies from the
+//              QSPI to SRAM. jump_rom simply jumps to SRAM assuming a program is
+//              already there. 
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 
 module bootloader #(parameter BOOTLOADER_BASE_ADDR = 32'h00000000) 

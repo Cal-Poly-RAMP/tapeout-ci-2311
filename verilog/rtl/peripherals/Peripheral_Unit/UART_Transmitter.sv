@@ -1,14 +1,17 @@
 `timescale 1ns / 1ps
-
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: UART_Transmitter
+// Description: Able to transmit 8 bits of serial data, one start bit, one stop bit.
+//              When transmit is complete {done} is driven high for one clock cycle.
+//              When transmit is in progress {busy} is driven high.
+//              Clock should be decreased to baud rate.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 `include "UART_States.svh"
 
-/*
- * 8-bit UART Transmitter.
- * Able to transmit 8 bits of serial data, one start bit, one stop bit.
- * When transmit is complete {done} is driven high for one clock cycle.
- * When transmit is in progress {busy} is driven high.
- * Clock should be decreased to baud rate.
- */
 module UART_Transmitter (
     input  wire       clk,   // baud rate
     input  wire       en,

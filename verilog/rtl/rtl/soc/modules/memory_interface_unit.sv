@@ -1,4 +1,12 @@
 `timescale 1ns/1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: memory_interface_unit
+// Description: OBI memory interconnect containing a crossbar and a bootloader
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 module memory_interface_unit #(
             parameter BOOTLOADER_BASE_ADDR = 32'h00000000,

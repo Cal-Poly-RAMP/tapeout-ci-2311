@@ -1,6 +1,8 @@
 `timescale 1ns / 1ps
 
 ///////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: SPI_Master_With_Multiple_CS
 // Description: SPI (Serial Peripheral Interface) Master
 //              With multiple chip-select (AKA Slave Select) capability
 //
@@ -31,7 +33,10 @@
 //              command is allowed on the line.  Useful if chip requires some
 //              time when CS is high between trasnfers.
 //
-//		NUM_CS - Sets number of chip selects
+//		          NUM_CS - Sets number of chip selects
+//
+// SPDX-License-Identifier: Apache-2.0
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 module SPI_Master_With_Multiple_CS

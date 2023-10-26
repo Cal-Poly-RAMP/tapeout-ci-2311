@@ -1,4 +1,14 @@
 `timescale 1ns/1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: obi_xbar
+// Description: Two OBI master ports and 4 OBI device ports. Strict Priority is 
+//              given to the dmem port to avoid pipeline deadlock in the processor.
+//              Only a single outstanding trasaction at a time.
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 module obi_xbar #(
             parameter BOOTLOADER_BASE_ADDR = 32'h00001000,

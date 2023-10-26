@@ -1,6 +1,8 @@
 `timescale 1ns / 1ps
 
 ///////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: SPI_Master
 // Description: SPI (Serial Peripheral Interface) Master
 //              Creates master based on input configuration.
 //              Sends a byte one bit at a time on MOSI
@@ -29,6 +31,8 @@
 //              derived from i_Clk.  Set to integer number of clocks for each
 //              half-bit of SPI data.  E.g. 100 MHz i_Clk, CLKS_PER_HALF_BIT = 2
 //              would create o_SPI_CLK of 25 MHz.  Must be >= 2
+//
+// SPDX-License-Identifier: Apache-2.0
 //
 ///////////////////////////////////////////////////////////////////////////////
 

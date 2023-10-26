@@ -1,56 +1,24 @@
 `timescale 1ns / 1ps
-
-//------------------------------------------------------------------------------
-// pulse_gen.sv
-// Konstantin Pavlov, pavlovconst@gmail.com
-//------------------------------------------------------------------------------
-
-// INFO ------------------------------------------------------------------------
-// Pulse generator module, ver.2
+//////////////////////////////////////////////////////////////////////////////////
 //
-// - generates one or many pulses of given width and period
-// - generates constant HIGH, constant LOW, or impulse output
-// - features buffered inputs, so inputs can change continiously during pulse period
-// - generates LOW when idle
+// Module Name: pulse_gen
+// Description: Pulse generator module, ver.2
+//              
+//              - generates one or many pulses of given width and period
+//              - generates constant HIGH, constant LOW, or impulse output
+//              - features buffered inputs, so inputs can change continuously during pulse period
+//              - generates LOW when idle
 //
-// - Pulse period is (cntr_max[]+1) cycles
-// - If you need to generate constant LOW pulses, then CNTR_WIDTH should allow
-//   setting cntr_low[]>cntr_max[]
+//              - Pulse period is (cntr_max[]+1) cycles
+//              - If you need to generate constant LOW pulses, then CNTR_WIDTH should allow
+//                setting cntr_low[]>cntr_max[]
 //
-// Example 1:
-//      let CNTR_WIDTH = 8
-//      let cntr_max[7:0] = 2^CNTR_WIDTH-2 = 254, pulse period is 255 cycles
-//      cntr_low[7:0]==255              then output will be constant LOW
-//      0<cntr_low[7:0]<=cntr_max[7:0]  then output will be generating pulse(s)
-//      cntr_low[7:0]==0                then output will be constant HIGH
+// Author: Konstantin Pavlov, pavlovconst@gmail.com
 //
-// Example 2:
-//      let CNTR_WIDTH = 9
-//      let cntr_max[8:0] = 255, pulse period is 256 cycles
-//      cntr_low[8:0]>255               then output will be constant LOW
-//      0<cntr_low[8:0]<=cntr_max[8:0]  then output will be generating pulse(s)
-//      cntr_low[8:0]==0                then output will be constant HIGH
+// SPDX-License-Identifier: CC-BY-SA-4.0
 //
-//      In Example 2 constant LOW state can be acheived also by disabling start
-//      condition or holding reset input, so cntr_low[8:0] and cntr_max[8:0]
-//      can be left 8-bit-wide actually
+//////////////////////////////////////////////////////////////////////////////////
 
-
-
-/* --- INSTANTIATION TEMPLATE BEGIN ---
-pulse_gen #(
-  .CNTR_WIDTH( 8 )
-) pg1 (
-  .clk( clk ),
-  .nrst( nrst ),
-  .start( 1'b1 ),
-  .cntr_max( 255 ),
-  .cntr_low( 2 ),
-  .pulse_out(  ),
-  .start_strobe,
-  .busy(  )
-);
---- INSTANTIATION TEMPLATE END ---*/
 
 module pulse_gen #( parameter
   CNTR_WIDTH = 32

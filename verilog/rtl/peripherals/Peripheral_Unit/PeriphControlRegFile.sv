@@ -1,40 +1,29 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: Nikita Klimov
-// 
-// Design Name: 
+//
 // Module Name: PeriphControlRegFile
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
 // Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
+//              INTERRUPTS fields:
+//              0: o_TX_Ready (SPI 1 ready for transfer)
+//              1: o_RX_DV    (SPI 1 received byte)
+//              ...
+//              [I2C_INTER_OFFSET - 2]: o_TX_Ready (SPI N ready for transfer)
+//              [I2C_INTER_OFFSET - 1]: o_RX_DV    (SPI N received byte)
+//              [I2C_INTER_OFFSET]:     done       (I2C 1 done with transaction)
+//              ...
+//              [TIM_INTER_OFFSET - 1]: done       (I2C N done with transaction)
+//              [TIM_INTER_OFFSET]:     timer_int  (Timer 1 interrupt)
+//              ...
+//              [UART_INTER_OFFSET - 1]: timer_int  (Timer N interrupt)
+//              [UART_INTER_OFFSET]:     txDone     (UART 1 done with transfer)
+//              [UART_INTER_OFFSET + 1]: rxDone     (UART 1 done with reception)
+//              ...
+//              [UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 2]: txDone     (UART N done with transfer)
+//              [UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 1]: rxDone     (UART N done with reception)
+//
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
-
-//INTERRUPTS fields
-//0: o_TX_Ready (SPI 1 ready for transfer)
-//1: o_RX_DV    (SPI 1 received byte)
-//...
-//[I2C_INTER_OFFSET - 2]: o_TX_Ready (SPI N ready for transfer)
-//[I2C_INTER_OFFSET - 1]: o_RX_DV    (SPI N received byte)
-//[I2C_INTER_OFFSET]:     done       (I2C 1 done with transaction)
-//...
-//[TIM_INTER_OFFSET - 1]: done       (I2C N done with transaction)
-//[TIM_INTER_OFFSET]:     timer_int  (Timer 1 interrupt)
-//...
-//[UART_INTER_OFFSET - 1]: timer_int  (Timer N interrupt)
-//[UART_INTER_OFFSET]:     txDone     (UART 1 done with transfer)
-//[UART_INTER_OFFSET + 1]: rxDone     (UART 1 done with reception)
-//...
-//[UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 2]: txDone     (UART N done with transfer)
-//[UART_INTER_OFFSET + UART_INST_NUM*UART_NUM_INTER - 1]: rxDone     (UART N done with reception)
 
 `include "Peripheral_Unit_Defs.svh"
 

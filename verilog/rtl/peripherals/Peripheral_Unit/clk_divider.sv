@@ -1,24 +1,14 @@
 `timescale 1ns / 1ps
-//------------------------------------------------------------------------------
-// clk_divider.sv
-// published as part of https://github.com/pConst/basic_verilog
-// Konstantin Pavlov, pavlovconst@gmail.com
-//------------------------------------------------------------------------------
-
-// INFO ------------------------------------------------------------------------
-//  Divides main clock to get derivative slower synchronous clocks
+//////////////////////////////////////////////////////////////////////////////////
 //
-
-/* --- INSTANTIATION TEMPLATE BEGIN ---
-clk_divider #(
-  .WIDTH( 32 )
-) CD1 (
-  .clk( clk ),
-  .nrst( 1'b1 ),
-  .ena( 1'b1 ),
-  .out(  )
-);
---- INSTANTIATION TEMPLATE END ---*/
+// Module Name: clk_divider
+// Description: Divides the main clock to get derivative slower synchronous clocks
+//              published as part of https://github.com/pConst/basic_verilog
+//              Konstantin Pavlov, pavlovconst@gmail.com
+// 
+// SPDX-License-Identifier: CC-BY-SA-4.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 
 module clk_divider #( parameter

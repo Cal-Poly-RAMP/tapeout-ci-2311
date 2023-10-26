@@ -1,35 +1,21 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: Nikita Klimov
-// 
-// Create Date: 03/19/2023 06:12:16 PM
-// Design Name: 
+//
 // Module Name: GPIO
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
 // Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-/*
-    Mode:
-        00 - Input
-        01 - Output
-        10 - Bidirectional
-        11 - N/A (Input)
-    
-    IRQPOL:
-        0 - GPIO interrupt triggered on negedge
-        1 - GPIO interrupt triggered on posedge
-*/
+//              Mode:
+//              00 - Input
+//              01 - Output
+//              10 - Bidirectional
+//              11 - N/A (Input)
+//              
+//              IRQPOL:
+//              0 - GPIO interrupt triggered on negedge
+//              1 - GPIO interrupt triggered on posedge
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+/////////////////////////////////////////////////////////////////////////////////
 
 
 module GPIO (CLK, MOD, SEL, IRQEN, IRQPOL, IRQRES, MUX_IN, MUX_OUT, INTR, IN, OUT, OEB);

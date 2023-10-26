@@ -1,8 +1,15 @@
 `timescale 1ns / 1ps
-/*
- * Baud rate generator to divide {CLOCK_RATE} (internal board clock) into
- * a rx/tx {BAUD_RATE} pair with rx oversamples by 16x.
- */
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: 
+// Description: Baud rate generator to divide {CLOCK_RATE} (internal board clock)
+//              into a rx/tx {BAUD_RATE} pair with rx oversamples by 16x.
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
+
+
 module BaudRateGenerator (
     input wire clk, // board clock
     input [31:0] max_rate_rx,
