@@ -10,6 +10,8 @@
 //              CARP team and a generous set of peripherals. The SoC was designed
 //              to be manufactured as part of the chipIgnite program.
 // 
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "clam-defs.svh"

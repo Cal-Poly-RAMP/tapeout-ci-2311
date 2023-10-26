@@ -1,5 +1,14 @@
 `timescale 1ns/1ps
-//SRAM Wrapper for 24 kB SRAM
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: sram_wrap
+// Description: A wrapper that instantiates multiple SRAM macros from OpenRAM.
+//              Each macro is 2kB 1rw1r. Bad reqs respond with DEAD_BEEF and set
+//              an illegal_memory_o flag.
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 module sram_wrap #(
     parameter SRAM_BASE_ADDR      = 32'h8000_0000,
@@ -73,8 +82,8 @@ module sram_wrap #(
         cs_data = 0;
         cs_inst = 0;
         // Output Muxing
-        sram_d_rdata_o = 0;
-        sram_i_rdata_o = 0;
+        sram_d_rdata_o = 32'hDEAD_BEEF;
+        sram_i_rdata_o = 32'hDEAD_BEEF;
         for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
