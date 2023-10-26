@@ -1,7 +1,12 @@
-/*
- * See https://github.com/SymbioticEDA/riscv-formal/blob/master/docs/rvfi.md
- * for further documentation of the RISCV-Formal interface
- */
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: RISCV-Formal interface
+// Description: See https://github.com/SymbioticEDA/riscv-formal/blob/master/docs/rvfi.md
+//              for further documentation of the RISCV-Formal interface.
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 `ifndef RVFI_SVH
 `define RVFI_SVH

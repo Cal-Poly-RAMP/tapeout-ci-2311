@@ -1,24 +1,15 @@
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: csr
+// Description: RISC-V Control & Status Register
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 `include "defs.svh"
 `include "pipe_regs.svh"
 `include "rvfi.svh"
-///////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer:  F. Wilken
-// 
-// Create Date: 02/02/2019 03:01:38 PM
-// Design Name: 
-// Module Name: CSR
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: RISC-V Control & Status Register
-// 
-// Dependencies: 
-// Revision:
-// Revision 
-// Additional Comments:
-///////////////////////////////////////////////////////////////////////////
 
 module csr (
     input clk_i,

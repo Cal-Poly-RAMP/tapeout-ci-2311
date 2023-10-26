@@ -1,4 +1,13 @@
 `timescale 1ns/1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: core
+// Description: A 5 stage RV32I core with interfaces for OBI, a register file, 
+//              and optionally the RISC-V formal interface.
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 `include "defs.svh"
 `include "pipe_regs.svh"
 `include "rvfi.svh"

@@ -36,6 +36,8 @@
 //                .csr_hold_o         (),
 //                .imem_req_o );
 // 
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "pipe_regs.svh"

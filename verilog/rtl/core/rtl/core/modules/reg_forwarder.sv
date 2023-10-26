@@ -16,6 +16,8 @@
 //                      .rs_data_ao         (),
 //                      .load_use_hazard_ao () );
 // 
+// SPDX-License-Identifier: Apache-2.0
+//
 //////////////////////////////////////////////////////////////////////////////////
 
 `include "pipe_regs.svh"
