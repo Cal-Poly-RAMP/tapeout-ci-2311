@@ -141,6 +141,7 @@
     "pdk::sky130*": {
         "FP_CORE_UTIL": 45,
         "RT_MAX_LAYER": "met5",
+        "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
             "CLOCK_PERIOD": 25
         },
