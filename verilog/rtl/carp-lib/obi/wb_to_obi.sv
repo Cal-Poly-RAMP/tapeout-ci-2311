@@ -1,4 +1,12 @@
 `timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Module Name: wb_to_obi
+// 
+// SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
+
 
 module wb_to_obi (
     input               clk_i,
@@ -23,8 +31,6 @@ module wb_to_obi (
     input               rvalid_i, 
     input [31:0]        rdata_i   // Done
     );
-
-    // ...
 
     logic read_outstanding, write_completed, read_accepted_a, write_accepted_a;
     assign read_accepted_a  = (req_o && gnt_i) && !wbs_we_i;
