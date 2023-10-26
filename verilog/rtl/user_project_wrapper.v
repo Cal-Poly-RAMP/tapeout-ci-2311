@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 // SPDX-FileCopyrightText: 2020 Efabless Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -115,6 +116,18 @@ soc soc_i (
     // Other Caravel Signals
     .caravel_interrupt_o(user_irq)
 );
+
+
+`ifdef VERILATOR
+    logic [127:0] _unused;
+    
+    always_comb begin : terminations
+        _unused[0] = wb_clk_i;
+        _unused = la_oenb;
+        _unused[31:0] = BITS;
+    end
+
+`endif
 
 endmodule	// user_project_wrapper
 

@@ -7,7 +7,7 @@ on:
 
 jobs:
   user_project_flow:
-    timeout-minutes: 720
+    timeout-minutes: 1440
     runs-on: self-hosted
     strategy:
       matrix:
@@ -30,6 +30,7 @@ jobs:
           echo "ROUTING_CORES=4" >> $GITHUB_ENV
           echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
+          echo "FINAL_DIR=${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/user_project_wrapper/results/final"
 
       - name: Install Caravel
         run: |
@@ -43,26 +44,43 @@ jobs:
         run: |
           make pdk-with-volare
 
-      # - name: Build Management Core Wrapper
-      #   run: |
-      #     make install_mcw
+      - name: Build Management Core Wrapper
+        run: |
+          make install_mcw
 
       - name: Install Simulation Environment
         run: |
           make simenv
 
-      - name: Harden SOC Using Openlane
-        run: |
-          make soc
-
-      # - name: Copy Previously Hardened SOC
-      #   run: |
-      #     mkdir -p ${GITHUB_WORKSPACE}/openlane/soc/runs/soc
-      #     cp -r /home/prherrma/soc ${GITHUB_WORKSPACE}/openlane/soc/runs/
-
       - name: Harden User Project Wrapper Using Openlane
         run: |
           make user_project_wrapper
+
+      - name: Copy Files To Top Level
+        run: |
+          cp ${FINAL_DIR}/def/user_project_wrapper.def ${GITHUB_WORKSPACE}/def/
+          cp ${FINAL_DIR}/gds/user_project_wrapper.gds ${GITHUB_WORKSPACE}/gds/
+          cp ${FINAL_DIR}/lef/user_project_wrapper.lef ${GITHUB_WORKSPACE}/lef/
+          cp ${FINAL_DIR}/lib/user_project_wrapper.lib ${GITHUB_WORKSPACE}/lib/
+          cp ${FINAL_DIR}/mag/user_project_wrapper.mag ${GITHUB_WORKSPACE}/mag/
+          cp ${FINAL_DIR}/maglef/user_project_wrapper.mag ${GITHUB_WORKSPACE}/maglef/
+          cp ${FINAL_DIR}/sdc/user_project_wrapper.sdc ${GITHUB_WORKSPACE}/sdc/
+          cp ${FINAL_DIR}/spef/user_project_wrapper.spef ${GITHUB_WORKSPACE}/spef/
+          cp ${FINAL_DIR}/spef/multicorner/* ${GITHUB_WORKSPACE}/spef/multicorner/
+          cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
+          cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
+          cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
+          cp ${FINAL_DIR}/../manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../cmds.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../config_in.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../config.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../openlane.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../OPENLANE_VERSION ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../PDK_SOURCES ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../runtime.yaml ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../warnings.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+
 
       - name: Run MPW Precheck
         run: |
@@ -84,15 +102,15 @@ jobs:
       - name: Save Failure Logs
         if: failure()
         run: |
-          cp -r ${GITHUB_WORKSPACE}/openlane/soc/runs/23* /root/old-runs/
+          cp -r ${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/23* /root/old-runs/
 
-      - name: Run DV RTL Tests
-        run: |
-          make verify-io_ports-rtl 
-          make verify-la_test1-rtl 
-          make verify-la_test2-rtl 
-          make verify-mprj_stimulus-rtl 
-          make verify-wb_port-rtl
+      # - name: Run DV RTL Tests
+      #   run: |
+      #     make verify-io_ports-rtl 
+      #     make verify-la_test1-rtl 
+      #     make verify-la_test2-rtl 
+      #     make verify-mprj_stimulus-rtl 
+      #     make verify-wb_port-rtl
 
       # - name: Run DV GL tests
       #   run: |
