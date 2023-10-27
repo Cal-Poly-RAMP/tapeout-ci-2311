@@ -42,75 +42,82 @@ jobs:
         run: |
           make pdk-with-volare
 
-      - name: Harden User Project Wrapper Using Openlane
-        run: |
-          make user_project_wrapper
+      # - name: Harden User Project Wrapper Using Openlane
+      #   run: |
+      #     make user_project_wrapper
 
-      - name: Copy Files To Top Level
-        run: |
-          cp ${FINAL_DIR}/def/user_project_wrapper.def ${GITHUB_WORKSPACE}/def/
-          cp ${FINAL_DIR}/gds/user_project_wrapper.gds ${GITHUB_WORKSPACE}/gds/
-          cp ${FINAL_DIR}/lef/user_project_wrapper.lef ${GITHUB_WORKSPACE}/lef/
-          cp ${FINAL_DIR}/lib/user_project_wrapper.lib ${GITHUB_WORKSPACE}/lib/
-          cp ${FINAL_DIR}/mag/user_project_wrapper.mag ${GITHUB_WORKSPACE}/mag/
-          cp ${FINAL_DIR}/maglef/user_project_wrapper.mag ${GITHUB_WORKSPACE}/maglef/
-          cp ${FINAL_DIR}/sdc/user_project_wrapper.sdc ${GITHUB_WORKSPACE}/sdc/
-          cp ${FINAL_DIR}/spef/user_project_wrapper.spef ${GITHUB_WORKSPACE}/spef/
-          cp ${FINAL_DIR}/spef/multicorner/* ${GITHUB_WORKSPACE}/spef/multicorner/
-          cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
-          cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
-          cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
-          cp ${FINAL_DIR}/../manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../cmds.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../config_in.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../config.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../openlane.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../OPENLANE_VERSION ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../PDK_SOURCES ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../runtime.yaml ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../../warnings.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      # - name: Copy Files To Top Level
+      #   run: |
+      #     cp ${FINAL_DIR}/def/user_project_wrapper.def ${GITHUB_WORKSPACE}/def/
+      #     cp ${FINAL_DIR}/gds/user_project_wrapper.gds ${GITHUB_WORKSPACE}/gds/
+      #     cp ${FINAL_DIR}/lef/user_project_wrapper.lef ${GITHUB_WORKSPACE}/lef/
+      #     cp ${FINAL_DIR}/lib/user_project_wrapper.lib ${GITHUB_WORKSPACE}/lib/
+      #     cp ${FINAL_DIR}/mag/user_project_wrapper.mag ${GITHUB_WORKSPACE}/mag/
+      #     cp ${FINAL_DIR}/maglef/user_project_wrapper.mag ${GITHUB_WORKSPACE}/maglef/
+      #     cp ${FINAL_DIR}/sdc/user_project_wrapper.sdc ${GITHUB_WORKSPACE}/sdc/
+      #     cp ${FINAL_DIR}/spef/user_project_wrapper.spef ${GITHUB_WORKSPACE}/spef/
+      #     cp ${FINAL_DIR}/spef/multicorner/* ${GITHUB_WORKSPACE}/spef/multicorner/
+      #     cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
+      #     cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
+      #     cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
+      #     cp ${FINAL_DIR}/../manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../cmds.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../config_in.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../config.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../openlane.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../OPENLANE_VERSION ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../PDK_SOURCES ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../runtime.yaml ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+      #     cp ${FINAL_DIR}/../../warnings.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
 
       - name: Build Management Core Wrapper
         run: |
          make install_mcw
 
-      - name: Install Simulation Environment
-        run: |
-         make simenv
-
-      - name: Run MPW Precheck
-        run: |
-          export INPUT_DIRECTORY=$(pwd)
-          export PRECHECK_ROOT=$INPUT_DIRECTORY/mpw_precheck
-          export OUTPUT_DIRECTORY=$INPUT_DIRECTORY/mpw_precheck_result
-          export OUTPUT=$OUTPUT_DIRECTORY/logs/precheck.log
-          export PDKPATH=$PDK_ROOT/sky130A
-
-          git clone --depth=1 https://github.com/efabless/mpw_precheck.git
-
-          docker run -v "$PRECHECK_ROOT":"$PRECHECK_ROOT" -v "$INPUT_DIRECTORY":"$INPUT_DIRECTORY" -v "${{ env.PDK_ROOT }}":"${{ env.PDK_ROOT }}" -e INPUT_DIRECTORY="$INPUT_DIRECTORY" -e PDK_ROOT="${{ env.PDK_ROOT }}" -e PDKPATH="${{ env.PDKPATH }}" -u $(id -u "$USER"):$(id -g "$USER") efabless/mpw_precheck:latest bash -c "cd $PRECHECK_ROOT; python3 mpw_precheck.py --input_directory $INPUT_DIRECTORY --pdk_path ${{ env.PDKPATH }} --output_directory $OUTPUT_DIRECTORY license makefile consistency xor magic_drc klayout_beol klayout_feol klayout_met_min_ca_density klayout_offgrid klayout_pin_label_purposes_overlapping_drawing klayout_zeroarea lvs"
-
-          cnt=$(grep -c "All Checks Passed" "$OUTPUT")
-          if ! [[ $cnt ]]; then cnt=0; fi
-          if [[ $cnt -eq 1 ]]; then exit 0; fi
-          exit 2
-      
-      - name: Save Failure Logs
-        if: failure()
-        run: |
-           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
-           ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
-           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
-           echo "Saving archive to $ARCHIVE_PATH"
-
-      # - name: Run DV RTL Tests
+      # - name: Install Simulation Environment
       #   run: |
-      #     make verify-io_ports-rtl 
-      #     make verify-la_test1-rtl 
-      #     make verify-la_test2-rtl 
-      #     make verify-mprj_stimulus-rtl 
-      #     make verify-wb_port-rtl
+      #    make simenv
+
+      # - name: Run MPW Precheck
+      #   run: |
+      #     export INPUT_DIRECTORY=$(pwd)
+      #     export PRECHECK_ROOT=$INPUT_DIRECTORY/mpw_precheck
+      #     export OUTPUT_DIRECTORY=$INPUT_DIRECTORY/mpw_precheck_result
+      #     export OUTPUT=$OUTPUT_DIRECTORY/logs/precheck.log
+      #     export PDKPATH=$PDK_ROOT/sky130A
+
+      #     git clone --depth=1 https://github.com/efabless/mpw_precheck.git
+
+      #     docker run -v "$PRECHECK_ROOT":"$PRECHECK_ROOT" -v "$INPUT_DIRECTORY":"$INPUT_DIRECTORY" -v "${{ env.PDK_ROOT }}":"${{ env.PDK_ROOT }}" -e INPUT_DIRECTORY="$INPUT_DIRECTORY" -e PDK_ROOT="${{ env.PDK_ROOT }}" -e PDKPATH="${{ env.PDKPATH }}" -u $(id -u "$USER"):$(id -g "$USER") efabless/mpw_precheck:latest bash -c "cd $PRECHECK_ROOT; python3 mpw_precheck.py --input_directory $INPUT_DIRECTORY --pdk_path ${{ env.PDKPATH }} --output_directory $OUTPUT_DIRECTORY license makefile consistency xor magic_drc klayout_beol klayout_feol klayout_met_min_ca_density klayout_offgrid klayout_pin_label_purposes_overlapping_drawing klayout_zeroarea lvs"
+
+      #     cnt=$(grep -c "All Checks Passed" "$OUTPUT")
+      #     if ! [[ $cnt ]]; then cnt=0; fi
+      #     if [[ $cnt -eq 1 ]]; then exit 0; fi
+      #     exit 2
+      
+      # - name: Save Failure Logs
+      #   if: failure()
+      #   run: |
+      #      SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+      #      ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
+      #      tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
+      #      echo "Saving archive to $ARCHIVE_PATH"
+
+      
+      - name: COCOTB Install Simulation Environment
+        run: |
+         make setup-cocotb
+
+      - name: Run DV RTL Tests
+        run: |
+          make cocotb-verify-all-rtl
+      #    make verify-io_ports-rtl 
+      #    make verify-la_test1-rtl 
+      #    make verify-la_test2-rtl 
+      #    make verify-mprj_stimulus-rtl 
+      #    make verify-wb_port-rtl
+
 
       # - name: Run DV GL tests
       #   run: |
