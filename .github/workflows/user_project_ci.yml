@@ -99,7 +99,10 @@ jobs:
       - name: Save Failure Logs
         if: failure()
         run: |
-          cp -r ${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/23* /root/old-runs/
+           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+           ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
+           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
+           echo "Saving archive to $ARCHIVE_PATH"
 
       # - name: Run DV RTL Tests
       #   run: |
