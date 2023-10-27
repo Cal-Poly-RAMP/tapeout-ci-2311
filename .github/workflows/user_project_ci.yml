@@ -102,8 +102,8 @@ jobs:
         run: |
            SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
            ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
-           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
            echo "Saving archive to $ARCHIVE_PATH"
+           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
 
       # - name: Run DV RTL Tests
       #   run: |
