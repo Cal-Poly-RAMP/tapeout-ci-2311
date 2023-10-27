@@ -34,13 +34,13 @@ jobs:
         run: |
           make install
 
-      - name: Setup Openlane
-        run: |
-          make openlane
+      # - name: Setup Openlane
+      #   run: |
+      #     make openlane
 
-      - name: Build PDK
-        run: |
-          make pdk-with-volare
+      # - name: Build PDK
+      #   run: |
+      #     make pdk-with-volare
 
       # - name: Harden User Project Wrapper Using Openlane
       #   run: |
