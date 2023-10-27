@@ -14,6 +14,8 @@
 
 
 #include <firmware_apis.h> // include required APIs
+#include "carp_mem.h"
+
 void main(){
    // Enable managment gpio as output to use as indicator for finishing configuration 
    ManagmentGpio_outputEnable();
@@ -24,7 +26,24 @@ void main(){
    GPIOs_loadConfigs();
    set_gpio_l(0x8F);
    ManagmentGpio_write(1); // configuration finished 
-   
+
+   // print("Caravel Flashing CARP\n");
+   User_enableIF();
+   for (uint32_t i = 0; i < sizeof(carp_mem); i++)
+   {
+      USER_writeWord(carp_mem[i], i);
+   }
+   // print("Caravel Verifying CARP\n");
+   for (uint32_t i = 0; i < sizeof(carp_mem); i++)
+   {
+      if (carp_mem[i] != USER_readWord(i))
+      {
+         print("Memory Integrity Error, Exit\n");
+         return;
+      }
+   }
+   print("Caravel Flashed and Verified CARP\n");
+
    
    return;
 }

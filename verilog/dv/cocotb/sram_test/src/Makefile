@@ -39,7 +39,7 @@ endif
 # When typing 'make' not followed by a rule name, the first rule is followed.  This rule depends on
 # everything, causing all the parts to be built
 
-all: dirs $(BUILD)/mem.txt $(BUILD)/$(PROJECT).dump
+all: dirs $(BUILD)/mem.txt $(BUILD)/$(PROJECT).dump ../carp_mem.h
 
 
 
@@ -89,7 +89,13 @@ $(BUILD)/mem.bin: $(BUILD)/$(PROJECT).elf
 # convert to an ASCII hex file for OTTER memory
 $(BUILD)/mem.txt: $(BUILD)/mem.bin
 	hexdump -v -e '"%08x\n"' $< > $@
-	cp $(BUILD)/mem.txt ../carp_memory.mem
+	# cp $(BUILD)/mem.txt ../carp_memory.mem
+
+../carp_mem.h: $(BUILD)/mem.txt
+	cat template.h > ../carp_mem.h
+	cat build/mem.txt | while read line; do echo "0x$$line," >> ../carp_mem.h ; done
+	echo "0x00000000" >> ../carp_mem.h 
+	echo "};" >> ../carp_mem.h 
 
 # make software project folder
 dirs:
@@ -98,5 +104,6 @@ dirs:
 # 'clean' rule: delete all the files so we can start afresh
 clean:
 	rm -rf $(BUILD)
+	rm ../carp_mem.h
 
 print-%  : ; @echo $* = $($*)
