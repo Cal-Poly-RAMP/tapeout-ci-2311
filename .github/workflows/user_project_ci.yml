@@ -27,8 +27,6 @@ jobs:
           echo "PDK_ROOT=${WORK_DIR}/pdk" >> $GITHUB_ENV
           echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
           echo "PDKPATH=${WORK_DIR}/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "ROUTING_CORES=4" >> $GITHUB_ENV
-          echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
           echo "FINAL_DIR=${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/user_project_wrapper/results/final"
 
