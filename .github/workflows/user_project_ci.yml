@@ -119,7 +119,7 @@ jobs:
       #     make verify-mprj_stimulus-gl 
       #     make verify-wb_port-gl
 
-     - name: Save Failure Logs
+      - name: Save Failure Logs
         if: failure()
         run: |
            SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
