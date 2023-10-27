@@ -96,14 +96,6 @@ jobs:
       #     if [[ $cnt -eq 1 ]]; then exit 0; fi
       #     exit 2
       
-      # - name: Save Failure Logs
-      #   if: failure()
-      #   run: |
-      #      SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
-      #      ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
-      #      tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
-      #      echo "Saving archive to $ARCHIVE_PATH"
-
       
       - name: COCOTB Install Simulation Environment
         run: |
@@ -126,3 +118,11 @@ jobs:
       #     make verify-la_test2-gl 
       #     make verify-mprj_stimulus-gl 
       #     make verify-wb_port-gl
+
+     - name: Save Failure Logs
+        if: failure()
+        run: |
+           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+           ARCHIVE_PATH="/root/old-dv/${SHORT_SHA}.tar.gz"
+           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
+           echo "Saving archive to $ARCHIVE_PATH"
