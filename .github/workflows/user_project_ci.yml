@@ -30,7 +30,7 @@ jobs:
           echo "ROUTING_CORES=4" >> $GITHUB_ENV
           echo "KLAYOUT_XOR_THREADS=4" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
-          echo "FINAL_DIR=${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/user_project_wrapper/results/final"
+          echo "FINAL_DIR=${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/user_project_wrapper/results/final" >> $GITHUB_ENV
 
       - name: Install Caravel
         run: |
@@ -57,6 +57,7 @@ jobs:
           make user_project_wrapper
 
       - name: Copy Files To Top Level
+        continue-on-error: true
         run: |
           cp ${FINAL_DIR}/def/user_project_wrapper.def ${GITHUB_WORKSPACE}/def/
           cp ${FINAL_DIR}/gds/user_project_wrapper.gds ${GITHUB_WORKSPACE}/gds/
