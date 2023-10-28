@@ -1,6 +1,7 @@
 {
     "DESIGN_NAME": "user_project_wrapper",
     "RUN_IRDROP_REPORT": 1,
+    "QUIT_ON_LINTER_ERRORS": 0,
 	"MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "VERILOG_FILES": [
         "dir::../../verilog/rtl/defines.v",
