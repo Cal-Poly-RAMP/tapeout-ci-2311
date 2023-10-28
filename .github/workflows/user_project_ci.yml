@@ -61,8 +61,8 @@ jobs:
           cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
           cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
           cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
-          cp ${FINAL_DIR}/../manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
-          cp ${FINAL_DIR}/../metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../reports/manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../reports/metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
           cp ${FINAL_DIR}/../../cmds.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
           cp ${FINAL_DIR}/../../config_in.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
           cp ${FINAL_DIR}/../../config.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
