@@ -26,7 +26,7 @@ Refer to the following [readthedocs](https://caravel-sim-infrastructure.readthed
 -  [x] The hardened ``user_project_wrapper`` adheres to the same pin
    order specified at
    `pin\_order <https://github.com/efabless/caravel/blob/master/openlane/user_project_wrapper_empty/pin_order.cfg>`__
--  [ ] The hardened ``user_project_wrapper`` adheres to the fixed wrapper configuration specified at `fixed_wrapper_cfgs <https://github.com/efabless/caravel/blob/master/openlane/user_project_wrapper_empty/fixed_wrapper_cfgs.tcl>`__
--  [ ] XOR check passes with zero total difference.
+-  [x] The hardened ``user_project_wrapper`` adheres to the fixed wrapper configuration specified at `fixed_wrapper_cfgs <https://github.com/efabless/caravel/blob/master/openlane/user_project_wrapper_empty/fixed_wrapper_cfgs.tcl>`__
+-  [x] XOR check passes with zero total difference.
 -  [x] Openlane summary reports are retained under ./signoff/
 -  [ ] The design passes the `mpw-precheck <https://github.com/efabless/mpw_precheck>`__ 
