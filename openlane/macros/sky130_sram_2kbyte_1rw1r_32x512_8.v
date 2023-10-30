@@ -4,7 +4,7 @@
 // Write size: 8
 // SPDX-License-Identifier: Apache-2.0
 /// sta-blackbox
-(* blackbox *)
+(* whitebox *)
 module sky130_sram_2kbyte_1rw1r_32x512_8(
 `ifdef USE_POWER_PINS
     vccd1,
@@ -15,6 +15,7 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
 // Port 1: R
     clk1,csb1,addr1,dout1
   );
+
   parameter NUM_WMASKS = 4 ;
   parameter DATA_WIDTH = 32 ;
   parameter ADDR_WIDTH = 9 ;
@@ -37,12 +38,14 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   input   csb1; // active low chip select
   input [ADDR_WIDTH-1:0]  addr1;
   output [DATA_WIDTH-1:0] dout1;
+
   reg  csb0_reg;
   reg  web0_reg;
   reg [NUM_WMASKS-1:0]   wmask0_reg;
   reg [ADDR_WIDTH-1:0]  addr0_reg;
   reg [DATA_WIDTH-1:0]  din0_reg;
   reg [DATA_WIDTH-1:0]  dout0;
+
   // All inputs are registers
   always @(posedge clk0)
   begin
@@ -64,6 +67,7 @@ module sky130_sram_2kbyte_1rw1r_32x512_8(
   end
 
 reg [DATA_WIDTH-1:0]    mem [0:RAM_DEPTH-1];
+
   // Memory Write Block Port 0
   // Write Operation : When web0 = 0, csb0 = 0
   always @ (negedge clk0)
