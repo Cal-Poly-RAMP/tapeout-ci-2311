@@ -39,6 +39,8 @@ jobs:
       - name: Build PDK
         run: |
           make pdk-with-volare
+          volare enable --pdk sky130 dd7771c384ed36b91a25e9f8b314355fc26561be
+          volare ls --pdk sky130
 
       - name: Harden User Project Wrapper Using Openlane
         run: |
