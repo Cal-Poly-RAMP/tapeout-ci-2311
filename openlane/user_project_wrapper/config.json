@@ -64,10 +64,10 @@
 		"dir::../../verilog/rtl/rtl/soc/soc.sv",
 		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v"
     ],
-	"VERILOG_INCLUDE_DIRS":   ["pdk_dir::libs.ref/sky130_sram_macros"],
+	"VERILOG_INCLUDE_DIRS":   ["pdk_dir::libs.ref/sky130_sram_macros/"],
 	"VERILOG_FILES_BLACKBOX": ["dir::../macros/sky130_sram_2kbyte_1rw1r_32x512_8.v"],
-    "EXTRA_LEFS": ["pdk_dir::libs.ref/sky130_sram_macroslef/sky130_sram_2kbyte_1rw1r_32x512_8.lef"],
-	"EXTRA_GDS_FILES": ["pdk_dir::libs.ref/sky130_sram_macrosgds/sky130_sram_2kbyte_1rw1r_32x512_8.gds"],
+    "EXTRA_LEFS": ["pdk_dir::libs.ref/sky130_sram_macros/lef/sky130_sram_2kbyte_1rw1r_32x512_8.lef"],
+	"EXTRA_GDS_FILES": ["pdk_dir::libs.ref/sky130_sram_macros/gds/sky130_sram_2kbyte_1rw1r_32x512_8.gds"],
     "EXTRA_LIBS": ["dir::../macros/sky130_sram_2kbyte_1rw1r_32x512_8_TT_1p8V_25C.lib"],
     "ROUTING_CORES": 20,
 	"KLAYOUT_XOR_THREADS": 20,
