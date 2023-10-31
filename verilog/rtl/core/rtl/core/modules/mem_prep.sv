@@ -27,7 +27,7 @@ module mem_prep (
     logic [31:0] pre_write_data; // Write data as provided by the pipeline
 
     logic [1:0]  req_byte_idx;
-    logic [3:0]  req_strobe;;
+    logic [3:0]  req_strobe;
     logic [31:0] req_write_data; // Processed data for the memory interface request
 
     assign pre_width        = mem_width_i;

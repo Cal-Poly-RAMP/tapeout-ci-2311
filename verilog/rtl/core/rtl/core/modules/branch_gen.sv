@@ -20,7 +20,7 @@ module branch_gen (
     // Base conditionals
     logic eq,lt,ltu;
     assign eq = rs1_data_i == rs2_data_i;
-    assign lt = signed'(rs1_data_i) < signed'(rs2_data_i);
+    assign lt = $signed(rs1_data_i) < $signed(rs2_data_i);
     assign ltu = rs1_data_i < rs2_data_i;
     
     always_comb begin

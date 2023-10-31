@@ -26,8 +26,8 @@ module alu #(
             XOR:  out_o = a_i ^ b_i;
             SRL:  out_o = a_i >> b_i[4:0];
             SLL:  out_o = a_i << b_i[4:0];
-            SRA:  out_o = signed'(a_i) >>> b_i[4:0];
-            SLT:  out_o = signed'(a_i) < signed'(b_i) ? 32'd1: '0;
+            SRA:  out_o = $signed(a_i) >>> b_i[4:0];
+            SLT:  out_o = $signed(a_i) < $signed(b_i) ? 32'd1: '0;
             SLTU: out_o = a_i < b_i ? 32'd1: '0;
             PASS: out_o = a_i;
             default: out_o = '0; 
