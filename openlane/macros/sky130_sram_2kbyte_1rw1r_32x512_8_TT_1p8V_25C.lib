@@ -185,7 +185,7 @@ cell (sky130_sram_2kbyte_1rw1r_32x512_8){
         bus_type  : addr; 
         direction  : input; 
         capacitance : 0.006889999999999999;  
-        max_transition       : 0.04;
+        max_transition       : 0.05;
         pin(addr0[8:0]){
         timing(){ 
             timing_type : setup_rising; 
