@@ -7,7 +7,6 @@ on:
 
 jobs:
   user_project_flow:
-    timeout-minutes: 1440
     runs-on: self-hosted
     strategy:
       matrix:
