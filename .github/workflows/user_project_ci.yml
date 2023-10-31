@@ -48,7 +48,7 @@ jobs:
 
       - name: Copy Latest Build
         run: |
-          cp -r /home/prherrma/latest-build/openlane ${GITHUB_WORKSPACE}/
+          cp -r /home/prherrma/latest-build/tapeout-ci-2311/openlane ${GITHUB_WORKSPACE}/
 
       - name: Copy Files To Top Level
         continue-on-error: true
