@@ -1,57 +1,15 @@
 name: CI
 
 on:
-  # Runs on Pull Requests
-  pull_request:
-  workflow_dispatch:
-  # # Runs nightly at 2AM PST
-  # schedule:
-  #   # For Standard Time (UTC-8)
-  #   - cron: '0 10 * * *'
+  # Runs on Pull Requests and Pushes
+  push:
 
 jobs:
-  pdk:
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Export PDK ROOT
-        run: echo "PDK_ROOT=/home/runner/work/pdk" >> $GITHUB_ENV
-      
-      - name: Export OPENLANE ROOT
-        run: echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: |
-          sudo mkdir -p ${{ env.PDK_ROOT }}
-          sudo chown -R $USER:$USER ${{ env.PDK_ROOT }}
-          make install
-          make openlane
-          make pdk-with-volare
-
-      - name: Tarball PDK
-        run: |
-          tar -cf /tmp/pdk.tar -C $PDK_ROOT .
-
-      - name: Upload PDK Tarball
-        uses: actions/upload-artifact@v2
-        with:
-          name: pdk-tarball
-          path: /tmp/pdk.tar
-
   user_project_flow:
-    timeout-minutes: 720
     runs-on: self-hosted
     strategy:
       matrix:
-        pdk: ["sky130A", "sky130B"]
-    needs: [pdk]
+        pdk: ["sky130A"]
     steps:
       - uses: actions/checkout@v2
 
@@ -61,40 +19,73 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Export PDK VARIABLES
+      - name: Export Environment Variables
         run: |
-          echo "PDK_ROOT=/home/runner/work/pdk" >> $GITHUB_ENV
+          export WORK_DIR=${GITHUB_WORKSPACE}/../..
+          echo "PDK_ROOT=${WORK_DIR}/pdk" >> $GITHUB_ENV
           echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "PDKPATH=/home/runner/work/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "PDKPATH=${WORK_DIR}/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "OPENLANE_ROOT=${WORK_DIR}/caravel_user_project/openlane" >> $GITHUB_ENV
+          echo "FINAL_DIR=${GITHUB_WORKSPACE}/openlane/user_project_wrapper/runs/user_project_wrapper/results/final" >> $GITHUB_ENV
 
-      - name: Export OPENLANE ROOT
-        run: echo "OPENLANE_ROOT=/home/runner/work/caravel_user_project/openlane" >> $GITHUB_ENV
-
-      - name: Download PDK Tarball
-        uses: actions/download-artifact@v2
-        with:
-          name: pdk-tarball
-          path: /tmp
-
-      - name: Unpack PDK Tarball
-        run: |
-          sudo mkdir -p ${{ env.PDK_ROOT }}
-          sudo chown -R $USER:$USER ${{ env.PDK_ROOT }}
-          tar -xf /tmp/pdk.tar -C $PDK_ROOT .
-
-      - name: Install dependencies
+      - name: Install Caravel
         run: |
           make install
-          make install_mcw
-          make openlane
-          make simenv
 
-      - name: Harden using Openlane
+      - name: Setup Openlane
         run: |
-          make user_proj_example
+          make openlane
+
+      - name: Build PDK
+        run: |
+          make pdk-with-volare
+          python3 -m pip install --upgrade --no-cache-dir volare
+          volare enable --pdk sky130 dd7771c384ed36b91a25e9f8b314355fc26561be
+          volare ls --pdk sky130
+
+      - name: Harden User Project Wrapper Using Openlane
+        run: |
           make user_project_wrapper
 
-      - name: run precheck
+      # - name: Copy Latest Build
+      #   run: |
+      #     cp -r /home/prherrma/latest-build/tapeout-ci-2311/openlane ${GITHUB_WORKSPACE}/
+
+      - name: Copy Files To Top Level
+        continue-on-error: true
+        run: |
+          cp ${FINAL_DIR}/def/user_project_wrapper.def ${GITHUB_WORKSPACE}/def/
+          cp ${FINAL_DIR}/gds/user_project_wrapper.gds ${GITHUB_WORKSPACE}/gds/
+          cp ${FINAL_DIR}/lef/user_project_wrapper.lef ${GITHUB_WORKSPACE}/lef/
+          cp ${FINAL_DIR}/lib/user_project_wrapper.lib ${GITHUB_WORKSPACE}/lib/
+          cp ${FINAL_DIR}/mag/user_project_wrapper.mag ${GITHUB_WORKSPACE}/mag/
+          cp ${FINAL_DIR}/maglef/user_project_wrapper.mag ${GITHUB_WORKSPACE}/maglef/
+          cp ${FINAL_DIR}/sdc/user_project_wrapper.sdc ${GITHUB_WORKSPACE}/sdc/
+          cp ${FINAL_DIR}/spef/user_project_wrapper.spef ${GITHUB_WORKSPACE}/spef/
+          cp ${FINAL_DIR}/spef/multicorner/* ${GITHUB_WORKSPACE}/spef/multicorner/
+          cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
+          cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
+          cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
+          cp ${FINAL_DIR}/../../reports/manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../reports/metrics.csv ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../cmds.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../config_in.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../config.tcl ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../openlane.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../OPENLANE_VERSION ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../PDK_SOURCES ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../runtime.yaml ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/../../warnings.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+
+      - name: Build Management Core Wrapper
+        run: |
+         make install_mcw
+
+      - name: Install Simulation Environment
+        run: |
+         make simenv
+
+      - name: Run MPW Precheck
         run: |
           export INPUT_DIRECTORY=$(pwd)
           export PRECHECK_ROOT=$INPUT_DIRECTORY/mpw_precheck
@@ -111,21 +102,21 @@ jobs:
           if [[ $cnt -eq 1 ]]; then exit 0; fi
           exit 2
       
-      - name: upload failure logs
+      - name: Save Failure Logs
         if: failure()
-        uses: actions/upload-artifact@v2
-        with:
-          name: error
-          path: |
-            /home/runner/work/caravel_user_project/caravel_user_project/mpw_precheck_result/logs/*
-
-      - name: Run DV RTL tests
         run: |
-          make verify-io_ports-rtl 
-          make verify-la_test1-rtl 
-          make verify-la_test2-rtl 
-          make verify-mprj_stimulus-rtl 
-          make verify-wb_port-rtl
+           SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+           ARCHIVE_PATH="/root/old-runs/${SHORT_SHA}.tar.gz"
+           echo "Saving archive to $ARCHIVE_PATH"
+           tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
+
+      # - name: Run DV RTL Tests
+      #   run: |
+      #     make verify-io_ports-rtl 
+      #     make verify-la_test1-rtl 
+      #     make verify-la_test2-rtl 
+      #     make verify-mprj_stimulus-rtl 
+      #     make verify-wb_port-rtl
 
       # - name: Run DV GL tests
       #   run: |

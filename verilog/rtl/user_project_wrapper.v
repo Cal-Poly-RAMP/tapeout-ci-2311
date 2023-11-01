@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 // SPDX-FileCopyrightText: 2020 Efabless Corporation
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -61,15 +62,15 @@ module user_project_wrapper #(
     input  [127:0] la_oenb,
 
     // IOs
-    input  [`MPRJ_IO_PADS-1:0] io_in,
-    output [`MPRJ_IO_PADS-1:0] io_out,
-    output [`MPRJ_IO_PADS-1:0] io_oeb,
+    input  [37:0] io_in,
+    output [37:0] io_out,
+    output [37:0] io_oeb,
 
     // Analog (direct connection to GPIO pad---use with caution)
     // Note that analog I/O is not available on the 7 lowest-numbered
     // GPIO pads, and so the analog_io indexing is offset from the
     // GPIO indexing by 7 (also upper 2 GPIOs do not have analog_io).
-    inout [`MPRJ_IO_PADS-10:0] analog_io,
+    inout [28:0] analog_io,
 
     // Independent clock (on independent integer divider)
     input   user_clock2,
@@ -82,41 +83,51 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-user_proj_example mprj (
+wire [37:0] soc_io_oeb_no;
+assign io_oeb = soc_io_oeb_no;
+
+soc soc_i (
+    .clk_i(user_clock2),
 `ifdef USE_POWER_PINS
-	.vccd1(vccd1),	// User area 1 1.8V power
-	.vssd1(vssd1),	// User area 1 digital ground
+    .vccd1(vccd1),
+    .vssd1(vssd1),
 `endif
 
-    .wb_clk_i(wb_clk_i),
-    .wb_rst_i(wb_rst_i),
+    // Caravel Wishbone Interface
+    .caravel_wb_rst_i(wb_rst_i),
+    .caravel_wbs_stb_i(wbs_stb_i),
+    .caravel_wbs_cyc_i(wbs_cyc_i),
+    .caravel_wbs_we_i(wbs_we_i),
+    .caravel_wbs_sel_i(wbs_sel_i),
+    .caravel_wbs_dat_i(wbs_dat_i),
+    .caravel_wbs_adr_i(wbs_adr_i),
+    .caravel_wbs_ack_o(wbs_ack_o),
+    .caravel_wbs_dat_o(wbs_dat_o),
 
-    // MGMT SoC Wishbone Slave
+    // Logic Analyzer Signals
+    .la_data_i(la_data_in),
+    .la_data_o(la_data_out),
 
-    .wbs_cyc_i(wbs_cyc_i),
-    .wbs_stb_i(wbs_stb_i),
-    .wbs_we_i(wbs_we_i),
-    .wbs_sel_i(wbs_sel_i),
-    .wbs_adr_i(wbs_adr_i),
-    .wbs_dat_i(wbs_dat_i),
-    .wbs_ack_o(wbs_ack_o),
-    .wbs_dat_o(wbs_dat_o),
+    // GPIO Pins
+    .gpio_i(io_in),      // GPIO input pins, if configured as input
+    .gpio_o(io_out),      // GPIO output pins, if configured as output
+    .gpio_oeb_no(soc_io_oeb_no), // Drive low to enable output pin
 
-    // Logic Analyzer
-
-    .la_data_in(la_data_in),
-    .la_data_out(la_data_out),
-    .la_oenb (la_oenb),
-
-    // IO Pads
-
-    .io_in ({io_in[37:30],io_in[7:0]}),
-    .io_out({io_out[37:30],io_out[7:0]}),
-    .io_oeb({io_oeb[37:30],io_oeb[7:0]}),
-
-    // IRQ
-    .irq(user_irq)
+    // Other Caravel Signals
+    .caravel_interrupt_o(user_irq)
 );
+
+
+`ifdef VERILATOR
+    logic [127:0] _unused;
+    
+    always_comb begin : terminations
+        _unused[0] = wb_clk_i;
+        _unused = la_oenb;
+        _unused[31:0] = BITS;
+    end
+
+`endif
 
 endmodule	// user_project_wrapper
 
