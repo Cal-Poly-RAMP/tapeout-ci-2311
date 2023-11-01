@@ -1,8 +1,9 @@
 name: CI
 
 on:
-  # Runs on Pull Requests and Pushes
-  push:
+   push:
+      branches:
+         - main
 
 jobs:
   user_project_flow:
@@ -63,7 +64,6 @@ jobs:
           cp ${FINAL_DIR}/sdc/user_project_wrapper.sdc ${GITHUB_WORKSPACE}/sdc/
           cp ${FINAL_DIR}/spef/user_project_wrapper.spef ${GITHUB_WORKSPACE}/spef/
           cp ${FINAL_DIR}/spef/multicorner/* ${GITHUB_WORKSPACE}/spef/multicorner/
-          cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
           cp ${FINAL_DIR}/verilog/gl/* ${GITHUB_WORKSPACE}/verilog/gl/
           cp ${FINAL_DIR}/../signoff/* ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/openlane-signoff/
           cp ${FINAL_DIR}/../../reports/manufacturability.rpt ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
@@ -76,6 +76,7 @@ jobs:
           cp ${FINAL_DIR}/../../PDK_SOURCES ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
           cp ${FINAL_DIR}/../../runtime.yaml ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
           cp ${FINAL_DIR}/../../warnings.log ${GITHUB_WORKSPACE}/signoff/user_project_wrapper/
+          cp ${FINAL_DIR}/spi/lvs/user_project_wrapper.spice ${GITHUB_WORKSPACE}/spi/lvs/
 
       - name: Build Management Core Wrapper
         run: |
