@@ -556,7 +556,7 @@ module soc (
         rst_hard_n = gpio_i[7];
         gpio_oeb_no[7] = '1;
 
-        // Boot Program Select (1 = copy flash to SRAM, 2 = jump to SRAM)
+        // Boot Program Select (1 = copy flash to SRAM, 0 = jump to SRAM)
         copy_boot_sel = gpio_i[8];
         gpio_oeb_no[8] = '1;
 
