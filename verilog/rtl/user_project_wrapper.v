@@ -87,31 +87,32 @@ wire [37:0] soc_io_oeb_no;
 assign io_oeb = soc_io_oeb_no;
 
 soc soc_i (
-    .clk_i(user_clock2),
+    .clk_i              (user_clock2),
 `ifdef USE_POWER_PINS
-    .vccd1(vccd1),
-    .vssd1(vssd1),
+    .vccd1              (vccd1),
+    .vssd1              (vssd1),
 `endif
 
     // Caravel Wishbone Interface
-    .caravel_wb_rst_i(wb_rst_i),
-    .caravel_wbs_stb_i(wbs_stb_i),
-    .caravel_wbs_cyc_i(wbs_cyc_i),
-    .caravel_wbs_we_i(wbs_we_i),
-    .caravel_wbs_sel_i(wbs_sel_i),
-    .caravel_wbs_dat_i(wbs_dat_i),
-    .caravel_wbs_adr_i(wbs_adr_i),
-    .caravel_wbs_ack_o(wbs_ack_o),
-    .caravel_wbs_dat_o(wbs_dat_o),
+    .caravel_wb_clk_i   (wb_clk_i),
+    .caravel_wb_rst_i   (wb_rst_i),
+    .caravel_wbs_stb_i  (wbs_stb_i),
+    .caravel_wbs_cyc_i  (wbs_cyc_i),
+    .caravel_wbs_we_i   (wbs_we_i),
+    .caravel_wbs_sel_i  (wbs_sel_i),
+    .caravel_wbs_dat_i  (wbs_dat_i),
+    .caravel_wbs_adr_i  (wbs_adr_i),
+    .caravel_wbs_ack_o  (wbs_ack_o),
+    .caravel_wbs_dat_o  (wbs_dat_o),
 
     // Logic Analyzer Signals
-    .la_data_i(la_data_in),
-    .la_data_o(la_data_out),
+    .la_data_i          (la_data_in),
+    .la_data_o          (la_data_out),
 
     // GPIO Pins
-    .gpio_i(io_in),      // GPIO input pins, if configured as input
-    .gpio_o(io_out),      // GPIO output pins, if configured as output
-    .gpio_oeb_no(soc_io_oeb_no), // Drive low to enable output pin
+    .gpio_i             (io_in),      // GPIO input pins, if configured as input
+    .gpio_o             (io_out),      // GPIO output pins, if configured as output
+    .gpio_oeb_no        (soc_io_oeb_no), // Drive low to enable output pin
 
     // Other Caravel Signals
     .caravel_interrupt_o(user_irq)
