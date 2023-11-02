@@ -67,7 +67,9 @@ module obi_cdc_fast_primary (
     end
 
     always @(posedge ctrl_clk_i or negedge gnt_in_flight) begin
-        if(!rst_n_ctrl_ff2 || !gnt_in_flight)
+        if(!gnt_in_flight)
+            gnt_ack <= 'b0;
+        else if(!rst_n_ctrl_ff2)
             gnt_ack <= 'b0;
         else if(gnt_ff3 && !gnt_ff2)
             gnt_ack <= 'b1;
