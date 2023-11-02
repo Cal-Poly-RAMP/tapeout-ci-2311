@@ -346,7 +346,7 @@ module soc (
         // OBI Slave Ports
         .req_o    (caravel_fast_req),
         .gnt_i    (caravel_fast_gnt),
-        .addr_o   (caravel_fast_gnt),
+        .addr_o   (caravel_fast_addr),
         .we_o     (caravel_fast_we),
         .be_o     (caravel_fast_be),
         .wdata_o  (caravel_fast_wdata),
