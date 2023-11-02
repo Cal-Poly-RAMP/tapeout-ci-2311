@@ -53,6 +53,15 @@ jobs:
       #   run: |
       #     cp -r /home/prherrma/latest-build/tapeout-ci-2311/openlane ${GITHUB_WORKSPACE}/
 
+      - name: Remove Old Compressed Files
+        continue-on-error: true
+        run: |
+          rm ${GITHUB_WORKSPACE}/def/*
+          rm ${GITHUB_WORKSPACE}/gds/*
+          rm ${GITHUB_WORKSPACE}/mag/*
+          rm ${GITHUB_WORKSPACE}/spef/multicorner/*
+          rm ${GITHUB_WORKSPACE}/spef/user_project_wrapper.spef.gz
+
       - name: Copy Files To Top Level
         continue-on-error: true
         run: |
@@ -103,6 +112,16 @@ jobs:
           if ! [[ $cnt ]]; then cnt=0; fi
           if [[ $cnt -eq 1 ]]; then exit 0; fi
           exit 2
+
+      - name: Compress and Save Run
+        continue-on-error: true
+        run: |
+          make compress
+          SHORT_SHA=$(git rev-parse --short $GITHUB_SHA)
+          ARCHIVE_PATH="/root/successful-runs/${SHORT_SHA}.tar.gz"
+          echo "Saving archive to $ARCHIVE_PATH"
+          tar -czvf $ARCHIVE_PATH -C ${GITHUB_WORKSPACE} .
+
       
       - name: Save Failure Logs
         if: failure()
