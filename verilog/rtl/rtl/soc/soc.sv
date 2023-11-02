@@ -331,7 +331,7 @@ module soc (
 
 
     wb_to_obi i_SRAM_adapter (
-        .clk_i,
+        .clk_i     (caravel_wb_clk_i),
         // WishBone Master Ports
         .wb_rst_i  (caravel_wb_rst_i),
         .wbs_stb_i (caravel_wbs_stb_i),
@@ -344,18 +344,18 @@ module soc (
         .wbs_dat_o (caravel_wbs_dat_o),
 
         // OBI Slave Ports
-        .req_o    (),
-        .gnt_i    (),
-        .addr_o   (),
-        .we_o     (),
-        .be_o     (),
-        .wdata_o  (),
-        .rvalid_i (),
-        .rdata_i  ()
+        .req_o    (caravel_fast_req),
+        .gnt_i    (caravel_fast_gnt),
+        .addr_o   (caravel_fast_gnt),
+        .we_o     (caravel_fast_we),
+        .be_o     (caravel_fast_be),
+        .wdata_o  (caravel_fast_wdata),
+        .rvalid_i (caravel_fast_rvalid),
+        .rdata_i  (caravel_fast_rdata)
     );
 
-    obi_cdc_fast_primary obi_cdc_fast_primary_inst (
-        .rst_ni(rst_ni),
+    obi_cdc_fast_primary i_clock_domain_crossing_obi (
+        .rst_ni             (rst_n),
 
         // Controller (Primary) OBI interface
         .ctrl_clk_i         (caravel_wb_clk_i),
