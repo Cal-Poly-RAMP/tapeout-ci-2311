@@ -1,0 +1,17 @@
+--- 
+project: 
+  description: "Cal Poly Computer Architecture Research Project (CARP)'s SoC, SRAM, and Peripherals, equipped to measure reliability in a radioactive environment."
+  foundry: "SkyWater"
+  git_url: "https://github.com/Cal-Poly-RAMP/tapeout-ci-2311"
+  organization: "California Polytechnic State University, San Luis Obispo"
+  organization_url: "https://github.com/Cal-Poly-RAMP"
+  owner: "cal_poly_carp"
+  process: "SKY130"
+  project_name: "CARP SoC"
+  tags: 
+    - "Open MPW"
+  category: "Test Harness"
+  top_level_netlist: "verilog/gl/caravel.v"
+  user_level_netlist: "verilog/gl/user_project_wrapper.v"
+  version: "1.00"
+  cover_image: ""

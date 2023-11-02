@@ -3,6 +3,8 @@ name: CI
 on:
   # Runs on Pull Requests and Pushes
   push:
+    branches: 
+      - main
 
 jobs:
   user_project_flow:
