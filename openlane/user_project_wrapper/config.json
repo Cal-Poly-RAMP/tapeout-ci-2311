@@ -11,6 +11,7 @@
 		"dir::../../verilog/rtl/carp-lib/obi/obi_demux_1_to_4.sv",
 		"dir::../../verilog/rtl/carp-lib/obi/obi_mux_2_to_1.sv",
 		"dir::../../verilog/rtl/carp-lib/obi/wb_to_obi.sv",
+		"dir::../../verilog/rtl/carp-lib/obi/obi_cdc_fast_primary.sv",
 		"dir::../../verilog/rtl/carp-lib/obi_gpio/obi_gpio.sv",
 		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/obi_qspi_controller.sv",
 		"dir::../../verilog/rtl/core/include/defs.svh",
