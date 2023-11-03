@@ -1,7 +1,7 @@
 magic
 tech sky130A
 magscale 1 2
-timestamp 1698877386
+timestamp 1698962967
 << obsli1 >>
 rect 1104 2159 582820 701777
 << obsm1 >>
@@ -4135,7 +4135,7 @@ string FIXED_BBOX 0 0 584000 704000
 string LEFclass BLOCK
 string LEFview TRUE
 string GDS_END 239106878
-string GDS_FILE /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_01_14_28/results/signoff/user_project_wrapper.magic.gds
+string GDS_FILE /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_02_14_15/results/signoff/user_project_wrapper.magic.gds
 string GDS_START 17064366
 << end >>
 
