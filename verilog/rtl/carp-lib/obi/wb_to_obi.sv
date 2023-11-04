@@ -61,9 +61,7 @@ module wb_to_obi (
 
     // Response Signals
     assign wbs_dat_o = rdata_i;
-    assign wbs_ack_o = write_completed || 
-    //                  (read_accepted_a && rvalid_i) ||
-                      (read_outstanding && rvalid_i);
+    assign wbs_ack_o = write_completed || (read_outstanding && rvalid_i);
 
     `ifdef verilator
         logic _unused;
