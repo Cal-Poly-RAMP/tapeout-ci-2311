@@ -335,8 +335,8 @@ module soc (
     );   
 
     // Boot Selector
-    assign boot_sel = (boot_sel_hard == BOOT_NORMAL) ? BOOT_NORMAL : boot_sel_soft;
-
+    //assign boot_sel = (boot_sel_hard == BOOT_NORMAL) ? BOOT_NORMAL : boot_sel_soft;
+    assign boot_sel = boot_sel_hard;
 
     ///////////////////////////////
     // SRAM and Wishbone Adpater //
@@ -602,7 +602,7 @@ module soc (
         gpio_o[9]   = qspi_cs_n;
         gpio_o[13:10] = qspi_dat_out;
         qspi_dat_in = gpio_i[13:10];
-        gpio_oeb_no[8:9] = 'b00;
+        gpio_oeb_no[9:8] = 'b00;
         gpio_oeb_no[13:10] = qspi_oe;
 
         // Peripheral Pins
@@ -615,7 +615,7 @@ module soc (
     // Logic Analyzer Assignments //
     ////////////////////////////////
 
-    logic la_mux;
+    logic [2:0] la_mux;
 
     always_comb begin : logic_analyzer_assignment
         la_data_o = {128{1'b1}};
