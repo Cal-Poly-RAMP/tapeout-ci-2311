@@ -103,37 +103,12 @@ There are 38 user-programmable IO pins:
 
 There are 128 logic analyzer io pins controllable from the caravel.
 
-| Pin # | Input Pin | Output Pin | Description |
-|---|---|---|---|
-| 0  | boot_sel_soft |   |   |
-| 1  | rst_soft_n |   |   |
-| 2  | wishbone_enable |   |   |
-| 34:3  |   | snoop_addr |   |
-| 35 |   | snoop_req  |   |
-| 36 |   | snoop_gnt  |   |
-| 37 |   | snoop_we  |   |
-| 41:38 |   | snoop_be  |   |
-| 42 |   | snoop_rvalid  |   |
-| 74:43 |   | snoop_rdata  |   |
-| 106:75 |   | dmem_wdata |   |
-| 107 | snoop_sel |   | Selects which core bus is exposed to the logic analyzer: 0=imem, 1=dmem |
-| 108  |   |   |   |
-| 109  |   |   |   |
-| 110  |   |   |   |
-| 111  |   |   |   |
-| 112  |   |   |   |
-| 113  |   |   |   |
-| 114  |   |   |   |
-| 115  |   |   |   |
-| 116  |   |   |   |
-| 117  |   |   |   |
-| 118  |   |   |   |
-| 119  |   |   |   |
-| 120  |   |   |   |
-| 121  |   |   |   |
-| 122  |   |   |   |
-| 123  |   |   |   |
-| 124  |   |   |   |
-| 125  |   |   |   |
-| 126  |   |   |   |
-| 127  |   |   |   | 
+| Pin #'s | Signal Name | Description |
+| :---: | :---: | :--- |
+| 3:0 | `reset_soft_n` | As long as the value `0xA` is written to this nibble, the user area will reset
+| 7:4 | `wishbone_enable` | As long as the value `0xA` is written to this nibble, the data port of the onboard RAM will be given to the wishbone bus. The CARP core will not have access to the RAM. |
+| 11:8 | `halt_clock` | As long as a `0xA` is written to this nibble, the clock will be held in its current position (high or low). |
+| 14:12 | `la_mux` | Logic Analyzer sample channel MUX select. The channels (see "Sample Channels" below) can be selected between using these bits. |
+| 15 | N/C | Not used (update to clock?) |
+| 127:16 | Sample Channels | 112 Bit digital sample chennels. These can be selected between using `la_mux`. | 
+

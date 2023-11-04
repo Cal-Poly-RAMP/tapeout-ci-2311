@@ -583,30 +583,30 @@ module soc (
     always_comb begin : gpio_assignment
         // Default assignments
         gpio_oeb_no = {38{1'b1}};
-        gpio_o = '0;
+        gpio_o      = '0;
 
         // Boot Program Select (1 = copy flash to SRAM, 0 = jump to SRAM)
-        copy_boot_sel = gpio_i[5];
+        copy_boot_sel  = gpio_i[5];
         gpio_oeb_no[5] = '1;
 
         // Boot Select Pin
-        boot_sel_hard = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
+        boot_sel_hard  = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
         gpio_oeb_no[6] = '1;
 
         // Reset pin (active low)
-        rst_hard_n = gpio_i[7];
+        rst_hard_n     = gpio_i[7];
         gpio_oeb_no[7] = '1;
 
         // QSPI Pins
-        gpio_o[8]   = qspi_sck;
-        gpio_o[9]   = qspi_cs_n;
-        gpio_o[13:10] = qspi_dat_out;
-        qspi_dat_in = gpio_i[13:10];
-        gpio_oeb_no[9:8] = 'b00;
+        gpio_o[8]          = qspi_sck;
+        gpio_o[9]          = qspi_cs_n;
+        gpio_o[13:10]      = qspi_dat_out;
+        qspi_dat_in        = gpio_i[13:10];
+        gpio_oeb_no[9:8]   = 'b00;
         gpio_oeb_no[13:10] = qspi_oe;
 
         // Peripheral Pins
-        gpio_o[37:14] = periph_gpio_o;
+        gpio_o[37:14]      = periph_gpio_o;
         gpio_oeb_no[37:14] = periph_gpio_oeb_no;
     end
 
