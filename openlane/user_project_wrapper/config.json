@@ -63,7 +63,7 @@
 		"dir::../../verilog/rtl/rtl/soc/modules/bootloader.sv",
 		"dir::../../verilog/rtl/rtl/soc/modules/memory_interface_unit.sv",
 		"dir::../../verilog/rtl/rtl/soc/modules/obi_xbar.sv",
-		"dir::../../verilog/rtl/rtl/soc/modules/sram_wrap.sv",
+		"dir::../../verilog/rtl/rtl/soc/modules/ff_ram.sv",
 		"dir::../../verilog/rtl/rtl/soc/soc.sv",
 		"dir::../../verilog/rtl/carp-lib/obi_qspi_controller/spimemio.v"
     ],
