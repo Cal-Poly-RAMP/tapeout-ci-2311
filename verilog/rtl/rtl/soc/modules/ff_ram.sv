@@ -9,10 +9,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module ff_ram #(
-    parameter SRAM_BASE_ADDR = 32'h8000_0000, // Base address for the memory
-    parameter SRAM_SIZE      = 4096,          // Memory size in bytes (4kB)
-    parameter WORD_SIZE      = 32,            // Size of a word in bits
-    parameter ADDR_WIDTH     = 12             // Number of address bits (2^12 = 4096 bytes)
+    parameter SRAM_BASE_ADDR = 32'h8000_0000,       // Base address for the memory
+    parameter SRAM_SIZE      = 4096,                // Memory size in bytes (4kB)
+    parameter WORD_SIZE      = 32,                  // Size of a word in bits
+    parameter ADDR_WIDTH     = $clog2(SRAM_SIZE/4)  // Number of address bits
 ) (
     input  wire                   clk_i,
 
@@ -110,9 +110,9 @@ module ff_ram #(
     always_comb begin : terminations
         // NOT USED
         _unused[31:0]  = sram_i_addr_i[31:0];
-        _unused[1:0]   = sram_i_addr_i[1:0];
         _unused[31:0]  = sram_d_addr_i[31:0];
-        _unused[1:0]   = sram_d_addr_i[1:0];
+        _unused[31:0]  = sram_i_word_addr[ADDR_WIDTH-1:0];
+        _unused[31:0]  = sram_d_word_addr[ADDR_WIDTH-1:0];
         _unused[0]     = sram_i_we_i;
         _unused[3:0]   = sram_i_be_i;
         _unused[31:0]  = sram_i_wdata_i;
