@@ -10,7 +10,7 @@
 
 module ff_ram #(
     parameter SRAM_BASE_ADDR = 32'h8000_0000,       // Base address for the memory
-    parameter SRAM_SIZE      = 256,                 // Memory size in bytes
+    parameter SRAM_SIZE      = 16,                  // Memory size in bytes
     parameter WORD_SIZE      = 32,                  // Size of a word in bits
     parameter ADDR_WIDTH     = $clog2(SRAM_SIZE/4)  // Number of address bits
 ) (
