@@ -382,7 +382,7 @@ module soc (
         .ctrl_rdata_o       (caravel_fast_rdata),
 
         // Peripheral (Secondary) OBI interface
-        .secondary_clk_i    (clk_i),
+        .secondary_clk_i    (clk_masked),
         .secondary_req_o    (caravel_req),
         .secondary_gnt_i    (caravel_gnt && wishbone_enable),
         .secondary_addr_o   (caravel_addr),

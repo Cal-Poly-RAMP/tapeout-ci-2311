@@ -60,7 +60,7 @@ module obi_cdc_fast_primary (
        this way, so the warning is inappropriate. */
 
     always @(posedge secondary_clk_i) begin
-        if ((gnt_ack_ff3 && !gnt_ack_ff2) || !rst_n_secondary_ff2)
+        if ((gnt_ack_ff2 && !gnt_ack_ff3) || !rst_n_secondary_ff2)
             gnt_in_flight <= 'b0;
         else if (req_ff2 && secondary_gnt_i && !gnt_in_flight)
             gnt_in_flight <= 'b1;
@@ -71,7 +71,7 @@ module obi_cdc_fast_primary (
             gnt_ack <= 'b0;
         else if(!rst_n_ctrl_ff2)
             gnt_ack <= 'b0;
-        else if(gnt_ff3 && !gnt_ff2)
+        else if(gnt_ff2 && !gnt_ff3)
             gnt_ack <= 'b1;
     end
 
@@ -113,8 +113,15 @@ module obi_cdc_fast_primary (
     // Primary bus outputs //
     /////////////////////////
 
-    assign ctrl_rdata_o = secondary_rdata_i;
-    assign ctrl_gnt_o = gnt_ff3 && !gnt_ff2;
+    assign ctrl_gnt_o = gnt_ff2 && !gnt_ff3;
+
+    always @(posedge ctrl_rvalid_o) begin
+        if (!rst_n_ctrl_ff2) begin
+            ctrl_rdata_o <= 32'hDEAD_BEEF;
+        end else begin
+            ctrl_rdata_o <= secondary_rdata_i;
+        end
+    end
 
     always @(posedge ctrl_clk_i) begin
         if (!rst_n_ctrl_ff2) begin
