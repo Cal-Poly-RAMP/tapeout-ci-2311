@@ -44,7 +44,7 @@ module wb_to_obi (
             if (read_outstanding && (rvalid_i && !read_accepted_a))
                 read_outstanding <= '0;
             if (!read_outstanding && read_accepted_a)
-                read_outstanding <= '0;
+                read_outstanding <= '1;
         end
     end
         
@@ -54,7 +54,7 @@ module wb_to_obi (
     end
 
     // Address Signals
-    assign req_o     = wbs_stb_i;
+    assign req_o     = wbs_stb_i && !read_outstanding;
     assign addr_o    = wbs_adr_i;
     assign we_o      = wbs_we_i;
     assign be_o      = wbs_sel_i;
@@ -62,9 +62,7 @@ module wb_to_obi (
 
     // Response Signals
     assign wbs_dat_o = rdata_i;
-    assign wbs_ack_o = write_completed || 
-                      (read_outstanding && rvalid_i) ||
-                      (read_accepted_a && rvalid_i);
+    assign wbs_ack_o = write_completed || (read_outstanding && rvalid_i);
 
     `ifdef verilator
         logic _unused;
