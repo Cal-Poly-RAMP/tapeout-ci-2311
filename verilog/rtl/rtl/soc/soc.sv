@@ -398,12 +398,8 @@ module soc (
 
 
     // SRAM Module 
-    sram_wrap sram 
+    ff_ram i_ram 
     (
-    `ifdef USE_POWER_PINS
-        .vccd1(vccd1),
-        .vssd1(vssd1),
-    `endif
         .clk_i,
 
         // sram_d OBI interface from muxed output
