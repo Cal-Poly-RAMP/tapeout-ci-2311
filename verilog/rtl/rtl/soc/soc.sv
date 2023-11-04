@@ -164,7 +164,7 @@ module soc (
     logic [31:0] mcause; 
 
     core i_core(
-        .clk_i,
+        .clk_i          (clk_masked),
         .rst_ni         (rst_n),
 
         // Interrupt Interface
@@ -236,7 +236,7 @@ module soc (
 
     // Register File
     reg_file i_reg_file (
-        .clk_i,
+        .clk_i        (clk_masked),
 
         .read1_i      (rf_port1_reg),
         .read2_i      (rf_port2_reg),
@@ -261,7 +261,7 @@ module soc (
     assign illegal_access = miu_illegal || sram_illegal || caravel_illegal || flash_illegal;
 
     memory_interface_unit i_memory_interface_unit (
-        .clk_i,
+        .clk_i              (clk_masked),
         .rst_ni             (rst_n),
 
         // dmem interface
@@ -338,7 +338,7 @@ module soc (
 
 
     wb_to_obi i_SRAM_adapter (
-        .clk_i,
+        .clk_i     (clk_masked),
         // WishBone Master Ports
         .wb_rst_i  (caravel_wb_rst_i),
         .wbs_stb_i (caravel_wbs_stb_i),
@@ -375,7 +375,7 @@ module soc (
     end
 
     obi_mux_2_to_1 i_caravel_obi_mux (
-        .clk_i,
+        .clk_i        (clk_masked),
         .rst_ni       (rst_n),
 
         .pri_req_i    (caravel_req && wishbone_enable),
@@ -417,7 +417,7 @@ module soc (
         .vccd1(vccd1),
         .vssd1(vssd1),
     `endif
-        .clk_i,
+        .clk_i          (clk_masked),
 
         // sram_d OBI interface from muxed output
         .sram_d_req_i   (sram_d_muxed_req),
@@ -452,7 +452,7 @@ module soc (
     logic [3:0] qspi_dat_out, qspi_dat_in, qspi_oe;
 
     obi_qspi_controller obi_qspi_controller_inst (
-        .clk_i,
+        .clk_i          (clk_masked),
         .rst_ni         (rst_n),
 
         .obi_req_i      (flash_req),
@@ -501,7 +501,7 @@ module soc (
     // Peripheral Unit
     peripheral_unit i_peripheral_unit (
         //Core interface
-	    .clk               (clk_i),
+	    .clk               (clk_masked),
         .reset_n           (rst_n),
         .peripheral_req    (peripheral_req),
         .peripheral_gnt    (peripheral_gnt),
@@ -531,7 +531,7 @@ module soc (
     peripheral_interrupt_queue #(.NUM_INTER(`SOC_NUM_INTER))
     i_peripheral_interrupt_queue 
     (
-        .clk         (clk_i),
+        .clk         (clk_masked),
         .reset_n     (rst_n),
         .mem_err_int (mem_err_int),
         .me_i_en     (me_i_en),
