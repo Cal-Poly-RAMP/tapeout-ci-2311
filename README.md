@@ -1,22 +1,139 @@
-# Cal Poly CARP SOC
-
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml) 
+# Cal Poly CARP SoC
 
 
-## Checklist for Open-MPW Submission
-=================================
+# Memory Map
 
--  [x] The project repo adheres to the same directory structure in this
-   repo.
--  [x] The project repo contain info.yaml at the project root.
--  [x] Top level macro is named ``user_project_wrapper``.
--  [ ] Full Chip Simulation passes for RTL and GL (gate-level)
--  [x] The hardened Macros are LVS and DRC clean
--  [x] The project contains a gate-level netlist for ``user_project_wrapper`` at verilog/gl/user_project_wrapper.v
--  [x] The hardened ``user_project_wrapper`` adheres to the same pin
-   order specified at
-   `pin\_order <https://github.com/efabless/caravel/blob/master/openlane/user_project_wrapper_empty/pin_order.cfg>`__
--  [x] The hardened ``user_project_wrapper`` adheres to the fixed wrapper configuration specified at `fixed_wrapper_cfgs <https://github.com/efabless/caravel/blob/master/openlane/user_project_wrapper_empty/fixed_wrapper_cfgs.tcl>`__
--  [x] XOR check passes with zero total difference.
--  [x] Openlane summary reports are retained under ./signoff/
--  [x] The design passes the `mpw-precheck <https://github.com/efabless/mpw_precheck>`__ 
+| Address Range | Section |
+| :--- | :---:|
+| 0x0000_0000<br>0x0000_0FFF | Bootloader |
+| 0x0000_1000<br>0x0FFF_FFFF | -- |
+| 0x1000_0000<br>0x1000_1FFF | Peripheral Register File |
+| 0x1000_1000<br>0x1FFF_FFFF | -- |
+| 0x2000_0000<br>0x3FFF_FFFF | 512Mb Flash |
+| 0x4000_0000<br>0x7FFF_FFFF | -- |
+| 0x8000_0000<br>0x8000_FFFF | SRAM |
+| 0x8001_0000<br>0xFFFF_FFFF | -- |
+
+# Memory Interconnects
+
+## OBI Subset
+
+The main memory interconnect used on the SoC is a subset of OpenHW Group's Open Bus Interface (OBI). The subset we are using is the same subset used by OpenHW Groups's RI5CY Core, and its behavior is fully described in the OBI-1 specification. The specific signals are enumerated below:
+
+| Pin Name  | Pin Count | Direction               | Description                                                    |
+|-----------|:---------:|-------------------------|----------------------------------------------------------------|
+| req     | 1  | Controller -> Memory    | Asserted by the controller to request a memory transaction. The controller is responsible to keep all address signals valid while req is high.     |
+| gnt     | 1  | Memory -> Controller    | Asserted by the memory system when new transactions can be accepted. A transaction is accepted on the rising edge of the clock if req and gnt are both high.   |
+| addr    | 32 | Controller -> Memory    | Address output from the controller to access memory location   |
+| we      | 1  | Controller -> Memory    | Asserted by the controller to indicate a write operation         |
+| be      | 4  | Controller -> Memory    | Byte enable output (strobe), to specify which bytes should be accessed  |
+| wdata   | 32 | Controller -> Memory    | Write data output from the controller to be written to memory  |
+| rvalid  | 1  | Memory -> Controller    | Asserted by the memory system to signal valid read data. The read response is completed on the first rising clock edge when rvalid is asserted. rdata must be valid as long as rvalid is high.       |
+| rdata   | 32 | Memory -> Controller    | Read data input to the controller from the memory system       |
+
+## Wishbone
+
+The caravel wrapper for our SoC uses a whishbone bus. 
+
+# Memory Devices
+
+## Boot ROMs
+
+On boot, the core resets the program counter to an address based on the boot_sel input.
+
+| `boot_sel` | Program Counter Reset Address | Function |
+| :---: | :---: | :--- |
+| `0` | `0x0000_0000` | Runs the default bootloader from ROM |
+| `1` | `0x8000_0000` | Starts execution from the internal SRAM. <br> This assumes that the caravel has loaded a program into the SRAM prior to startup. | 
+
+## XIP Flash Controller
+
+In order to run programs off of an external flash, it is ideal that we use an eXecute In Place (XIP) flash controller. This can be done through software in the bootloader, or through hardware by an XIP flash controller. The XIP controllers we have chosen are read-only, however, so this flash interface is essentialy ROM.
+
+# IO Assignment
+
+Understood, here's the template with only the pin numbers filled in:
+
+## GPIO Pins
+
+There are 38 user-programmable IO pins:
+
+| Pin # | Input Pin | Output Pin | Output Enable | Description |
+| --- | --- | --- | --- | --- |
+| 0 | reserved | reserved | reserved | reserved |
+| 1 | reserved | reserved | reserved | reserved |
+| 2 | reserved | reserved | reserved | reserved |
+| 3 | reserved | reserved | reserved | reserved |
+| 4 | reserved | reserved | reserved | reserved |
+| 5 | boot_mode | x | x | 1 = copy 512 words from flash to SRAM and jump to SRAM. 0 = jump to flash. |
+| 6 | boot_sel_hard | x | x | Hard select for the bootloader. (see Boot ROMs) |
+| 7 | rst_btn_n | x | x | Hard reset input, such as for a reset button (active low) |
+| 8 | x | o_qspi_sck | 0 | QSPI clock |
+| 9 | x | o_qspi_cs_n | 0 | QSPI chip select (active low) |
+| 10 | i_qspi_dat[0] | o_qspi_dat[0] | Determined by `o_qspi_mod` | QSPI data bit 0 |
+| 11 | i_qspi_dat[1] | o_qspi_dat[1] | Determined by `o_qspi_mod` | QSPI data bit 1 |
+| 12 | i_qspi_dat[2] | o_qspi_dat[2] | Determined by `o_qspi_mod` | QSPI data bit 2 |
+| 13 | i_qspi_dat[3] | o_qspi_dat[3] | Determined by `o_qspi_mod` | QSPI data bit 3 |
+| 14 |  |  |  | (Peripherals) |
+| 15 |  |  |  | (Peripherals) |
+| 16 |  |  |  | (Peripherals) |
+| 17 |  |  |  | (Peripherals) |
+| 18 |  |  |  | (Peripherals) |
+| 19 |  |  |  | (Peripherals) |
+| 20 |  |  |  | (Peripherals) |
+| 21 |  |  |  | (Peripherals) |
+| 22 |  |  |  | (Peripherals) |
+| 23 |  |  |  | (Peripherals) |
+| 24 |  |  |  | (Peripherals) |
+| 25 |  |  |  | (Peripherals) |
+| 26 |  |  |  | (Peripherals) |
+| 27 |  |  |  | (Peripherals) |
+| 28 |  |  |  | (Peripherals) |
+| 29 |  |  |  | (Peripherals) |
+| 30 |  |  |  | (Peripherals) |
+| 31 |  |  |  | (Peripherals) |
+| 32 |  |  |  | (Peripherals) |
+| 33 |  |  |  | (Peripherals) |
+| 34 |  |  |  | (Peripherals) |
+| 35 |  |  |  | (Peripherals) |
+| 36 |  |  |  | (Peripherals) |
+| 37 |  |  |  | (Peripherals) |
+
+## Logic Analyzer Pins
+
+There are 128 logic analyzer io pins controllable from the caravel.
+
+| Pin # | Input Pin | Output Pin | Description |
+|---|---|---|---|
+| 0  | boot_sel_soft |   |   |
+| 1  | rst_soft_n |   |   |
+| 2  | wishbone_enable |   |   |
+| 34:3  |   | snoop_addr |   |
+| 35 |   | snoop_req  |   |
+| 36 |   | snoop_gnt  |   |
+| 37 |   | snoop_we  |   |
+| 41:38 |   | snoop_be  |   |
+| 42 |   | snoop_rvalid  |   |
+| 74:43 |   | snoop_rdata  |   |
+| 106:75 |   | dmem_wdata |   |
+| 107 | snoop_sel |   | Selects which core bus is exposed to the logic analyzer: 0=imem, 1=dmem |
+| 108  |   |   |   |
+| 109  |   |   |   |
+| 110  |   |   |   |
+| 111  |   |   |   |
+| 112  |   |   |   |
+| 113  |   |   |   |
+| 114  |   |   |   |
+| 115  |   |   |   |
+| 116  |   |   |   |
+| 117  |   |   |   |
+| 118  |   |   |   |
+| 119  |   |   |   |
+| 120  |   |   |   |
+| 121  |   |   |   |
+| 122  |   |   |   |
+| 123  |   |   |   |
+| 124  |   |   |   |
+| 125  |   |   |   |
+| 126  |   |   |   |
+| 127  |   |   |   | 

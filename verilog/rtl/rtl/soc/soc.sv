@@ -88,9 +88,22 @@ module soc (
 `endif
 );
 
-    logic rst_n, rst_hard_n;
-    assign rst_n = rst_hard_n; // Careful with this, this is a lot of power!
+    logic rst_n, rst_hard_n, rst_soft_n;
     logic wishbone_enable;
+    logic halt_clock, clk_masked;
+
+    //////////////////////////////
+    // Clock Halting and Resets //
+    //////////////////////////////
+
+    assign rst_n = rst_hard_n && rst_soft_n;
+    
+    always_ff @( posedge clk_i ) begin : clock_mask
+        if (!rst_n)
+            clk_masked <= 'b0;
+        else if (!halt_clock)
+            clk_masked <= ~clk_masked;
+    end
 
     ////////////////////////////////
     // OBI Bus Signal Definitions //
@@ -157,7 +170,7 @@ module soc (
     logic [31:0] mcause; 
 
     core i_core(
-        .clk_i,
+        .clk_i          (clk_masked),
         .rst_ni         (rst_n),
 
         // Interrupt Interface
@@ -229,7 +242,7 @@ module soc (
 
     // Register File
     reg_file i_reg_file (
-        .clk_i,
+        .clk_i        (clk_masked),
 
         .read1_i      (rf_port1_reg),
         .read2_i      (rf_port2_reg),
@@ -254,7 +267,7 @@ module soc (
     assign illegal_access = miu_illegal || sram_illegal || caravel_illegal || flash_illegal;
 
     memory_interface_unit i_memory_interface_unit (
-        .clk_i,
+        .clk_i              (clk_masked),
         .rst_ni             (rst_n),
 
         // dmem interface
@@ -394,7 +407,7 @@ module soc (
     end
 
     obi_mux_2_to_1 i_caravel_obi_mux (
-        .clk_i,
+        .clk_i        (clk_masked),
         .rst_ni       (rst_n),
 
         .pri_req_i    (caravel_req && wishbone_enable),
@@ -436,7 +449,7 @@ module soc (
         .vccd1(vccd1),
         .vssd1(vssd1),
     `endif
-        .clk_i,
+        .clk_i          (clk_masked),
 
         // sram_d OBI interface from muxed output
         .sram_d_req_i   (sram_d_muxed_req),
@@ -471,7 +484,7 @@ module soc (
     logic [3:0] qspi_dat_out, qspi_dat_in, qspi_oe;
 
     obi_qspi_controller obi_qspi_controller_inst (
-        .clk_i,
+        .clk_i          (clk_masked),
         .rst_ni         (rst_n),
 
         .obi_req_i      (flash_req),
@@ -520,7 +533,7 @@ module soc (
     // Peripheral Unit
     peripheral_unit i_peripheral_unit (
         //Core interface
-	    .clk               (clk_i),
+	    .clk               (clk_masked),
         .reset_n           (rst_n),
         .peripheral_req    (peripheral_req),
         .peripheral_gnt    (peripheral_gnt),
@@ -550,7 +563,7 @@ module soc (
     peripheral_interrupt_queue #(.NUM_INTER(`SOC_NUM_INTER))
     i_peripheral_interrupt_queue 
     (
-        .clk         (clk_i),
+        .clk         (clk_masked),
         .reset_n     (rst_n),
         .mem_err_int (mem_err_int),
         .me_i_en     (me_i_en),
@@ -572,13 +585,9 @@ module soc (
         gpio_oeb_no = {38{1'b1}};
         gpio_o = '0;
 
-        // QSPI Pins
-        gpio_o[0]   = qspi_sck;
-        gpio_o[1]   = qspi_cs_n;
-        gpio_o[5:2] = qspi_dat_out;
-        qspi_dat_in = gpio_i[5:2];
-        gpio_oeb_no[1:0] = 'b00;
-        gpio_oeb_no[5:2] = qspi_oe;
+        // Boot Program Select (1 = copy flash to SRAM, 0 = jump to SRAM)
+        copy_boot_sel = gpio_i[5];
+        gpio_oeb_no[5] = '1;
 
         // Boot Select Pin
         boot_sel_hard = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
@@ -588,9 +597,13 @@ module soc (
         rst_hard_n = gpio_i[7];
         gpio_oeb_no[7] = '1;
 
-        // Boot Program Select (1 = copy flash to SRAM, 0 = jump to SRAM)
-        copy_boot_sel = gpio_i[8];
-        gpio_oeb_no[8] = '1;
+        // QSPI Pins
+        gpio_o[8]   = qspi_sck;
+        gpio_o[9]   = qspi_cs_n;
+        gpio_o[13:10] = qspi_dat_out;
+        qspi_dat_in = gpio_i[13:10];
+        gpio_oeb_no[8:9] = 'b00;
+        gpio_oeb_no[13:10] = qspi_oe;
 
         // Peripheral Pins
         gpio_o[37:14] = periph_gpio_o;
@@ -602,27 +615,135 @@ module soc (
     // Logic Analyzer Assignments //
     ////////////////////////////////
 
-    logic snoop_sel;
+    logic la_mux;
 
     always_comb begin : logic_analyzer_assignment
         la_data_o = {128{1'b1}};
 
-        boot_sel_soft   = la_data_i[0] ? BOOT_FAILSAFE : BOOT_NORMAL;
-        //rst_soft_n      = la_data_i[1];
-        wishbone_enable = la_data_i[2];
+        // Control Fields 
+        rst_soft_n      = (la_data_i[3:0]  == 4'hA) ? 1'b0 : 1'b1;
+        wishbone_enable = (la_data_i[7:4]  == 4'hA) ? 1'b1 : 1'b0;
+        halt_clock      = (la_data_i[11:8] == 4'hA) ? 1'b1 : 1'b0;
+        la_mux          = la_data_i[14:12];
+        boot_sel_soft   = la_data_i[15] ? BOOT_FAILSAFE : BOOT_NORMAL;
 
-        snoop_sel = la_data_i[107];
-        la_data_o[34:3]   = snoop_sel ? dmem_addr   : imem_addr;
-        la_data_o[35]     = snoop_sel ? dmem_req    : imem_req;
-        la_data_o[36]     = snoop_sel ? dmem_gnt    : imem_gnt;
-        la_data_o[37]     = snoop_sel ? dmem_we     : imem_we;
-        la_data_o[41:38]  = snoop_sel ? dmem_be     : imem_be;
-        la_data_o[42]     = snoop_sel ? dmem_rvalid : imem_rvalid;
-        la_data_o[74:43]  = snoop_sel ? dmem_rdata  : imem_rdata;
-        la_data_o[106:75] =             dmem_wdata;
+        // Sample Channels
+        case (la_mux)
+            3'd0: begin 
+                // Data OBI port on core
+                la_data_o[47:16]  = dmem_addr;
+                la_data_o[48]     = dmem_req;
+                la_data_o[49]     = dmem_gnt;
+                la_data_o[50]     = dmem_we;
+                la_data_o[54:51]  = dmem_be;
+                la_data_o[55]     = dmem_rvalid;
+                la_data_o[87:56]  = dmem_rdata;
+                la_data_o[119:88] = dmem_wdata;
+                // Illegal Memory Signals
+                la_data_o[120]    = miu_illegal;
+                la_data_o[121]    = sram_illegal;
+                la_data_o[122]    = flash_illegal;
+                la_data_o[123]    = caravel_illegal;
+                // Boot Select Signals
+                la_data_o[124]    = boot_sel_hard;
+                la_data_o[125]    = boot_sel_soft;
+                la_data_o[126]    = boot_sel;
+                la_data_o[127]    = copy_boot_sel;
+            end
 
-        la_data_o[108]    = csr_busy;
-        la_data_o[109]    = p_int_read;
+            3'd1: begin 
+                // Instruction OBI port on core
+                la_data_o[47:16]  = imem_addr;
+                la_data_o[48]     = imem_req;
+                la_data_o[49]     = imem_gnt;
+                la_data_o[50]     = imem_we;
+                la_data_o[54:51]  = imem_be;
+                la_data_o[55]     = imem_rvalid;
+                la_data_o[87:56]  = imem_rdata;
+                la_data_o[119:88] = imem_wdata;
+                // Byte 0 of mcause
+                la_data_o[127:120] = mcause[7:0];
+            end
+
+            3'd2: begin 
+                // Data OBI Port on RAM
+                la_data_o[47:16]  = sram_d_muxed_addr;
+                la_data_o[48]     = sram_d_muxed_req;
+                la_data_o[49]     = sram_d_muxed_gnt;
+                la_data_o[50]     = sram_d_muxed_we;
+                la_data_o[54:51]  = sram_d_muxed_be;
+                la_data_o[55]     = sram_d_muxed_rvalid;
+                la_data_o[87:56]  = sram_d_muxed_rdata;
+                la_data_o[119:88] = sram_d_muxed_wdata;
+                // Byte 1 of mcause
+                la_data_o[127:120] = mcause[15:8];
+            end
+
+            3'd3: begin 
+                // Instruction OBI port on RAM
+                la_data_o[47:16]  = sram_i_addr;
+                la_data_o[48]     = sram_i_req;
+                la_data_o[49]     = sram_i_gnt;
+                la_data_o[50]     = sram_i_we;
+                la_data_o[54:51]  = sram_i_be;
+                la_data_o[55]     = sram_i_rvalid;
+                la_data_o[87:56]  = sram_i_rdata;
+                la_data_o[119:88] = sram_i_wdata;
+                // Byte 2 of mcause
+                la_data_o[127:120] = mcause[23:16];
+            end
+
+            3'd4: begin 
+                // OBI Port on Peripheral Unit
+                la_data_o[47:16]  = peripheral_addr;
+                la_data_o[48]     = peripheral_req;
+                la_data_o[49]     = peripheral_gnt;
+                la_data_o[50]     = peripheral_we;
+                la_data_o[54:51]  = peripheral_be;
+                la_data_o[55]     = peripheral_rvalid;
+                la_data_o[87:56]  = peripheral_rdata;
+                la_data_o[119:88] = peripheral_wdata;
+                // Byte 3 of mcause
+                la_data_o[127:120] = mcause[31:24];
+            end
+
+            3'd5: begin 
+                // Register File Signals
+                la_data_o[20:16]  = rf_port1_reg;
+                la_data_o[52:21]  = rf_rs1;
+                la_data_o[57:53]  = rf_port2_reg;
+                la_data_o[89:58]  = rf_rs2;
+                la_data_o[94:90]  = rf_wr_reg;
+                la_data_o[126:95] = rf_wr_data;
+                la_data_o[127]    = rf_wr_en;
+            end
+
+            3'd6: begin 
+                // GPIO Signals
+                la_data_o[48:16]  = gpio_i[37:5];
+                la_data_o[81:49]  = gpio_o[37:5];
+                la_data_o[114:82] = gpio_oeb_no[37:5];
+                la_data_o[115]    = timer_intr;
+                la_data_o[116]    = m_ext_intr;
+                la_data_o[117]    = p_int_read;
+                la_data_o[118]    = csr_busy;
+                la_data_o[119]    = mem_err_int;
+                la_data_o[120]    = me_i_en;
+                // 7 bits remaining
+            end
+
+            3'd7: begin 
+                // Interrupt Signals
+                la_data_o[67:16]  = p_interrupts;
+                la_data_o[119:68] = p_i_enable;
+                // 8 bits remaining
+            end
+
+            default: begin
+                la_data_o[127:16] = 'b0;
+            end
+        endcase
+
     end
 
     assign caravel_interrupt_o = 'b0;
