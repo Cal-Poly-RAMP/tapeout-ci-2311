@@ -585,7 +585,7 @@ module soc (
 
         // Sample Channels
         case (la_mux)
-            3'b000: begin 
+            3'd0: begin 
                 // Data OBI port on core
                 la_data_o[47:16]  = dmem_addr;
                 la_data_o[48]     = dmem_req;
@@ -606,7 +606,8 @@ module soc (
                 la_data_o[126]    = boot_sel;
                 la_data_o[127]    = copy_boot_sel;
             end
-            3'b001: begin 
+
+            3'd1: begin 
                 // Instruction OBI port on core
                 la_data_o[47:16]  = imem_addr;
                 la_data_o[48]     = imem_req;
@@ -616,9 +617,11 @@ module soc (
                 la_data_o[55]     = imem_rvalid;
                 la_data_o[87:56]  = imem_rdata;
                 la_data_o[119:88] = imem_wdata;
-                // Remaining byte ...
+                // Byte 0 of mcause
+                la_data_o[127:120] = mcause[7:0];
             end
-            3'b010: begin 
+
+            3'd2: begin 
                 // Data OBI Port on RAM
                 la_data_o[47:16]  = sram_d_muxed_addr;
                 la_data_o[48]     = sram_d_muxed_req;
@@ -628,9 +631,11 @@ module soc (
                 la_data_o[55]     = sram_d_muxed_rvalid;
                 la_data_o[87:56]  = sram_d_muxed_rdata;
                 la_data_o[119:88] = sram_d_muxed_wdata;
-                // Remaining byte ...
+                // Byte 1 of mcause
+                la_data_o[127:120] = mcause[15:8];
             end
-            3'b011: begin 
+
+            3'd3: begin 
                 // Instruction OBI port on RAM
                 la_data_o[47:16]  = sram_i_addr;
                 la_data_o[48]     = sram_i_req;
@@ -640,9 +645,11 @@ module soc (
                 la_data_o[55]     = sram_i_rvalid;
                 la_data_o[87:56]  = sram_i_rdata;
                 la_data_o[119:88] = sram_i_wdata;
-                // Remaining byte ...
+                // Byte 2 of mcause
+                la_data_o[127:120] = mcause[23:16];
             end
-            3'b100: begin 
+
+            3'd4: begin 
                 // OBI Port on Peripheral Unit
                 la_data_o[47:16]  = peripheral_addr;
                 la_data_o[48]     = peripheral_req;
@@ -652,8 +659,42 @@ module soc (
                 la_data_o[55]     = peripheral_rvalid;
                 la_data_o[87:56]  = peripheral_rdata;
                 la_data_o[119:88] = peripheral_wdata;
-                // Remaining byte ...
+                // Byte 3 of mcause
+                la_data_o[127:120] = mcause[31:24];
             end
+
+            3'd5: begin 
+                // Register File Signals
+                la_data_o[20:16]  = rf_port1_reg;
+                la_data_o[52:21]  = rf_rs1;
+                la_data_o[57:53]  = rf_port2_reg;
+                la_data_o[89:58]  = rf_rs2;
+                la_data_o[94:90]  = rf_wr_reg;
+                la_data_o[126:95] = rf_wr_data;
+                la_data_o[127]    = rf_wr_en;
+            end
+
+            3'd6: begin 
+                // GPIO Signals
+                la_data_o[48:16]  = gpio_i[37:5];
+                la_data_o[81:49]  = gpio_o[37:5];
+                la_data_o[114:82] = gpio_oeb_no[37:5];
+                la_data_o[115]    = timer_intr;
+                la_data_o[116]    = m_ext_intr;
+                la_data_o[117]    = p_int_read;
+                la_data_o[118]    = csr_busy;
+                la_data_o[119]    = mem_err_int;
+                la_data_o[120]    = me_i_en;
+                // 7 bits remaining
+            end
+
+            3'd7: begin 
+                // Interrupt Signals
+                la_data_o[67:16]  = p_interrupts;
+                la_data_o[119:68] = p_i_enable;
+                // 8 bits remaining
+            end
+
             default: begin
                 la_data_o[127:16] = 'b0;
             end
