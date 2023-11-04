@@ -31,6 +31,7 @@ module soc (
     input logic               clk_i,
 
     // Caravel Wishbone Interface
+    input logic               caravel_wb_clk_i,
     input logic               caravel_wb_rst_i,
     input logic               caravel_wbs_stb_i,
     input logic               caravel_wbs_cyc_i,
@@ -142,6 +143,11 @@ module soc (
     logic        caravel_req, caravel_gnt, caravel_we, caravel_rvalid;
     logic [31:0] caravel_addr, caravel_wdata, caravel_rdata;
     logic [3:0]  caravel_be;
+
+    // caravel bus
+    logic        caravel_fast_req, caravel_fast_gnt, caravel_fast_we, caravel_fast_rvalid;
+    logic [31:0] caravel_fast_addr, caravel_fast_wdata, caravel_fast_rdata;
+    logic [3:0]  caravel_fast_be;
 
     // sram_d_muxed bus
     logic        sram_d_muxed_req, sram_d_muxed_gnt, sram_d_muxed_we, sram_d_muxed_rvalid;
@@ -338,7 +344,7 @@ module soc (
 
 
     wb_to_obi i_SRAM_adapter (
-        .clk_i     (clk_masked),
+        .clk_i     (caravel_wb_clk_i),
         // WishBone Master Ports
         .wb_rst_i  (caravel_wb_rst_i),
         .wbs_stb_i (caravel_wbs_stb_i),
@@ -351,14 +357,40 @@ module soc (
         .wbs_dat_o (caravel_wbs_dat_o),
 
         // OBI Slave Ports
-        .req_o    (caravel_req),
-        .gnt_i    (caravel_gnt && wishbone_enable),
-        .addr_o   (caravel_addr),
-        .we_o     (caravel_we),
-        .be_o     (caravel_be),
-        .wdata_o  (caravel_wdata),
-        .rvalid_i (caravel_rvalid && wishbone_enable),
-        .rdata_i  (caravel_rdata)
+        .req_o    (caravel_fast_req),
+        .gnt_i    (caravel_fast_gnt),
+        .addr_o   (caravel_fast_addr),
+        .we_o     (caravel_fast_we),
+        .be_o     (caravel_fast_be),
+        .wdata_o  (caravel_fast_wdata),
+        .rvalid_i (caravel_fast_rvalid),
+        .rdata_i  (caravel_fast_rdata)
+    );
+
+    obi_cdc_fast_primary i_clock_domain_crossing_obi (
+        .rst_ni             (rst_n),
+
+        // Controller (Primary) OBI interface
+        .ctrl_clk_i         (caravel_wb_clk_i),
+        .ctrl_req_i         (caravel_fast_req),
+        .ctrl_gnt_o         (caravel_fast_gnt),
+        .ctrl_addr_i        (caravel_fast_addr),
+        .ctrl_we_i          (caravel_fast_we),
+        .ctrl_be_i          (caravel_fast_be),
+        .ctrl_wdata_i       (caravel_fast_wdata),
+        .ctrl_rvalid_o      (caravel_fast_rvalid),
+        .ctrl_rdata_o       (caravel_fast_rdata),
+
+        // Peripheral (Secondary) OBI interface
+        .secondary_clk_i    (clk_i),
+        .secondary_req_o    (caravel_req),
+        .secondary_gnt_i    (caravel_gnt && wishbone_enable),
+        .secondary_addr_o   (caravel_addr),
+        .secondary_we_o     (caravel_we),
+        .secondary_be_o     (caravel_be),
+        .secondary_wdata_o  (caravel_wdata),
+        .secondary_rvalid_i (caravel_rvalid && wishbone_enable),
+        .secondary_rdata_i  (caravel_rdata)
     );
 
     logic [31:0] caravel_addr_updated;
