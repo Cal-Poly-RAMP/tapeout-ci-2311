@@ -54,7 +54,7 @@ module wb_to_obi (
     end
 
     // Address Signals
-    assign req_o     = wbs_stb_i && !read_outstanding;
+    assign req_o     = wbs_stb_i;
     assign addr_o    = wbs_adr_i;
     assign we_o      = wbs_we_i;
     assign be_o      = wbs_sel_i;
