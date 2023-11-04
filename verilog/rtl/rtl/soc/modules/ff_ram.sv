@@ -10,7 +10,7 @@
 
 module ff_ram #(
     parameter SRAM_BASE_ADDR = 32'h8000_0000,       // Base address for the memory
-    parameter SRAM_SIZE      = 4096,                // Memory size in bytes (4kB)
+    parameter SRAM_SIZE      = 4096,                // Memory size in bytes
     parameter WORD_SIZE      = 32,                  // Size of a word in bits
     parameter ADDR_WIDTH     = $clog2(SRAM_SIZE/4)  // Number of address bits
 ) (
@@ -90,7 +90,8 @@ module ff_ram #(
         sram_i_rvalid_o <= sram_i_req_i;
         if (sram_i_req_i) 
         begin
-            if (sram_i_addr_i >= SRAM_BASE_ADDR && sram_i_addr_i < SRAM_BASE_ADDR + SRAM_SIZE) 
+            if (sram_i_addr_i >= SRAM_BASE_ADDR && 
+                sram_i_addr_i < SRAM_BASE_ADDR + SRAM_SIZE) 
             begin
                 sram_i_rdata_o <= memory_array[sram_i_word_addr];
             end else 
@@ -103,6 +104,10 @@ module ff_ram #(
         if (sram_i_we_i)
             illegal_memory_o <= 1'b1;
     end
+
+    /////////////////////////
+    // Linter Terminations //
+    /////////////////////////
 
 `ifdef VERILATOR
     logic [31:0] _unused;
@@ -117,7 +122,6 @@ module ff_ram #(
         _unused[3:0]   = sram_i_be_i;
         _unused[31:0]  = sram_i_wdata_i;
     end
-
 `endif
 
 endmodule
