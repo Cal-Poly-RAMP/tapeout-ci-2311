@@ -16,22 +16,25 @@ module ff_ram #(
 ) (
     input  wire                   clk_i,
 
-    // Data OBI interface
-    input  wire                   sram_d_req_i,
-    output wire                   sram_d_gnt_o,
-    input  wire [31:0]            sram_d_addr_i,
-    input  wire                   sram_d_we_i,
-    input  wire [3:0]             sram_d_be_i,
-    input  wire [31:0]            sram_d_wdata_i,
-    output reg                    sram_d_rvalid_o,
-    output reg  [31:0]            sram_d_rdata_o,
-
-    // Instruction OBI interface (read-only)
-    input  wire                   sram_i_req_i,
-    output wire                   sram_i_gnt_o,
-    input  wire [31:0]            sram_i_addr_i,
-    output reg                    sram_i_rvalid_o,
-    output reg  [31:0]            sram_i_rdata_o,
+    // sram_d OBI interface from muxed output
+    input  logic        sram_d_req_i,
+    output logic        sram_d_gnt_o,
+    input  logic [31:0] sram_d_addr_i,
+    input  logic        sram_d_we_i,
+    input  logic [3:0]  sram_d_be_i,
+    input  logic [31:0] sram_d_wdata_i,
+    output logic        sram_d_rvalid_o,
+    output logic [31:0] sram_d_rdata_o,
+    
+    // sram_i OBI interface from and to Mem Interface
+    input  logic        sram_i_req_i,
+    output logic        sram_i_gnt_o,
+    input  logic [31:0] sram_i_addr_i,
+    input  logic        sram_i_we_i,
+    input  logic [3:0]  sram_i_be_i,
+    input  logic [31:0] sram_i_wdata_i,
+    output logic        sram_i_rvalid_o,
+    output logic [31:0] sram_i_rdata_o,
 
     // Illegal memory access output
     output reg                    illegal_memory_o
@@ -96,6 +99,25 @@ module ff_ram #(
                 illegal_memory_o <= 1'b1;
             end
         end
+
+        if (sram_i_we_i)
+            illegal_memory_o <= 1'b1;
     end
+
+`ifdef VERILATOR
+    logic [31:0] _unused;
+    
+    always_comb begin : terminations
+        // NOT USED
+        _unused[31:0]  = sram_i_addr_i[31:0];
+        _unused[1:0]   = sram_i_addr_i[1:0];
+        _unused[31:0]  = sram_d_addr_i[31:0];
+        _unused[1:0]   = sram_d_addr_i[1:0];
+        _unused[0]     = sram_i_we_i;
+        _unused[3:0]   = sram_i_be_i;
+        _unused[31:0]  = sram_i_wdata_i;
+    end
+
+`endif
 
 endmodule
