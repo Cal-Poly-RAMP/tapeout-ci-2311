@@ -90,6 +90,7 @@ module soc (
     logic rst_n, rst_hard_n;
     assign rst_n = rst_hard_n; // Careful with this, this is a lot of power!
     logic wishbone_enable;
+    logic halt_clock;
 
     ////////////////////////////////
     // OBI Bus Signal Definitions //
@@ -570,27 +571,94 @@ module soc (
     // Logic Analyzer Assignments //
     ////////////////////////////////
 
-    logic snoop_sel;
+    logic la_mux;
 
     always_comb begin : logic_analyzer_assignment
         la_data_o = {128{1'b1}};
 
-        boot_sel_soft   = la_data_i[0] ? BOOT_FAILSAFE : BOOT_NORMAL;
-        //rst_soft_n      = la_data_i[1];
-        wishbone_enable = la_data_i[2];
+        // Control Fields 
+        rst_soft_n      = (la_data_i[3:0]  == 4'hA) ? 1'b0 : 1'b1;
+        wishbone_enable = (la_data_i[7:4]  == 4'hA) ? 1'b1 : 1'b0;
+        halt_clock      = (la_data_i[11:8] == 4'hA) ? 1'b1 : 1'b0;
+        la_mux          = la_data_i[14:12];
+        boot_sel_soft   = la_data_i[15] ? BOOT_FAILSAFE : BOOT_NORMAL;
 
-        snoop_sel = la_data_i[107];
-        la_data_o[34:3]   = snoop_sel ? dmem_addr   : imem_addr;
-        la_data_o[35]     = snoop_sel ? dmem_req    : imem_req;
-        la_data_o[36]     = snoop_sel ? dmem_gnt    : imem_gnt;
-        la_data_o[37]     = snoop_sel ? dmem_we     : imem_we;
-        la_data_o[41:38]  = snoop_sel ? dmem_be     : imem_be;
-        la_data_o[42]     = snoop_sel ? dmem_rvalid : imem_rvalid;
-        la_data_o[74:43]  = snoop_sel ? dmem_rdata  : imem_rdata;
-        la_data_o[106:75] =             dmem_wdata;
+        // Sample Channels
+        case (la_mux)
+            3'b000: begin 
+                // Data OBI port on core
+                la_data_o[47:16]  = dmem_addr;
+                la_data_o[48]     = dmem_req;
+                la_data_o[49]     = dmem_gnt;
+                la_data_o[50]     = dmem_we;
+                la_data_o[54:51]  = dmem_be;
+                la_data_o[55]     = dmem_rvalid;
+                la_data_o[87:56]  = dmem_rdata;
+                la_data_o[119:88] = dmem_wdata;
+                // Illegal Memory Signals
+                la_data_o[120]    = miu_illegal;
+                la_data_o[121]    = sram_illegal;
+                la_data_o[122]    = flash_illegal;
+                la_data_o[123]    = caravel_illegal;
+                // Boot Select Signals
+                la_data_o[124]    = boot_sel_hard;
+                la_data_o[125]    = boot_sel_soft;
+                la_data_o[126]    = boot_sel;
+                la_data_o[127]    = copy_boot_sel;
+            end
+            3'b001: begin 
+                // Instruction OBI port on core
+                la_data_o[47:16]  = imem_addr;
+                la_data_o[48]     = imem_req;
+                la_data_o[49]     = imem_gnt;
+                la_data_o[50]     = imem_we;
+                la_data_o[54:51]  = imem_be;
+                la_data_o[55]     = imem_rvalid;
+                la_data_o[87:56]  = imem_rdata;
+                la_data_o[119:88] = imem_wdata;
+                // Remaining byte ...
+            end
+            3'b010: begin 
+                // Data OBI Port on RAM
+                la_data_o[47:16]  = sram_d_muxed_addr;
+                la_data_o[48]     = sram_d_muxed_req;
+                la_data_o[49]     = sram_d_muxed_gnt;
+                la_data_o[50]     = sram_d_muxed_we;
+                la_data_o[54:51]  = sram_d_muxed_be;
+                la_data_o[55]     = sram_d_muxed_rvalid;
+                la_data_o[87:56]  = sram_d_muxed_rdata;
+                la_data_o[119:88] = sram_d_muxed_wdata;
+                // Remaining byte ...
+            end
+            3'b011: begin 
+                // Instruction OBI port on RAM
+                la_data_o[47:16]  = sram_i_addr;
+                la_data_o[48]     = sram_i_req;
+                la_data_o[49]     = sram_i_gnt;
+                la_data_o[50]     = sram_i_we;
+                la_data_o[54:51]  = sram_i_be;
+                la_data_o[55]     = sram_i_rvalid;
+                la_data_o[87:56]  = sram_i_rdata;
+                la_data_o[119:88] = sram_i_wdata;
+                // Remaining byte ...
+            end
+            3'b100: begin 
+                // OBI Port on Peripheral Unit
+                la_data_o[47:16]  = peripheral_addr;
+                la_data_o[48]     = peripheral_req;
+                la_data_o[49]     = peripheral_gnt;
+                la_data_o[50]     = peripheral_we;
+                la_data_o[54:51]  = peripheral_be;
+                la_data_o[55]     = peripheral_rvalid;
+                la_data_o[87:56]  = peripheral_rdata;
+                la_data_o[119:88] = peripheral_wdata;
+                // Remaining byte ...
+            end
+            default: begin
+                la_data_o[127:16] = 'b0;
+            end
+        endcase
 
-        la_data_o[108]    = csr_busy;
-        la_data_o[109]    = p_int_read;
     end
 
     assign caravel_interrupt_o = 'b0;
