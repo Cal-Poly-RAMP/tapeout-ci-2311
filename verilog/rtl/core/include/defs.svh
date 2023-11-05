@@ -68,14 +68,14 @@ typedef enum logic [3:0] {
 // Branch Cond. Gen Defines //
 //////////////////////////////
 typedef enum logic [2:0] {
-    BEQ  = 3'b010,
+    BEQ  = 3'b000,
     BNE  = 3'b001,
     BLT  = 3'b100,
     BGE  = 3'b101,
     BLTU = 3'b110,
     BGEU = 3'b111,
 
-    NO_BRANCH = 3'b000
+    NO_BRANCH = 3'b010
 } branch_op_e;
 
 
