@@ -112,3 +112,9 @@ There are 128 logic analyzer io pins controllable from the caravel.
 | 15 | N/C | Not used (update to clock?) |
 | 127:16 | Sample Channels | 112 Bit digital sample chennels. These can be selected between using `la_mux`. | 
 
+### Logic Analyzer Sample Channels
+
+| Pin # | CH 0 | CH 1 | CH 2 | CH 3 | CH 4 | CH 5 | CH 6 | CH 7 |
+| :--: |:-- |:-- |:-- |:-- |:-- |:-- |:-- |:-- |
+| 16 | 
+| 17 |
