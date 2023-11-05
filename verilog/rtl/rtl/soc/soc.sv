@@ -17,7 +17,6 @@
 `include "clam-defs.svh"
 
 
-// TODO: Add RVFI or riscv_formal macros import
 `ifdef RISCV_FORMAL
     `define RVFI
 `endif
@@ -55,7 +54,7 @@ module soc (
     output logic [2:0]        caravel_interrupt_o
     
     // RVFI
-        `ifdef RVFI
+`ifdef RVFI
     ,
     // RVFI - RISCV-Formal Interface
     output logic              rvfi_valid,
@@ -625,7 +624,9 @@ module soc (
         wishbone_enable = (la_data_i[7:4]  == 4'hA) ? 1'b1 : 1'b0;
         halt_clock      = (la_data_i[11:8] == 4'hA) ? 1'b1 : 1'b0;
         la_mux          = la_data_i[14:12];
-        boot_sel_soft   = la_data_i[15] ? BOOT_FAILSAFE : BOOT_NORMAL;
+
+        // Constant Clock Sample
+        la_data_o[15] = clk_masked;
 
         // Sample Channels
         case (la_mux)
@@ -746,7 +747,7 @@ module soc (
 
     end
 
-    assign caravel_interrupt_o = 'b0;
+    assign caravel_interrupt_o = illegal_access;
 
 
     ////////////////////////////////
@@ -760,11 +761,6 @@ module soc (
     always_comb begin : terminations
         _unused[37:0] = gpio_i;
         _unused = la_data_i;
-        _unused[0] = mcause[31];
-
-        // NOT YET IMPLEMENTED
-        _unused[0] = boot_sel;
-        _unused[0] = illegal_access;
     end
 
 `endif
