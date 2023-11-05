@@ -905,7 +905,7 @@ module PeriphControlRegFile #(
 	else begin
 	    GNT <= 1'b1;
 	    RVALID <= 1'b1;
-        if (REQ) begin
+	    if (REQ && BE == 4'b1111) begin
             if (ADDR >= STARTING_ADDR) begin
 	            // RVALID <= 1'b1;
                 if (WRITE) begin
@@ -1348,6 +1348,7 @@ module PeriphControlRegFile #(
                                     end
                                 endcase
                             end
+                            default: DOUT <= 0;
                         endcase
                     end
                 end

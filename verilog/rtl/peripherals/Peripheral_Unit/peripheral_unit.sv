@@ -677,7 +677,7 @@ module peripheral_unit (
             .SPI_TX_START_1(SPI_TX_START[0]),
             .SPI_CR_1(SPI_CR[0]),
             .SPI_SR_1(SPI_SR[0]),
-            .SPI_RX_DATA_1(SPI_RX_DATA[0]),
+            .SPI_RX_DATA_1(SPI_RX_DATA[1]),
             .SPI_TX_DATA_2(SPI_TX_DATA[1]),
             .SPI_TX_START_2(SPI_TX_START[1]),
             .SPI_CR_2(SPI_CR[1]),
