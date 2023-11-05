@@ -260,7 +260,7 @@ module soc (
 
 
     logic illegal_access, miu_illegal, sram_illegal, caravel_illegal, flash_illegal;
-    boot_sel_e boot_sel, boot_sel_hard, boot_sel_soft;
+    boot_sel_e boot_sel;
     logic copy_boot_sel;
 
     assign illegal_access = miu_illegal || sram_illegal || caravel_illegal || flash_illegal;
@@ -332,10 +332,6 @@ module soc (
         .copy_flash_i        (copy_boot_sel),
         .illegal_access_o    (miu_illegal)
     );   
-
-    // Boot Selector
-    //assign boot_sel = (boot_sel_hard == BOOT_NORMAL) ? BOOT_NORMAL : boot_sel_soft;
-    assign boot_sel = boot_sel_hard;
 
     ///////////////////////////////
     // SRAM and Wishbone Adpater //
@@ -589,7 +585,7 @@ module soc (
         gpio_oeb_no[5] = '1;
 
         // Boot Select Pin
-        boot_sel_hard = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
+        boot_sel = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
         gpio_oeb_no[6] = '1;
 
         // Reset pin (active low)
@@ -645,9 +641,9 @@ module soc (
                 la_data_o[121]    = sram_illegal;
                 la_data_o[122]    = flash_illegal;
                 la_data_o[123]    = caravel_illegal;
+                la_data_o[124]    = illegal_access;
+                la_data_o[125]    = mem_err_int;
                 // Boot Select Signals
-                la_data_o[124]    = boot_sel_hard;
-                la_data_o[125]    = boot_sel_soft;
                 la_data_o[126]    = boot_sel;
                 la_data_o[127]    = copy_boot_sel;
             end
@@ -728,9 +724,8 @@ module soc (
                 la_data_o[116]    = m_ext_intr;
                 la_data_o[117]    = p_int_read;
                 la_data_o[118]    = csr_busy;
-                la_data_o[119]    = mem_err_int;
-                la_data_o[120]    = me_i_en;
-                // 7 bits remaining
+                la_data_o[119]    = me_i_en;
+                // 8 bits remaining
             end
 
             3'd7: begin 
