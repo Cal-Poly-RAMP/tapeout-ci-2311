@@ -99,9 +99,9 @@ module soc (
     assign rst_n = rst_hard_n && rst_soft_n;
     
     always_ff @( posedge clk_i ) begin : clock_mask
-        if (!rst_n)
-            clk_masked <= 'b0;
-        else if (!halt_clock)
+        if (halt_clock && ~clk_masked)
+            clk_masked <= 0;
+        else 
             clk_masked <= ~clk_masked;
     end
 
