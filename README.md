@@ -103,37 +103,33 @@ There are 38 user-programmable IO pins:
 
 There are 128 logic analyzer io pins controllable from the caravel.
 
-| Pin # | Input Pin | Output Pin | Description |
-|---|---|---|---|
-| 0  | boot_sel_soft |   |   |
-| 1  | rst_soft_n |   |   |
-| 2  | wishbone_enable |   |   |
-| 34:3  |   | snoop_addr |   |
-| 35 |   | snoop_req  |   |
-| 36 |   | snoop_gnt  |   |
-| 37 |   | snoop_we  |   |
-| 41:38 |   | snoop_be  |   |
-| 42 |   | snoop_rvalid  |   |
-| 74:43 |   | snoop_rdata  |   |
-| 106:75 |   | dmem_wdata |   |
-| 107 | snoop_sel |   | Selects which core bus is exposed to the logic analyzer: 0=imem, 1=dmem |
-| 108  |   |   |   |
-| 109  |   |   |   |
-| 110  |   |   |   |
-| 111  |   |   |   |
-| 112  |   |   |   |
-| 113  |   |   |   |
-| 114  |   |   |   |
-| 115  |   |   |   |
-| 116  |   |   |   |
-| 117  |   |   |   |
-| 118  |   |   |   |
-| 119  |   |   |   |
-| 120  |   |   |   |
-| 121  |   |   |   |
-| 122  |   |   |   |
-| 123  |   |   |   |
-| 124  |   |   |   |
-| 125  |   |   |   |
-| 126  |   |   |   |
-| 127  |   |   |   | 
+| Pin #'s | Signal Name         | Description |
+| :---:   | :---:               | :---        |
+| 3:0     | `reset_soft_n`      | As long as the value `0xA` is written to this nibble, the user area will reset |
+| 7:4     | `wishbone_enable`   | As long as the value `0xA` is written to this nibble, the data port of the onboard RAM will be given to the wishbone bus. The CARP core will not have access to the RAM. |
+| 11:8    | `halt_clock`        | As long as a `0xA` is written to this nibble, the clock will be held in its current position (high or low). |
+| 14:12   | `la_mux`            | Logic Analyzer sample channel MUX select. The channels (see "Sample Channels" below) can be selected between using these bits. |
+| 15      | `clk_masked`        | System On Chip Clock |
+| 127:16  | Sample Channels     | 112 Bit digital sample channels. These can be selected between using `la_mux`. | 
+
+### Logic Analyzer Sample Channels
+
+| Pin # | CH 0              | CH 1              | CH 2                    | CH 3              | CH 4                  | CH 5              | CH 6         | CH 7              |
+| :---: |:----------------- |:----------------- |:----------------------  |:----------------- |:-----------------     |:-------------     |:---------    |:-------------     |
+| 16    | `dmem_addr[0]`    | `imem_addr[0]`    | `sram_d_muxed_addr[0]`  | `sram_i_addr[0]`  | `peripheral_addr[0]`  | `rf_port1_reg[0]` | `gpio_i[5]`  | `p_interrupts[0]` |
+| 17    | `dmem_addr[1]`    | `imem_addr[1]`    | `sram_d_muxed_addr[1]`  | `sram_i_addr[1]`  | `peripheral_addr[1]`  | `rf_port1_reg[1]` | `gpio_i[6]`  | `p_interrupts[1]` |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 20    | `dmem_addr[4]`    | `imem_addr[4]`    | `sram_d_muxed_addr[4]`  | `sram_i_addr[4]`  | `peripheral_addr[4]`  | `rf_port1_reg[4]` | `gpio_i[9]`  | `p_interrupts[4]` |
+| 21    | `dmem_addr[5]`    | `imem_addr[5]`    | `sram_d_muxed_addr[5]`  | `sram_i_addr[5]`  | `peripheral_addr[5]`  | `rf_rs1[0]`       | `gpio_i[10]` | `p_interrupts[5]` |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 47    | `dmem_addr[31]`   | `imem_addr[31]`   | `sram_d_muxed_addr[31]` | `sram_i_addr[31]` | `peripheral_addr[31]` |                   | `gpio_i[36]` | `p_interrupts[31]`|
+| 48    | `dmem_req`        | `imem_req`        | `sram_d_muxed_req`      | `sram_i_req`      | `peripheral_req`      | `rf_rs1[0]`       | `gpio_o[5]`  |                   |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 55    | `dmem_rvalid`     | `imem_rvalid`     | `sram_d_muxed_rvalid`   | `sram_i_rvalid`   | `peripheral_rvalid`   | `rf_rs2[0]`       | `timer_intr` |                   |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 87    | `dmem_rdata[31]`  | `imem_rdata[31]`  | `sram_d_muxed_rdata[31]`| `sram_i_rdata[31]`| `peripheral_rdata[31]`| `rf_rs2[31]`      |              |                   |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 119   | `dmem_wdata[31]`  | `imem_wdata[31]`  | `sram_d_muxed_wdata[31]`| `sram_i_wdata[31]`| `peripheral_wdata[31]`| `rf_wr_data[31]`  | `me_i_en`    | `p_i_enable[51]`  |
+| 120   | `miu_illegal`     | `mcause[0]`       | `mcause[8]`             | `mcause[16]`      | `mcause[24]`          |                   |              |                   |
+| ...   | ...               | ...               | ...                     | ...               | ...                   | ...               | ...          | ...               |
+| 127   | `copy_boot_sel`   | `mcause[7]`       | `mcause[15]`            | `mcause[23]`      | `mcause[31]`          | `rf_wr_en`        |              |                   |
