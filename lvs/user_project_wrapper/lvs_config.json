@@ -28,5 +28,5 @@
 		"$UPRJ_ROOT/openlane/user_project_wrapper/runs/user_project_wrapper/results/final/verilog/gl/user_project_wrapper.v",
 		"$UPRJ_ROOT/verilog/gl/$TOP_SOURCE.v"
 	],
-	"LAYOUT_FILE": "$UPRJ_ROOT/gds/$TOP_LAYOUT.gds"
+	"LAYOUT_FILE": "$UPRJ_ROOT/openlane/$TOP_SOURCE/runs/$TOP_SOURCE/results/signoff/$TOP_LAYOUT.gds"
 }
