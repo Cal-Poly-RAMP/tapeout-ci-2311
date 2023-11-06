@@ -1,5 +1,5 @@
 # Cal Poly CARP SoC
-
+[![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml)
 
 # Memory Map
 
@@ -33,8 +33,8 @@ The main memory interconnect used on the SoC is a subset of OpenHW Group's Open 
 
 ## Wishbone
 
-The caravel wrapper for our SoC uses a whishbone bus. 
-
+The caravel wrapper uses a Wishbone bus the operates at a faster clock speed than the SOC. The wishbone port on the SOC allows the caravel to read and write to SRAM, as long as the wishbone enable control is set (see Logic Analyzer)
+.
 # Memory Devices
 
 ## Boot ROMs
