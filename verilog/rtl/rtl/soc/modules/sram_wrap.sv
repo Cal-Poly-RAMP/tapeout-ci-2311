@@ -12,7 +12,7 @@
 
 module sram_wrap #(
     parameter SRAM_BASE_ADDR      = 32'h8000_0000,
-    parameter SRAM_NUM_BLOCKS     = 10,
+    parameter SRAM_NUM_BLOCKS     = 8,
     parameter SRAM_BLOCK_SIZE     = 512,
     parameter SRAM_LOG_BLOCK_SIZE = $clog2(SRAM_BLOCK_SIZE),
     parameter SRAM_END_ADDR       = (SRAM_BASE_ADDR + (SRAM_NUM_BLOCKS * SRAM_BLOCK_SIZE)),
@@ -87,8 +87,8 @@ module sram_wrap #(
         for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
-            if ( sram_d_req_i && i == {28'b0, sram_d_cs_addr}) cs_data[i] = 1;
-            if ( sram_i_req_i && i == {28'b0, sram_i_cs_addr}) cs_inst[i] = 1;
+            if ( sram_d_req_i && i == {29'b0, sram_d_cs_addr}) cs_data[i] = 1;
+            if ( sram_i_req_i && i == {29'b0, sram_i_cs_addr}) cs_inst[i] = 1;
 
             if (cs_data_prev[i] == 1'b1) sram_d_rdata_o = sram_d_read_vec[i];
             if (cs_inst_prev[i] == 1'b1) sram_i_rdata_o = sram_i_read_vec[i];
@@ -243,42 +243,6 @@ module sram_wrap #(
         .csb1      (~cs_inst[7]),    // Active Low
         .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
         .dout1     (sram_i_read_vec[7]) 
-    );
-
-    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram8 (
-    `ifdef USE_POWER_PINS
-        .vccd1(vccd1), // 1.8V
-        .vssd1(vssd1), // Digital ground
-    `endif
-        .clk0      (clk_i),
-        .csb0      (~cs_data[8]),   // Active Low
-        .web0      (~sram_d_we_i),  // Active Low
-        .wmask0    (sram_d_be_i),
-        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
-        .din0      (sram_d_wdata_i), 
-        .dout0     (sram_d_read_vec[8]), 
-        .clk1      (clk_i),
-        .csb1      (~cs_inst[8]),    // Active Low
-        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
-        .dout1     (sram_i_read_vec[8]) 
-    );
-
-    sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram9 (
-    `ifdef USE_POWER_PINS
-        .vccd1(vccd1), // 1.8V
-        .vssd1(vssd1), // Digital ground
-    `endif
-        .clk0      (clk_i),
-        .csb0      (~cs_data[9]),   // Active Low
-        .web0      (~sram_d_we_i),  // Active Low
-        .wmask0    (sram_d_be_i),
-        .addr0     (sram_d_addr_i[SRAM_LOG_BLOCK_SIZE+2 -1 : 2]),
-        .din0      (sram_d_wdata_i), 
-        .dout0     (sram_d_read_vec[9]), 
-        .clk1      (clk_i),
-        .csb1      (~cs_inst[9]),    // Active Low
-        .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
-        .dout1     (sram_i_read_vec[9]) 
     );
 
 
