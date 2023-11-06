@@ -585,7 +585,7 @@ module soc (
         gpio_oeb_no[5] = '1;
 
         // Boot Select Pin
-        boot_sel_hard  = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
+        boot_sel       = gpio_i[6] ? BOOT_FAILSAFE : BOOT_NORMAL;
         gpio_oeb_no[6] = '1;
 
         // Reset pin (active low)
