@@ -52,8 +52,6 @@ In order to run programs off of an external flash, it is ideal that we use an eX
 
 # IO Assignment
 
-Understood, here's the template with only the pin numbers filled in:
-
 ## GPIO Pins
 
 There are 38 user-programmable IO pins:
