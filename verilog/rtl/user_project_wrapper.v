@@ -1,34 +1,23 @@
 `timescale 1ns/1ps
-// SPDX-FileCopyrightText: 2020 Efabless Corporation
+//////////////////////////////////////////////////////////////////////////////////
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+// Module Name: user_project_wrapper
+// Description: This is Cal Poly's Computer Architecture Research Project (CARP)'s
+//              first design tapeout. The design is a system on chip with 24kB of
+//              SRAM, a RV32I core with a 5-stage pipeline, and a set of
+//              peripherals for general use as a microcontroller.
 //
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+//              The design is equipped with logic analyzer probes, clock and reset
+//              controls, and the ability for the management core to read and write
+//              to main memory; the intent is to measure reliability and wear of 
+//              the Sky130 process and architectural components in Low Earth 
+//              Orbit (LEO).
+// 
 // SPDX-License-Identifier: Apache-2.0
+//
+//////////////////////////////////////////////////////////////////////////////////
 
 `default_nettype none
-/*
- *-------------------------------------------------------------
- *
- * user_project_wrapper
- *
- * This wrapper enumerates all of the pins available to the
- * user for the user project.
- *
- * An example user project is provided in this wrapper.  The
- * example should be removed and replaced with the actual
- * user project.
- *
- *-------------------------------------------------------------
- */
 
 module user_project_wrapper #(
     parameter BITS = 32
@@ -79,10 +68,6 @@ module user_project_wrapper #(
     output [2:0] user_irq
 );
 
-/*--------------------------------------*/
-/* User project is instantiated  here   */
-/*--------------------------------------*/
-
 wire [37:0] soc_io_oeb_no;
 assign io_oeb = soc_io_oeb_no;
 
@@ -110,8 +95,8 @@ soc soc_i (
     .la_data_o          (la_data_out),
 
     // GPIO Pins
-    .gpio_i             (io_in),      // GPIO input pins, if configured as input
-    .gpio_o             (io_out),      // GPIO output pins, if configured as output
+    .gpio_i             (io_in),         // GPIO input pins, if configured as input
+    .gpio_o             (io_out),        // GPIO output pins, if configured as output
     .gpio_oeb_no        (soc_io_oeb_no), // Drive low to enable output pin
 
     // Other Caravel Signals
@@ -123,7 +108,6 @@ soc soc_i (
     logic [127:0] _unused;
     
     always_comb begin : terminations
-        _unused[0] = wb_clk_i;
         _unused = la_oenb;
         _unused[31:0] = BITS;
     end
@@ -133,3 +117,18 @@ soc soc_i (
 endmodule	// user_project_wrapper
 
 `default_nettype wire
+
+// SPDX-FileCopyrightText: 2020 Efabless Corporation
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// SPDX-License-Identifier: Apache-2.0

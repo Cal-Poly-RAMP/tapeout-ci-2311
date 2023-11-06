@@ -32,7 +32,7 @@ module peripheral_interrupt_queue #(
     
     localparam INTR_ADDR_WIDTH = $clog2(NUM_INTER+1);
     logic [NUM_INTER - 1: 0] latched_interrupts;
-    logic [31:0] inter_queue [NUM_INTER];
+    logic [31:0] inter_queue [2**INTR_ADDR_WIDTH];
     logic [INTR_ADDR_WIDTH-1:0] start_ind = 0;
     logic [INTR_ADDR_WIDTH-1:0] end_ind = 0;
     logic [INTR_ADDR_WIDTH-1:0] temp_end_ind;
