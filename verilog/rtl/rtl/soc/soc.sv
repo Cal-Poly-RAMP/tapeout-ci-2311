@@ -742,9 +742,9 @@ module soc (
 
     end
 
-    assign caravel_interrupt_o = illegal_access;
-
-
+    always_comb begin: caravel_interrupt_assignment
+        caravel_interrupt_o = ((dmem_addr == `CARAVEL_INTR_ADDR) & dmem_we) ? {dmem_wdata[1:0],1'b0} : {2'b0, illegal_access};
+    end
     ////////////////////////////////
     // Unused Signal Terminations //
     ////////////////////////////////

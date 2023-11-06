@@ -189,6 +189,7 @@ module peripheral_unit (
     logic [31:0] TIM_OUT_H [`TIM_INST_NUM - 1: 0];
     logic [31:0] TIM_OUT_L [`TIM_INST_NUM - 1: 0];
     logic [`TIM_INST_NUM - 1: 0] TIM_INT;
+    logic [`TIM_INST_NUM - 1: 0] TIM_PULSE;
     logic [`TIM_INST_NUM - 1: 0] TIM_CTRL_WR;
     logic [`TIM_INST_NUM - 1: 0] TIM_THRESH_H_WR;
     logic [`TIM_INST_NUM - 1: 0] TIM_THRESH_L_WR;
@@ -207,7 +208,8 @@ module peripheral_unit (
                .mtimecmp_in_l(TIM_THRESH_L[tim_gv1]),
                .mtime_h(TIM_OUT_H[tim_gv1]),
                .mtime_l(TIM_OUT_L[tim_gv1]),
-               .timer_int(TIM_INT[tim_gv1]));
+               .timer_int(TIM_INT[tim_gv1]),
+               .timer_pulse(TIM_PULSE[tim_gv1]));
        end
    endgenerate
    
@@ -740,7 +742,7 @@ module peripheral_unit (
             .TIM_THRESH_L_4(TIM_THRESH_L[3]),
             .TIM_OUT_H_4(TIM_OUT_H[3]),
             .TIM_OUT_L_4(TIM_OUT_L[3]),
-            .TIM_INT(TIM_INT),
+            .TIM_INT(TIM_PULSE),
             .TIM_CTRL_WR(TIM_CTRL_WR),
             .TIM_THRESH_H_WR(TIM_THRESH_H_WR),
             .TIM_THRESH_L_WR(TIM_THRESH_L_WR),
