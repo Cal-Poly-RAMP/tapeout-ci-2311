@@ -1,10 +1,8 @@
 {
     "DESIGN_NAME": "user_project_wrapper",
     "RUN_IRDROP_REPORT": 0,
-    "RUN_MAGIC_DRC": 0,
     "RUN_LVS": 1,
-    "MAGIC_EXT_USE_GDS": 0,
-    "QUIT_ON_LVS_ERROR": 0,
+    "RUN_MAGIC_DRC": 1,
     "YOSYS_REWRITE_VERILOG": 1,
     "QUIT_ON_LINTER_ERRORS": 0,
 	"MACRO_PLACEMENT_CFG": "dir::macro.cfg",

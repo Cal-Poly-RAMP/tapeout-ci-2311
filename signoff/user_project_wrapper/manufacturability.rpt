@@ -1,15 +1,15 @@
 Design Name: user_project_wrapper
-Run Directory: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_13_36
+Run Directory: /home/prherrma/runners/r1/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_22_06
 Source not found.
 ----------------------------------------
 
 LVS Summary:
-Source: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_13_36/logs/signoff/40-user_project_wrapper.lef.lvs.log
-Number of nets: 57648                      |Number of nets: 57648                      
+Source: /home/prherrma/runners/r1/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_22_06/logs/signoff/40-user_project_wrapper.lef.lvs.log
+Number of nets: 64664                      |Number of nets: 64664                      
 Design is LVS clean.
 ----------------------------------------
 
 Antenna Summary:
-Source: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_13_36/logs/signoff/41-arc.log
-Pin violations: 689
-Net violations: 560
+Source: /home/prherrma/runners/r1/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_05_22_06/logs/signoff/41-arc.log
+Pin violations: 1386
+Net violations: 1157
