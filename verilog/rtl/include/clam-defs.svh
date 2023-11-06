@@ -24,4 +24,6 @@ typedef enum logic {
 `define SOC_NUM_INTER       52
 // `include "Peripheral_Unit_Defs"
 
+`define CARAVEL_INTR_ADDR   32'hF0000000
+
 `endif // CLAM_DEFS_SVH
