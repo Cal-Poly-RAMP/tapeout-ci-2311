@@ -17,7 +17,6 @@
 `include "clam-defs.svh"
 
 
-// TODO: Add RVFI or riscv_formal macros import
 `ifdef RISCV_FORMAL
     `define RVFI
 `endif
@@ -55,7 +54,7 @@ module soc (
     output logic [2:0]        caravel_interrupt_o
     
     // RVFI
-        `ifdef RVFI
+`ifdef RVFI
     ,
     // RVFI - RISCV-Formal Interface
     output logic              rvfi_valid,
@@ -99,9 +98,9 @@ module soc (
     assign rst_n = rst_hard_n && rst_soft_n;
     
     always_ff @( posedge clk_i ) begin : clock_mask
-        if (!rst_n)
-            clk_masked <= 'b0;
-        else if (!halt_clock)
+        if (halt_clock && ~clk_masked)
+            clk_masked <= 0;
+        else 
             clk_masked <= ~clk_masked;
     end
 
@@ -261,7 +260,7 @@ module soc (
 
 
     logic illegal_access, miu_illegal, sram_illegal, caravel_illegal, flash_illegal;
-    boot_sel_e boot_sel, boot_sel_hard, boot_sel_soft;
+    boot_sel_e boot_sel;
     logic copy_boot_sel;
 
     assign illegal_access = miu_illegal || sram_illegal || caravel_illegal || flash_illegal;
@@ -333,10 +332,6 @@ module soc (
         .copy_flash_i        (copy_boot_sel),
         .illegal_access_o    (miu_illegal)
     );   
-
-    // Boot Selector
-    //assign boot_sel = (boot_sel_hard == BOOT_NORMAL) ? BOOT_NORMAL : boot_sel_soft;
-    assign boot_sel = boot_sel_hard;
 
     ///////////////////////////////
     // SRAM and Wishbone Adpater //
@@ -625,7 +620,9 @@ module soc (
         wishbone_enable = (la_data_i[7:4]  == 4'hA) ? 1'b1 : 1'b0;
         halt_clock      = (la_data_i[11:8] == 4'hA) ? 1'b1 : 1'b0;
         la_mux          = la_data_i[14:12];
-        boot_sel_soft   = la_data_i[15] ? BOOT_FAILSAFE : BOOT_NORMAL;
+
+        // Constant Clock Sample
+        la_data_o[15] = clk_masked;
 
         // Sample Channels
         case (la_mux)
@@ -644,9 +641,9 @@ module soc (
                 la_data_o[121]    = sram_illegal;
                 la_data_o[122]    = flash_illegal;
                 la_data_o[123]    = caravel_illegal;
+                la_data_o[124]    = illegal_access;
+                la_data_o[125]    = mem_err_int;
                 // Boot Select Signals
-                la_data_o[124]    = boot_sel_hard;
-                la_data_o[125]    = boot_sel_soft;
                 la_data_o[126]    = boot_sel;
                 la_data_o[127]    = copy_boot_sel;
             end
@@ -727,9 +724,8 @@ module soc (
                 la_data_o[116]    = m_ext_intr;
                 la_data_o[117]    = p_int_read;
                 la_data_o[118]    = csr_busy;
-                la_data_o[119]    = mem_err_int;
-                la_data_o[120]    = me_i_en;
-                // 7 bits remaining
+                la_data_o[119]    = me_i_en;
+                // 8 bits remaining
             end
 
             3'd7: begin 
@@ -746,7 +742,7 @@ module soc (
 
     end
 
-    assign caravel_interrupt_o = 'b0;
+    assign caravel_interrupt_o = illegal_access;
 
 
     ////////////////////////////////
@@ -760,11 +756,6 @@ module soc (
     always_comb begin : terminations
         _unused[37:0] = gpio_i;
         _unused = la_data_i;
-        _unused[0] = mcause[31];
-
-        // NOT YET IMPLEMENTED
-        _unused[0] = boot_sel;
-        _unused[0] = illegal_access;
     end
 
 `endif
