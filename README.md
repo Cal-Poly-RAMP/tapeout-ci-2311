@@ -205,3 +205,72 @@ There are 128 logic analyzer io pins controllable from the caravel.
 | 125   | `mem_err_int`        | `mcause[5]`      | `mcause[13]`             | `mcause[21]`       | `mcause[29]`           | `rf_wr_data[30]`  | -                  | -                   |
 | 126   | `boot_sel`           | `mcause[6]`      | `mcause[14]`             | `mcause[22]`       | `mcause[30]`           | `rf_wr_data[31]`  | -                  | -                   |
 | 127   | `copy_boot_sel`  | `mcause[7]`      | `mcause[15]`             | `mcause[23]`       | `mcause[31]`           | `rf_wr_en`        | -                  | -                   |
+
+# Pin Descriptions (QFN64 9x9 0.5)
+
+| Pin | Name      | Description                | Voltage min | Voltage nom           | Voltage max |
+| --- | --------- | -------------------------- | ----------- | --------------------- | ----------- |
+| 1   | vssa2     | Analog Ground              |             | 0                     |             |
+| 2   | io25      | IO 25                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 3   | io26      | IO 26                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 4   | io27      | IO 27                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 5   | io28      | IO 28                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 6   | io29      | IO 29                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 7   | io30      | IO 30                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 8   | io31      | IO 31                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 9   | vdda2     | Analog Supply Voltage      |             | 3.3                   |             |
+| 10  | vssd2     | Digital Ground             |             | 0                     |             |
+| 11  | io32      | IO 32                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 12  | io33      | IO 33                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 13  | io34      | IO 34                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 14  | io35      | IO 35                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 15  | io36      | IO 36                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 16  | io37      | IO 37                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 17  | vddio1    | IO Pad Supply Voltage      | 1.8         | 3.3                   | 5           |
+| 18  | vccd      | Core Voltage               | 1.62        | 1.8                   | 1.98        |
+| 19  | N/C       | No connect                 |             | \-                    |             |
+| 20  | vssa      | Analog Ground              |             | 0                     |             |
+| 21  | resetb    | Digital Reset (Active Low) | 0           | \> 0.8 \* vddio       | vddio       |
+| 22  | clock     | 10 MHz clock               | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 23  | vssd      | Digital Ground             |             | 0                     |             |
+| 24  | flash_csb | QSPI_0 Chip Select         | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 25  | flash_clk | QSPI_0 Clock               | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 26  | flash_io0 | QSPI_0 D0                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 27  | flash_io1 | QSPI_0 D1                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 28  | gpio      | Single pin management GPIO | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 29  | vssio     | IO Pad Ground              |             | 0                     |             |
+| 30  | vdda      | Analog Supply Voltage      |             | 3.3                   |             |
+| 31  | io0       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 32  | io1       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 33  | io2       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 34  | io3       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 35  | io4       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 36  | io5       | CARP Core Copy Boot Select | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 37  | io6       | CARP Core Boot Select      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 38  | vssa1     | Analog Ground              |             | 0                     |             |
+| 39  | vssd1     | Digital Ground             |             | 0                     |             |
+| 40  | vdda1     | Analog Supply Voltage      |             | 3.3                   |             |
+| 41  | io7       | CARP Core Hard reset       | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 42  | io8       | QSPI_1 Clock               | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 43  | io9       | QSPI_1 Chip Select         | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 44  | io10      | QSPI_1 D0                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 45  | io11      | QSPI_1 D1                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 46  | io12      | QSPI_1 D2                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 47  | vdda1     | Analog Supply Voltage      |             | 3.3                   |             |
+| 48  | io13      | QSPI_1 D3                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 49  | vccd1     | Core Voltage               | 1.8         | 3.3                   | 5           |
+| 50  | io14      | IO 14                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 51  | io15      | IO 15                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 52  | vssa1     | Analog Ground              |             | 0                     |             |
+| 53  | io16      | IO 16                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 54  | io17      | IO 17                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 55  | io18      | IO 18                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 56  | vssio     | IO Pad Ground              |             | 0                     |             |
+| 57  | io19      | IO 19                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 58  | io20      | IO 20                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 59  | io21      | IO 21                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 60  | io22      | IO 22                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 61  | io23      | IO 23                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 62  | io24      | IO 24                      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 63  | vccd2     | Core Voltage               | 1.62        | 1.8                   | 1.98        |
+| 64  | vddio2    | IO Pad Supply Voltage      | 1.8         | 3.3                   | 5           |
