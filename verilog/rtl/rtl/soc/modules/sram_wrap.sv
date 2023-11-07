@@ -87,8 +87,8 @@ module sram_wrap #(
         for (int i = 0; i < SRAM_NUM_BLOCKS; i++ )
         begin
             // CS selection
-            if ( sram_d_req_i && i == {28'b0, sram_d_cs_addr}) cs_data[i] = 1;
-            if ( sram_i_req_i && i == {28'b0, sram_i_cs_addr}) cs_inst[i] = 1;
+            if ( sram_d_req_i && i == {29'b0, sram_d_cs_addr}) cs_data[i] = 1;
+            if ( sram_i_req_i && i == {29'b0, sram_i_cs_addr}) cs_inst[i] = 1;
 
             if (cs_data_prev[i] == 1'b1) sram_d_rdata_o = sram_d_read_vec[i];
             if (cs_inst_prev[i] == 1'b1) sram_i_rdata_o = sram_i_read_vec[i];
@@ -208,7 +208,7 @@ module sram_wrap #(
         .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
         .dout1     (sram_i_read_vec[5]) 
     );
-
+    
     sky130_sram_2kbyte_1rw1r_32x512_8 #(.DELAY(0)) sram6 (
     `ifdef USE_POWER_PINS
         .vccd1(vccd1), // 1.8V
@@ -280,7 +280,6 @@ module sram_wrap #(
         .addr1     (sram_i_addr_i[SRAM_LOG_BLOCK_SIZE+2-1 : 2]), 
         .dout1     (sram_i_read_vec[9]) 
     );
-
 
 `ifdef VERILATOR
     logic [31:0] _unused;
