@@ -1,45 +1,30 @@
 # Cal Poly CARP SoC
 [![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml)
 
+# Architecture Overview
+
 ![CARP drawio](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/assets/114958111/da811b77-7d82-4069-ad05-54c06919866c)
 
-# Memory Map (OBI Bus)
+The CARP SOC is composed of 2 RISC-V RV32I processors, a primary processor (the "CARP Core") and a processor that manages and monitors the CARP Core (the "Monitor Core"). The processors each have their own address space, volatile and (off-chip) non-volatile memory, clocks, resets, and peripherals. The Monitor Core and its peripherals have their documentation [here](https://caravel-harness.readthedocs.io/en/latest/getting-started.html), while the CARP Core and its peripherals are documented below.
 
-| Address Range | Section |
-| :--- | :---:|
-| 0x0000_0000<br>0x0000_0FFF | Bootloader |
-| 0x0000_1000<br>0x0FFF_FFFF | -- |
-| 0x1000_0000<br>0x1000_1FFF | Peripheral Register File |
-| 0x1000_1000<br>0x1FFF_FFFF | -- |
-| 0x2000_0000<br>0x3FFF_FFFF | 512Mb Flash |
-| 0x4000_0000<br>0x7FFF_FFFF | -- |
-| 0x8000_0000<br>0x8000_4FFF | 20 kB SRAM |
-| 0x8000_5000<br>0xFFFF_FFFF | -- |
+# OBI Bus
 
-# Memory Interconnects
+The main memory interconnect used on the SoC is a subset of OpenHW Group's Open Bus Interface (OBI). The subset we are using is the same subset used by OpenHW Groups's RI5CY Core, and its behavior is fully described in the OBI-1 specification. 
 
-## OBI Subset Protocol
+| Start Address | End Address | Section |
+| :--- | :--- | :---:|
+| 0x0000_0000 | 0x0000_0FFF | Bootloader |
+| 0x0000_1000 | 0x0FFF_FFFF | -- |
+| 0x1000_0000 | 0x1000_1FFF | Peripheral Register File |
+| 0x1000_1000 | 0x1FFF_FFFF | -- |
+| 0x2000_0000 | 0x3FFF_FFFF | 512Mb Flash |
+| 0x4000_0000 | 0x7FFF_FFFF | -- |
+| 0x8000_0000 | 0x8000_4FFF | 20 kB SRAM |
+| 0x8000_5000 | 0xEFFF_FFFF | -- |
+| 0xF000_0000 | 0xF000_0003 | Monitor Interrupt Generator |
+| 0xF000_0004 | 0xFFFF_FFFF | -- |
 
-The main memory interconnect used on the SoC is a subset of OpenHW Group's Open Bus Interface (OBI). The subset we are using is the same subset used by OpenHW Groups's RI5CY Core, and its behavior is fully described in the OBI-1 specification. The specific signals are enumerated below:
-
-| Pin Name  | Pin Count | Direction               | Description                                                    |
-|-----------|:---------:|-------------------------|----------------------------------------------------------------|
-| req     | 1  | Controller -> Memory    | Asserted by the controller to request a memory transaction. The controller is responsible to keep all address signals valid while req is high.     |
-| gnt     | 1  | Memory -> Controller    | Asserted by the memory system when new transactions can be accepted. A transaction is accepted on the rising edge of the clock if req and gnt are both high.   |
-| addr    | 32 | Controller -> Memory    | Address output from the controller to access memory location   |
-| we      | 1  | Controller -> Memory    | Asserted by the controller to indicate a write operation         |
-| be      | 4  | Controller -> Memory    | Byte enable output (strobe), to specify which bytes should be accessed  |
-| wdata   | 32 | Controller -> Memory    | Write data output from the controller to be written to memory  |
-| rvalid  | 1  | Memory -> Controller    | Asserted by the memory system to signal valid read data. The read response is completed on the first rising clock edge when rvalid is asserted. rdata must be valid as long as rvalid is high.       |
-| rdata   | 32 | Memory -> Controller    | Read data input to the controller from the memory system       |
-
-## Wishbone-OBI Bridge
-
-The caravel wrapper uses a Wishbone bus the operates at a faster clock speed than the SOC. The wishbone port on the SOC allows the caravel to read and write to the CARP Core's SRAM, as long as the wishbone enable control is set (see Logic Analyzer). The SRAM located at address `0x3000_0000` in the wishbone address space.
-
-# Memory Devices
-
-## Boot ROM and Boot Configs
+### Boot ROM and Boot Configs
 
 On boot, the core resets the program counter to an address based on the boot_sel input.
 
@@ -49,7 +34,7 @@ On boot, the core resets the program counter to an address based on the boot_sel
 | `0` | `1` | `0x0000_0000` | Jumps to QSPI at `0x2000_0000` and begins executing in place. |
 | `1` | x | `0x8000_0000` | Starts execution from the internal SRAM. <br> This assumes that the caravel has loaded a program into the SRAM prior to startup. | 
 
-## XIP QSPI Flash Controller
+### XIP QSPI Flash Controller (QSPI_1)
 
 The QSPI controller at `0x2000_0000` can support up to 512MB external QSPI memory. There is a 32 bit control register located at address `0x3FFF_FFFF`, described below.
 
@@ -73,12 +58,40 @@ The following settings for CRM/DDR/QSPI modes are valid:
 | CRM | QSPI | DDR | Read Command Byte     | Mode Byte |
 | :-: | :--: | :-: | :-------------------- | :-------: |
 |   0 |    0 |   0 | 03h Read              | N/A       |
-|   0 |    0 |   1 | BBh Dual I/O Read     | FFh       |
-|   1 |    0 |   1 | BBh Dual I/O Read     | A5h       |
-|   0 |    1 |   0 | EBh Quad I/O Read     | FFh       |
-|   1 |    1 |   0 | EBh Quad I/O Read     | A5h       |
-|   0 |    1 |   1 | EDh DDR Quad I/O Read | FFh       |
-|   1 |    1 |   1 | EDh DDR Quad I/O Read | A5h       |
+|   0 |    0 |   1 | BBh Dual I/O Read     | `0xFF`       |
+|   1 |    0 |   1 | BBh Dual I/O Read     | `0xA5`       |
+|   0 |    1 |   0 | EBh Quad I/O Read     | `0xFF`       |
+|   1 |    1 |   0 | EBh Quad I/O Read     | `0xA5`       |
+|   0 |    1 |   1 | EDh DDR Quad I/O Read | `0xFF`       |
+|   1 |    1 |   1 | EDh DDR Quad I/O Read | `0xA5`       |
+
+### Monitor Interrupt Generator
+
+There is a 3 bit interrupt vector for the Monitor Core that can be generated by the CARP SOC by writing to address `0xF000_0000`. The least significant bit of the interrupt vector is reserved for hardware-generated interrupts, and the next two bits are generated by the two least significant bits of the write data.
+
+| irq[2] | irq[1] | irq[0] |
+| :--- | :--- | :--- |
+| Write Data bit 1 | Write Data bit 0 | Hardware Error |
+
+## Wishbone-OBI Bridge
+
+The wishbone port on the SOC allows the Monitor Core to read and write to the CARP Core's SRAM, as long as the `wishbone enable` control is set (see Logic Analyzer). The SRAM is located at address `0x3000_0000` in the wishbone address space. The Wishbone-OBI bridge handles clock domain crossing, protocol conversion, and address translation.
+
+## OBI Bus Protocol
+
+The specific signals are enumerated below:
+
+| Pin Name  | Pin Count | Direction               | Description                                                    |
+|-----------|:---------:|-------------------------|----------------------------------------------------------------|
+| req     | 1  | Controller -> Memory    | Asserted by the controller to request a memory transaction. The controller is responsible to keep all address signals valid while req is high.     |
+| gnt     | 1  | Memory -> Controller    | Asserted by the memory system when new transactions can be accepted. A transaction is accepted on the rising edge of the clock if req and gnt are both high.   |
+| addr    | 32 | Controller -> Memory    | Address output from the controller to access memory location   |
+| we      | 1  | Controller -> Memory    | Asserted by the controller to indicate a write operation         |
+| be      | 4  | Controller -> Memory    | Byte enable output (strobe), to specify which bytes should be accessed  |
+| wdata   | 32 | Controller -> Memory    | Write data output from the controller to be written to memory  |
+| rvalid  | 1  | Memory -> Controller    | Asserted by the memory system to signal valid read data. The read response is completed on the first rising clock edge when rvalid is asserted. rdata must be valid as long as rvalid is high.       |
+| rdata   | 32 | Memory -> Controller    | Read data input to the controller from the memory system       |
+
 
 # IO Assignment
 
