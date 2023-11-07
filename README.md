@@ -1,7 +1,9 @@
 # Cal Poly CARP SoC
 [![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml)
 
-# Memory Map
+![CARP drawio](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/assets/114958111/da811b77-7d82-4069-ad05-54c06919866c)
+
+# Memory Map (OBI Bus)
 
 | Address Range | Section |
 | :--- | :---:|
@@ -11,12 +13,12 @@
 | 0x1000_1000<br>0x1FFF_FFFF | -- |
 | 0x2000_0000<br>0x3FFF_FFFF | 512Mb Flash |
 | 0x4000_0000<br>0x7FFF_FFFF | -- |
-| 0x8000_0000<br>0x8000_FFFF | SRAM |
-| 0x8001_0000<br>0xFFFF_FFFF | -- |
+| 0x8000_0000<br>0x8000_4FFF | 20 kB SRAM |
+| 0x8000_5000<br>0xFFFF_FFFF | -- |
 
 # Memory Interconnects
 
-## OBI Subset
+## OBI Subset Protocol
 
 The main memory interconnect used on the SoC is a subset of OpenHW Group's Open Bus Interface (OBI). The subset we are using is the same subset used by OpenHW Groups's RI5CY Core, and its behavior is fully described in the OBI-1 specification. The specific signals are enumerated below:
 
@@ -31,24 +33,52 @@ The main memory interconnect used on the SoC is a subset of OpenHW Group's Open 
 | rvalid  | 1  | Memory -> Controller    | Asserted by the memory system to signal valid read data. The read response is completed on the first rising clock edge when rvalid is asserted. rdata must be valid as long as rvalid is high.       |
 | rdata   | 32 | Memory -> Controller    | Read data input to the controller from the memory system       |
 
-## Wishbone
+## Wishbone-OBI Bridge
 
-The caravel wrapper uses a Wishbone bus the operates at a faster clock speed than the SOC. The wishbone port on the SOC allows the caravel to read and write to SRAM, as long as the wishbone enable control is set (see Logic Analyzer)
-.
+The caravel wrapper uses a Wishbone bus the operates at a faster clock speed than the SOC. The wishbone port on the SOC allows the caravel to read and write to the CARP Core's SRAM, as long as the wishbone enable control is set (see Logic Analyzer). The SRAM located at address `0x3000_0000` in the wishbone address space.
+
 # Memory Devices
 
-## Boot ROMs
+## Boot ROM and Boot Configs
 
 On boot, the core resets the program counter to an address based on the boot_sel input.
 
-| `boot_sel` | Program Counter Reset Address | Function |
-| :---: | :---: | :--- |
-| `0` | `0x0000_0000` | Runs the default bootloader from ROM |
-| `1` | `0x8000_0000` | Starts execution from the internal SRAM. <br> This assumes that the caravel has loaded a program into the SRAM prior to startup. | 
+| `boot_sel` | `copy_boot_sel` | Program Counter Reset Address | Function |
+| :---: | :---: | :---: | :--- |
+| `0` | `0` | `0x0000_0000` | Copies 512 words from QSPI (starting from `0x2000_0000` into SRAM), then jumps to SRAM at `0x8000_0000`. |
+| `0` | `1` | `0x0000_0000` | Jumps to QSPI at `0x2000_0000` and begins executing in place. |
+| `1` | x | `0x8000_0000` | Starts execution from the internal SRAM. <br> This assumes that the caravel has loaded a program into the SRAM prior to startup. | 
 
-## XIP Flash Controller
+## XIP QSPI Flash Controller
 
-In order to run programs off of an external flash, it is ideal that we use an eXecute In Place (XIP) flash controller. This can be done through software in the bootloader, or through hardware by an XIP flash controller. The XIP controllers we have chosen are read-only, however, so this flash interface is essentialy ROM.
+The QSPI controller at `0x2000_0000` can support up to 512MB external QSPI memory. There is a 32 bit control register located at address `0x3FFF_FFFF`, described below.
+
+| Bit(s) | Description                                               |
+| -----: | --------------------------------------------------------- |
+|     31 | MEMIO Enable (reset=1, set to 0 to bit bang SPI commands) |
+|  30:23 | Reserved (read 0)                                         |
+|     22 | DDR Enable bit (reset=0)                                  |
+|     21 | QSPI Enable bit (reset=0)                                 |
+|     20 | CRM Enable bit (reset=0)                                  |
+|  19:16 | Read latency (dummy) cycles (reset=8)                     |
+|  15:12 | Reserved (read 0)                                         |
+|   11:8 | IO Output enable bits in bit bang mode                    |
+|    7:6 | Reserved (read 0)                                         |
+|      5 | Chip select (CS) line in bit bang mode                    |
+|      4 | Serial clock line in bit bang mode                        |
+|    3:0 | IO data bits in bit bang mode                             |
+
+The following settings for CRM/DDR/QSPI modes are valid:
+
+| CRM | QSPI | DDR | Read Command Byte     | Mode Byte |
+| :-: | :--: | :-: | :-------------------- | :-------: |
+|   0 |    0 |   0 | 03h Read              | N/A       |
+|   0 |    0 |   1 | BBh Dual I/O Read     | FFh       |
+|   1 |    0 |   1 | BBh Dual I/O Read     | A5h       |
+|   0 |    1 |   0 | EBh Quad I/O Read     | FFh       |
+|   1 |    1 |   0 | EBh Quad I/O Read     | A5h       |
+|   0 |    1 |   1 | EDh DDR Quad I/O Read | FFh       |
+|   1 |    1 |   1 | EDh DDR Quad I/O Read | A5h       |
 
 # IO Assignment
 
@@ -63,15 +93,15 @@ There are 38 user-programmable IO pins:
 | 2 | reserved | reserved | reserved | reserved |
 | 3 | reserved | reserved | reserved | reserved |
 | 4 | reserved | reserved | reserved | reserved |
-| 5 | boot_mode | x | x | 1 = copy 512 words from flash to SRAM and jump to SRAM. 0 = jump to flash. |
-| 6 | boot_sel_hard | x | x | Hard select for the bootloader. (see Boot ROMs) |
-| 7 | rst_btn_n | x | x | Hard reset input, such as for a reset button (active low) |
-| 8 | x | o_qspi_sck | 0 | QSPI clock |
-| 9 | x | o_qspi_cs_n | 0 | QSPI chip select (active low) |
-| 10 | i_qspi_dat[0] | o_qspi_dat[0] | Determined by `o_qspi_mod` | QSPI data bit 0 |
-| 11 | i_qspi_dat[1] | o_qspi_dat[1] | Determined by `o_qspi_mod` | QSPI data bit 1 |
-| 12 | i_qspi_dat[2] | o_qspi_dat[2] | Determined by `o_qspi_mod` | QSPI data bit 2 |
-| 13 | i_qspi_dat[3] | o_qspi_dat[3] | Determined by `o_qspi_mod` | QSPI data bit 3 |
+| 5 | `copy_boot_sel` | x | x | 1 = copy 512 words from flash to SRAM and jump to SRAM. 0 = jump to flash. |
+| 6 | `boot_sel` | x | x | Hard select for the bootloader. (see Boot ROMs) |
+| 7 | `rst_hard_n` | x | x | Hard reset input, such as for a reset button (active low) |
+| 8 | x | `o_qspi_sck` | 0 | QSPI clock |
+| 9 | x | `o_qspi_cs_n` | 0 | QSPI chip select (active low) |
+| 10 | `i_qspi_dat[0]` | `o_qspi_dat[0]` | Determined by `o_qspi_mod` | QSPI data bit 0 |
+| 11 | `i_qspi_dat[1]` | `o_qspi_dat[1]` | Determined by `o_qspi_mod` | QSPI data bit 1 |
+| 12 | `i_qspi_dat[2`] | `o_qspi_dat[2]` | Determined by `o_qspi_mod` | QSPI data bit 2 |
+| 13 | `i_qspi_dat[3]` | `o_qspi_dat[3]` | Determined by `o_qspi_mod` | QSPI data bit 3 |
 | 14 |  |  |  | (Peripherals) |
 | 15 |  |  |  | (Peripherals) |
 | 16 |  |  |  | (Peripherals) |
