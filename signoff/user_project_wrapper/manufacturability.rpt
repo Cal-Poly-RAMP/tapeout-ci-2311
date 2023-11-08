@@ -1,9 +1,9 @@
 Design Name: user_project_wrapper
-Run Directory: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_06_07_49
+Run Directory: /home/prherrma/runners/r0/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_08_11_34
 ----------------------------------------
 
 Magic DRC Summary:
-Source: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_06_07_49/reports/signoff/drc.rpt
+Source: /home/prherrma/runners/r0/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_08_11_34/reports/signoff/drc.rpt
 Violation Message "Local interconnect spacing < 0.17um (li.3) "found 1857570 Times.
 Violation Message "P-tap minimum area < 0.07011um^2 (psd.10b) "found 508691 Times.
 Violation Message "P-Transistor in SRAM core width < 0.14um (diff/tap.2) "found 665680 Times.
@@ -38,12 +38,12 @@ Total Magic DRC violations is 55746421
 ----------------------------------------
 
 LVS Summary:
-Source: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_06_07_49/logs/signoff/40-user_project_wrapper.lef.lvs.log
-Number of nets: 65862                      |Number of nets: 65862                      
+Source: /home/prherrma/runners/r0/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_08_11_34/logs/signoff/40-user_project_wrapper.lef.lvs.log
+Number of nets: 65857                      |Number of nets: 65857                      
 Design is LVS clean.
 ----------------------------------------
 
 Antenna Summary:
-Source: /home/prherrma/runners/r2/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_06_07_49/logs/signoff/42-arc.log
-Pin violations: 1354
-Net violations: 1145
+Source: /home/prherrma/runners/r0/_work/tapeout-ci-2311/tapeout-ci-2311/openlane/user_project_wrapper/runs/23_11_08_11_34/logs/signoff/42-arc.log
+Pin violations: 1326
+Net violations: 1084
