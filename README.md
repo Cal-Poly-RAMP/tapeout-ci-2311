@@ -1,5 +1,20 @@
-# Cal Poly CARP SoC
+<!-- omit in toc -->
+# Cal Poly CARP SOC
 [![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml)
+
+- [Architecture Overview](#architecture-overview)
+- [OBI Bus And Peripherals](#obi-bus-and-peripherals)
+  - [Memory Map](#memory-map)
+    - [Boot ROM and Boot Configs](#boot-rom-and-boot-configs)
+    - [XIP QSPI Flash Controller (QSPI\_1)](#xip-qspi-flash-controller-qspi_1)
+    - [Monitor Interrupt Generator](#monitor-interrupt-generator)
+  - [Wishbone-OBI Bridge](#wishbone-obi-bridge)
+  - [OBI Bus Protocol](#obi-bus-protocol)
+- [IO Assignment](#io-assignment)
+  - [GPIO Pins](#gpio-pins)
+  - [Logic Analyzer Pins](#logic-analyzer-pins)
+    - [Logic Analyzer Sample Channels](#logic-analyzer-sample-channels)
+  - [Pin Descriptions (QFN64 9x9 0.5)](#pin-descriptions-qfn64-9x9-05)
 
 # Architecture Overview
 
@@ -7,7 +22,9 @@
 
 The CARP SOC is composed of 2 RISC-V RV32I processors, a primary processor (the "CARP Core") and a processor that manages and monitors the CARP Core (the "Monitor Core"). The processors each have their own address space, volatile and (off-chip) non-volatile memory, clocks, resets, and peripherals. The Monitor Core and its peripherals have their documentation [here](https://caravel-harness.readthedocs.io/en/latest/getting-started.html), while the CARP Core and its peripherals are documented below.
 
-# OBI Bus
+# OBI Bus And Peripherals
+
+## Memory Map
 
 The main memory interconnect used on the SoC is a subset of OpenHW Group's Open Bus Interface (OBI). The subset we are using is the same subset used by OpenHW Groups's RI5CY Core, and its behavior is fully described in the OBI-1 specification. 
 
@@ -206,7 +223,7 @@ There are 128 logic analyzer io pins controllable from the caravel.
 | 126   | `boot_sel`           | `mcause[6]`      | `mcause[14]`             | `mcause[22]`       | `mcause[30]`           | `rf_wr_data[31]`  | -                  | -                   |
 | 127   | `copy_boot_sel`  | `mcause[7]`      | `mcause[15]`             | `mcause[23]`       | `mcause[31]`           | `rf_wr_en`        | -                  | -                   |
 
-# Pin Descriptions (QFN64 9x9 0.5)
+## Pin Descriptions (QFN64 9x9 0.5)
 
 | Pin | Name      | Description                | Voltage min | Voltage nom           | Voltage max |
 | --- | --------- | -------------------------- | ----------- | --------------------- | ----------- |
