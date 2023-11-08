@@ -593,8 +593,8 @@ module soc (
         gpio_oeb_no[7] = '1;
 
         // QSPI Pins
-        gpio_o[8]          = qspi_sck;
-        gpio_o[9]          = qspi_cs_n;
+        gpio_o[8]          = qspi_cs_n;
+        gpio_o[9]          = qspi_sck;
         gpio_o[13:10]      = qspi_dat_out;
         qspi_dat_in        = gpio_i[13:10];
         gpio_oeb_no[9:8]   = 'b00;
@@ -743,7 +743,7 @@ module soc (
     end
 
     always_comb begin: caravel_interrupt_assignment
-        caravel_interrupt_o = ((dmem_addr == `CARAVEL_INTR_ADDR) & dmem_we) ? {dmem_wdata[1:0],1'b0} : {2'b0, illegal_access};
+        caravel_interrupt_o = ((dmem_addr == `CARAVEL_INTR_ADDR) & dmem_we) ? {1'b0, dmem_wdata[1:0]} : {illegal_access, 2'b0};
     end
     ////////////////////////////////
     // Unused Signal Terminations //
