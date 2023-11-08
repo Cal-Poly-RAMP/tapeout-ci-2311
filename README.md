@@ -36,7 +36,7 @@ On boot, the core resets the program counter to an address based on the boot_sel
 
 ### XIP QSPI Flash Controller (QSPI_1)
 
-The QSPI controller at `0x2000_0000` can support up to 512MB external QSPI memory. There is a 32 bit control register located at address `0x3FFF_FFFF`, described below.
+The QSPI controller at `0x2000_0000` can support up to 512MB external QSPI memory. This flash can be programmed via the housekeeping SPI (SPI_0) in pass-thru mode. There is a 32 bit control register located at address `0x3FFF_FFFF`, described below.
 
 | Bit(s) | Description                                               |
 | -----: | --------------------------------------------------------- |
@@ -101,16 +101,16 @@ There are 38 user-programmable IO pins:
 
 | Pin # | Input Pin | Output Pin | Output Enable | Description |
 | --- | --- | --- | --- | --- |
-| 0 | reserved | reserved | reserved | reserved |
-| 1 | reserved | reserved | reserved | reserved |
-| 2 | reserved | reserved | reserved | reserved |
-| 3 | reserved | reserved | reserved | reserved |
-| 4 | reserved | reserved | reserved | reserved |
+| 0 | JTAG | x | x | reserved |
+| 1 | x | SPI_0_SDO | 1 | SPI 0 (Housekeeping SPI) |
+| 2 | SPI_0_SDI | x | 0 | SPI 0 (Housekeeping SPI) |
+| 3 | SPI_0_CSB | x | 0 | SPI 0 (Housekeeping SPI) |
+| 4 | SPI_0_SCK | x | 0 | SPI 0 (Housekeeping SPI) |
 | 5 | `copy_boot_sel` | x | x | 1 = copy 512 words from flash to SRAM and jump to SRAM. 0 = jump to flash. |
 | 6 | `boot_sel` | x | x | Hard select for the bootloader. (see Boot ROMs) |
 | 7 | `rst_hard_n` | x | x | Hard reset input, such as for a reset button (active low) |
-| 8 | x | `o_qspi_sck` | 0 | QSPI clock |
-| 9 | x | `o_qspi_cs_n` | 0 | QSPI chip select (active low) |
+| 8 | x | `o_qspi_cs_n` | 0 | QSPI chip select (active low) |
+| 9 | x | `o_qspi_sck` | 0 | QSPI clock |
 | 10 | `i_qspi_dat[0]` | `o_qspi_dat[0]` | Determined by `o_qspi_mod` | QSPI data bit 0 |
 | 11 | `i_qspi_dat[1]` | `o_qspi_dat[1]` | Determined by `o_qspi_mod` | QSPI data bit 1 |
 | 12 | `i_qspi_dat[2`] | `o_qspi_dat[2]` | Determined by `o_qspi_mod` | QSPI data bit 2 |
@@ -240,11 +240,11 @@ There are 128 logic analyzer io pins controllable from the caravel.
 | 28  | gpio      | Single pin management GPIO | 0           | 0.4 or (0.8 \* vddio) | vddio       |
 | 29  | vssio     | IO Pad Ground              |             | 0                     |             |
 | 30  | vdda      | Analog Supply Voltage      |             | 3.3                   |             |
-| 31  | io0       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
-| 32  | io1       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
-| 33  | io2       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
-| 34  | io3       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
-| 35  | io4       | N/C                        | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 31  | io0       | JTAG                       | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 32  | io1       | SPI_0_SD0                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 33  | io2       | SPI_0_SDI                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 34  | io3       | SPI_0_CSB                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
+| 35  | io4       | SPI_0_SCK                  | 0           | 0.4 or (0.8 \* vddio) | vddio       |
 | 36  | io5       | CARP Core Copy Boot Select | 0           | 0.4 or (0.8 \* vddio) | vddio       |
 | 37  | io6       | CARP Core Boot Select      | 0           | 0.4 or (0.8 \* vddio) | vddio       |
 | 38  | vssa1     | Analog Ground              |             | 0                     |             |

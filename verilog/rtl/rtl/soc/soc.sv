@@ -593,8 +593,8 @@ module soc (
         gpio_oeb_no[7] = '1;
 
         // QSPI Pins
-        gpio_o[8]          = qspi_sck;
-        gpio_o[9]          = qspi_cs_n;
+        gpio_o[8]          = qspi_cs_n;
+        gpio_o[9]          = qspi_sck;
         gpio_o[13:10]      = qspi_dat_out;
         qspi_dat_in        = gpio_i[13:10];
         gpio_oeb_no[9:8]   = 'b00;
