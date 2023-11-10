@@ -2,6 +2,8 @@
 # Cal Poly CARP SOC
 [![CI](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml/badge.svg)](https://github.com/Cal-Poly-RAMP/tapeout-ci-2311/actions/workflows/user_project_ci.yml)
 
+<!-- omit in toc -->
+## Table Of Contents
 - [Architecture Overview](#architecture-overview)
 - [OBI Bus And Peripherals](#obi-bus-and-peripherals)
   - [Memory Map](#memory-map)
@@ -11,7 +13,7 @@
   - [Wishbone-OBI Bridge](#wishbone-obi-bridge)
   - [OBI Bus Protocol](#obi-bus-protocol)
 - [IO Assignment](#io-assignment)
-  - [GPIO Pins](#gpio-pins)
+  - [Carp Core GPIO Functions](#carp-core-gpio-functions)
   - [Logic Analyzer Pins](#logic-analyzer-pins)
     - [Logic Analyzer Sample Channels](#logic-analyzer-sample-channels)
   - [Pin Descriptions (QFN64 9x9 0.5)](#pin-descriptions-qfn64-9x9-05)
@@ -47,8 +49,8 @@ On boot, the core resets the program counter to an address based on the boot_sel
 
 | `boot_sel` | `copy_boot_sel` | Program Counter Reset Address | Function |
 | :---: | :---: | :---: | :--- |
-| `0` | `0` | `0x0000_0000` | Copies 512 words from QSPI (starting from `0x2000_0000` into SRAM), then jumps to SRAM at `0x8000_0000`. |
-| `0` | `1` | `0x0000_0000` | Jumps to QSPI at `0x2000_0000` and begins executing in place. |
+| `0` | `0` | `0x0000_0000` | Copies 512 words from QSPI_1 (starting from `0x2000_0000` into SRAM), then jumps to SRAM at `0x8000_0000`. |
+| `0` | `1` | `0x0000_0000` | Jumps to QSPI_1 at `0x2000_0000` and begins executing in place. |
 | `1` | x | `0x8000_0000` | Starts execution from the internal SRAM. <br> This assumes that the caravel has loaded a program into the SRAM prior to startup. | 
 
 ### XIP QSPI Flash Controller (QSPI_1)
@@ -112,7 +114,7 @@ The specific signals are enumerated below:
 
 # IO Assignment
 
-## GPIO Pins
+## Carp Core GPIO Functions
 
 There are 38 user-programmable IO pins:
 
@@ -128,10 +130,10 @@ There are 38 user-programmable IO pins:
 | 7 | `rst_hard_n` | x | x | Hard reset input, such as for a reset button (active low) |
 | 8 | x | `o_qspi_cs_n` | 0 | QSPI chip select (active low) |
 | 9 | x | `o_qspi_sck` | 0 | QSPI clock |
-| 10 | `i_qspi_dat[0]` | `o_qspi_dat[0]` | Determined by `o_qspi_mod` | QSPI data bit 0 |
-| 11 | `i_qspi_dat[1]` | `o_qspi_dat[1]` | Determined by `o_qspi_mod` | QSPI data bit 1 |
-| 12 | `i_qspi_dat[2`] | `o_qspi_dat[2]` | Determined by `o_qspi_mod` | QSPI data bit 2 |
-| 13 | `i_qspi_dat[3]` | `o_qspi_dat[3]` | Determined by `o_qspi_mod` | QSPI data bit 3 |
+| 10 | `i_qspi_dat[0]` | `o_qspi_dat[0]` | Determined by `o_qspi_mod` | QSPI_1 data bit 0 |
+| 11 | `i_qspi_dat[1]` | `o_qspi_dat[1]` | Determined by `o_qspi_mod` | QSPI_1 data bit 1 |
+| 12 | `i_qspi_dat[2`] | `o_qspi_dat[2]` | Determined by `o_qspi_mod` | QSPI_1 data bit 2 |
+| 13 | `i_qspi_dat[3]` | `o_qspi_dat[3]` | Determined by `o_qspi_mod` | QSPI_1 data bit 3 |
 | 14 |  |  |  | (Peripherals) |
 | 15 |  |  |  | (Peripherals) |
 | 16 |  |  |  | (Peripherals) |
